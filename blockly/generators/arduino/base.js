@@ -105,6 +105,40 @@ Blockly.Language.inout_digital_read = {
   }
 };
 
+//ffdf
+
+Blockly.Language.inout_digital_write_to_var = {
+    category: 'In/Out',
+    helpUrl: 'http://arduino.cc/en/Reference/DigitalWrite',
+    init: function() {
+        this.setColour(230);
+        this.setInputsInline(true);
+        this.appendValueInput("NUM", Number)
+            .appendTitle("DigitalWrite PIN# given by")
+            .setCheck(Number);
+        this.appendDummyInput("")
+            .appendTitle("Stat")
+            .appendTitle(new Blockly.FieldDropdown([["HIGH", "HIGH"], ["LOW", "LOW"]]), "STAT");
+        this.setOutput(true);
+        this.setTooltip('Write digital value to a specific Port');
+    }
+};
+
+Blockly.Language.inout_digital_read_from_var = {
+    category: 'In/Out',
+    helpUrl: 'http://arduino.cc/en/Reference/DigitalRead',
+    init: function() {
+        this.setColour(230);
+        this.appendDummyInput("")
+            .appendTitle("DigitalRead from")
+            .appendTitle(new Blockly.FieldDropdown(profile.default.digital), "PIN");
+        this.setOutput(true, Boolean);
+        this.setTooltip('');
+    }
+};
+
+// bl
+
 Blockly.Language.inout_analog_write = {
   category: 'In/Out',
   helpUrl: 'http://arduino.cc/en/Reference/AnalogWrite',
