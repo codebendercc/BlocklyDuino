@@ -105,8 +105,6 @@ Blockly.Language.inout_digital_read = {
   }
 };
 
-//ffdf
-
 Blockly.Language.inout_digital_write_to_var = {
     category: 'In/Out',
     helpUrl: 'http://arduino.cc/en/Reference/DigitalWrite',
@@ -130,9 +128,9 @@ Blockly.Language.inout_digital_read_from_var = {
     helpUrl: 'http://arduino.cc/en/Reference/DigitalRead',
     init: function() {
         this.setColour(230);
-        this.appendDummyInput("")
-            .appendTitle("DigitalRead from")
-            .appendTitle(new Blockly.FieldDropdown(profile.default.digital), "PIN");
+        this.appendValueInput("PIN", Number)
+            .appendTitle("DigitalRead PIN# given by")
+            .setCheck(Number);
         this.setOutput(true, Boolean);
         this.setTooltip('');
     }
@@ -278,8 +276,6 @@ Blockly.Arduino.inout_digital_read = function() {
   return [code, Blockly.Arduino.ORDER_ATOMIC];
 };
 
-// --
-
 Blockly.Arduino.inout_digital_write_to_var = function() {
     var dropdown_pin = this.getTitleValue('PIN');
     var dropdown_pin_value = Blockly.Arduino.valueToCode(this, 'PIN', Blockly.Arduino.ORDER_ATOMIC).slice(1,-1);
@@ -289,14 +285,17 @@ Blockly.Arduino.inout_digital_write_to_var = function() {
     return code;
 };
 
-Blockly.Arduino.inout_digital_read_to_var = function() {
+Blockly.Arduino.inout_digital_read_from_var = function() {
     var dropdown_pin = this.getTitleValue('PIN');
-    Blockly.Arduino.setups_['setup_input_'+dropdown_pin] = 'pinMode('+dropdown_pin+', INPUT);';
-    var code = 'digitalRead('+dropdown_pin+')';
+    var dropdown_pin_value = Blockly.Arduino.valueToCode(this, 'PIN', Blockly.Arduino.ORDER_ATOMIC);
+    if (dropdown_pin_value) {
+      dropdown_pin_value = dropdown_pin_value.slice(1,-1);
+    }
+
+    Blockly.Arduino.setups_['setup_input_'+dropdown_pin] = 'pinMode('+dropdown_pin_value+', INPUT);';
+    var code = 'digitalRead('+dropdown_pin_value+')';
     return [code, Blockly.Arduino.ORDER_ATOMIC];
 };
-
-// --
 
 Blockly.Arduino.inout_analog_write = function() {
   var dropdown_pin = this.getTitleValue('PIN');
