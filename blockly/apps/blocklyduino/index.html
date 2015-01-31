@@ -307,9 +307,6 @@ function init(blockly) {
       function getFiles(){
           return {"sketch.ino": Blockly.Generator.workspaceToCode('Arduino')}
       }
-      function getCrap(){
-          return Blockly.Generator.workspaceToCode('Arduino')
-      }
       $(document).ready(function(){
           compilerflasher = new compilerflasher(getFiles);
           compilerflasher.on("pre_verify", function(){
@@ -319,7 +316,7 @@ function init(blockly) {
               $("#event_msg").append('verification_succeed event fired! Sketch size: '+binary_size+"<br/><br/>")
           });
           compilerflasher.on("verification_failed", function(error_output){
-              $("#event_msg").append("verification_failed event fired! \nCompilation error: <pre>"+error_output+"</pre><br/>You supplied:<br/><pre>"+getCrap()+"</pre><br/>")
+              $("#event_msg").append("verification_failed event fired! \nCompilation error: <pre>"+error_output+"</pre><br/><br/>")
           });
       });
   </script>
