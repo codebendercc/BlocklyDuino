@@ -1,4 +1,7 @@
-### Welcome to BlocklyDuino
+
+
+
+### Welcome to Codebenders BlocklyDuino
 
 BlocklyDuino is a **web-based visual programming editor for [Arduino](http://www.arduino.cc/)**.
 
@@ -47,7 +50,7 @@ Fred Lin (@gasolin) .
 
 Thanks Neil Fraser, Q.Neutron from Blockly http://code.google.com/p/blockly/
 Thanks Arduino and Seeeduino guys for Arduino and Grove blocks.
-
+Not sure if we should thank John Hohm and Kyle Oliveira yet.
 The project is also inspired by [arduiblock](https://github.com/taweili/ardublock) and [modkit](http://www.modk.it/)
 
 ### License
