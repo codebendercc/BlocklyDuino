@@ -119,7 +119,8 @@ Blockly.Language.inout_digital_write_to_var = {
         this.appendDummyInput("")
             .appendTitle("Stat")
             .appendTitle(new Blockly.FieldDropdown([["HIGH", "HIGH"], ["LOW", "LOW"]]), "STAT");
-        this.setOutput(true);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
         this.setTooltip('Write digital value to a specific Port');
     }
 };
