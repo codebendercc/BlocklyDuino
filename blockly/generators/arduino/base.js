@@ -118,7 +118,7 @@ Blockly.Language.inout_digital_write_to_var = {
             .setCheck(Number);
         this.appendDummyInput("")
             .appendTitle("Stat")
-            .appendTitle(new Blockly.FieldDropdown([["HIGH", "HIGH"], ["LOW", "LOW"]]), "STAT");
+            .appendTitle(new     Blockly.FieldDropdown([["HIGH", "HIGH"], ["LOW", "LOW"]]), "STAT");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setTooltip('Write digital value to a specific Port');
@@ -281,6 +281,7 @@ Blockly.Arduino.inout_digital_read = function() {
 // --
 
 Blockly.Arduino.inout_digital_write_to_var = function() {
+    var dropdown_pin = this.getTitleValue('PIN');
     var dropdown_pin_value = Blockly.Arduino.valueToCode(this, 'PIN', Blockly.Arduino.ORDER_ATOMIC).slice(1,-1);
     var dropdown_stat = this.getTitleValue('STAT');
     Blockly.Arduino.setups_['setup_output_'+dropdown_pin] = 'pinMode('+dropdown_pin_value+', OUTPUT);';
