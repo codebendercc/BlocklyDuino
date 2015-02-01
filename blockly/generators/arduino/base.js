@@ -105,6 +105,39 @@ Blockly.Language.inout_digital_read = {
   }
 };
 
+Blockly.Language.inout_digital_write_to_var = {
+    category: 'In/Out',
+    helpUrl: 'http://arduino.cc/en/Reference/DigitalWrite',
+    init: function() {
+        this.setColour(230);
+        this.setInputsInline(true);
+        this.appendValueInput("PIN", Number)
+            .appendTitle("DigitalWrite PIN# given by")
+            .setCheck(Number);
+        this.appendDummyInput("")
+            .appendTitle("Stat")
+            .appendTitle(new     Blockly.FieldDropdown([["HIGH", "HIGH"], ["LOW", "LOW"]]), "STAT");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setTooltip('Write digital value to a specific Port');
+    }
+};
+
+Blockly.Language.inout_digital_read_from_var = {
+    category: 'In/Out',
+    helpUrl: 'http://arduino.cc/en/Reference/DigitalRead',
+    init: function() {
+        this.setColour(230);
+        this.appendValueInput("PIN", Number)
+            .appendTitle("DigitalRead PIN# given by")
+            .setCheck(Number);
+        this.setOutput(true, Boolean);
+        this.setTooltip('');
+    }
+};
+
+// bl
+
 Blockly.Language.inout_analog_write = {
   category: 'In/Out',
   helpUrl: 'http://arduino.cc/en/Reference/AnalogWrite',
@@ -205,6 +238,30 @@ Blockly.Language.serial_print = {
   }
 };
 
+Blockly.Language.serial_read = {
+    category: 'In/Out',
+    helpUrl: 'http://arduino.cc/en/Reference/SerialRead',
+    init: function() {
+        this.setColour(230);
+        this.appendDummyInput("")
+            .appendTitle("Serial Read");
+        this.setOutput(true, Boolean);
+        this.setTooltip('');
+    }
+};
+
+Blockly.Language.serial_available = {
+    category: 'In/Out',
+    helpUrl: 'http://arduino.cc/en/Reference/SerialAvailable',
+    init: function() {
+        this.setColour(230);
+        this.appendDummyInput("")
+            .appendTitle("Serial Available");
+        this.setOutput(true, Boolean);
+        this.setTooltip('Is Serial Available?');
+    }
+};
+
 // define generators
 Blockly.Arduino = Blockly.Generator.get('Arduino');
 
@@ -241,6 +298,27 @@ Blockly.Arduino.inout_digital_read = function() {
   Blockly.Arduino.setups_['setup_input_'+dropdown_pin] = 'pinMode('+dropdown_pin+', INPUT);';
   var code = 'digitalRead('+dropdown_pin+')';
   return [code, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino.inout_digital_write_to_var = function() {
+    var dropdown_pin = this.getTitleValue('PIN');
+    var dropdown_pin_value = Blockly.Arduino.valueToCode(this, 'PIN', Blockly.Arduino.ORDER_ATOMIC).slice(1,-1);
+    var dropdown_stat = this.getTitleValue('STAT');
+    Blockly.Arduino.setups_['setup_output_'+dropdown_pin] = 'pinMode('+dropdown_pin_value+', OUTPUT);';
+    var code = 'digitalWrite('+dropdown_pin_value+','+dropdown_stat+');\n'
+    return code;
+};
+
+Blockly.Arduino.inout_digital_read_from_var = function() {
+    var dropdown_pin = this.getTitleValue('PIN');
+    var dropdown_pin_value = Blockly.Arduino.valueToCode(this, 'PIN', Blockly.Arduino.ORDER_ATOMIC);
+    if (dropdown_pin_value) {
+      dropdown_pin_value = dropdown_pin_value.slice(1,-1);
+    }
+
+    Blockly.Arduino.setups_['setup_input_'+dropdown_pin] = 'pinMode('+dropdown_pin_value+', INPUT);';
+    var code = 'digitalRead('+dropdown_pin_value+')';
+    return [code, Blockly.Arduino.ORDER_ATOMIC];
 };
 
 Blockly.Arduino.inout_analog_write = function() {
@@ -315,6 +393,16 @@ Blockly.Arduino.serial_print = function() {
   
   Blockly.Arduino.setups_['setup_serial_'+profile.default.serial] = 'Serial.begin('+profile.default.serial+');\n';
   
-  var code = 'Serial.print('+content+');\nSerial.print("\\t");\n';
+  var code = 'Serial.print('+content+');\n';
   return code;
+};
+
+Blockly.Arduino.serial_read = function() {
+    var code = 'Serial.read()';
+    return [code, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino.serial_available = function() {
+    var code = 'Serial.available()';
+    return [code, Blockly.Arduino.ORDER_ATOMIC];
 };

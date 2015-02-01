@@ -44,9 +44,10 @@
       var keepers = [
           //io
           'inout_highlow',
+          'inout_digital_write_to_var', 'inout_digital_read_from_var',
           'inout_digital_write', 'inout_digital_read',
           'inout_analog_write', 'inout_analog_read',
-          'serial_print', 'inout_buildin_led',
+          'serial_print', 'inout_buildin_led', 'serial_read','serial_available',
           //servo
           'servo_move', 'servo_read_degrees',
           //grove analog
@@ -69,7 +70,7 @@
           //math
           'base_map','math_number','math_arithmetic',//'math_modulo',
           //text
-          'text', //'text_join','text_create_join_container','text_create_join_item',
+          'text', 'text_cast', //'text_join','text_create_join_container','text_create_join_item',
           //logic
           'logic_compare', 'logic_operation', 'logic_negate', 'logic_null',//'logic_boolean',
           //variable
