@@ -226,7 +226,7 @@ Blockly.Language.servo_read_degrees = {
 };
 
 Blockly.Language.serial_print = {
-  category: 'In/Out',
+  category: 'Serial',
   helpUrl: 'http://www.arduino.cc/en/Serial/Print',
   init: function() {
     this.setColour(230);
@@ -239,7 +239,7 @@ Blockly.Language.serial_print = {
 };
 
 Blockly.Language.serial_read = {
-    category: 'In/Out',
+    category: 'Serial',
     helpUrl: 'http://arduino.cc/en/Reference/SerialRead',
     init: function() {
         this.setColour(230);
@@ -251,7 +251,7 @@ Blockly.Language.serial_read = {
 };
 
 Blockly.Language.serial_available = {
-    category: 'In/Out',
+    category: 'Serial',
     helpUrl: 'http://arduino.cc/en/Reference/SerialAvailable',
     init: function() {
         this.setColour(230);
