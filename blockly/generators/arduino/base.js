@@ -68,7 +68,7 @@ Blockly.Language.inout_buildin_led = {
    init: function() {
      this.setColour(190);
      this.appendDummyInput("")
-	       .appendTitle("Build-in LED Stat")
+	       .appendTitle("Built-in LED Stat")
 	       .appendTitle(new Blockly.FieldDropdown([["HIGH", "HIGH"], ["LOW", "LOW"]]), "STAT");
      this.setPreviousStatement(true, null);
      this.setNextStatement(true, null);
