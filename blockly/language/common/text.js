@@ -40,20 +40,6 @@ Blockly.Language.text = {
   }
 };
 
-Blockly.Language.text_cast = {
-    // Text value.
-    category: Blockly.LANG_CATEGORY_TEXT,
-    helpUrl: Blockly.LANG_TEXT_TEXT_HELPURL,
-    init: function() {
-        this.setColour(160);
-        this.appendValueInput("VARIN", String)
-            .appendTitle("cast to char")
-            .setCheck(String);
-        this.setOutput(true, String);
-        this.setTooltip('Cast variable to Char');
-    }
-};
-
 Blockly.Language.text_join = {
   // Create a string made up of any number of elements of any type.
   category: Blockly.LANG_CATEGORY_TEXT,

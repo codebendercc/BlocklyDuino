@@ -32,8 +32,9 @@ Blockly.Arduino.text = function() {
 };
 
 Blockly.Arduino.text_cast = function() {
+    var cast_type = this.getTitleValue('TYPE');
     var variable_to_cast = Blockly.Arduino.valueToCode(this, 'VARIN', Blockly.Arduino.ORDER_ATOMIC);
-    var code = '(char)' + variable_to_cast;
+    var code = '('+cast_type+')' + variable_to_cast;
     return [code, Blockly.Arduino.ORDER_ATOMIC]
 };
 
@@ -224,4 +225,21 @@ Blockly.Arduino.text_prompt = function() {
     code = 'Math.parseDouble(' + code + ')';
   }
   return [code, Blockly.Arduino.ORDER_UNARY_POSTFIX];
+};
+
+// Custom Generators
+
+Blockly.Language.text_cast = {
+    // Text value.
+    category: Blockly.LANG_CATEGORY_TEXT,
+    helpUrl: Blockly.LANG_TEXT_TEXT_HELPURL,
+    init: function() {
+        this.setColour(160);
+        this.appendValueInput("VARIN", String)
+            .appendTitle("cast to")
+            .appendTitle(new Blockly.FieldDropdown([["Number", "int"],["Byte","byte"],["Character","char"]]), "TYPE")
+            .setCheck(String);
+        this.setOutput(true, String);
+        this.setTooltip('Cast variable to the specified type');
+    }
 };
