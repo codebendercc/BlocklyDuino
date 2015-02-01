@@ -249,36 +249,30 @@ function init(blockly) {
 <body>
   <table height="100%" width="100%">
     <tr>
-      <td>
-        <h1><a href="https://github.com/gasolin/BlocklyDuino/wiki">BlocklyDuino</a> &gt; web-based visual programming editor for arduino</h1>
+      <td colspan="2" height="1.5em">
+        <h2><a href="https://github.com/gasolin/BlocklyDuino/wiki">BlocklyDuino</a> <a href="http://codebendercc.github.io/compilerflasher">Compilerflasher</a></h2>
+        <h4>A web-based visual programming editor for Arduino with Flashing!</h4>
       </td>
     </tr>
     <tr>
-      <td>
-        <table>
-          <tr id="tabRow" height="1em">
-            <td id="tab_blocks" class="tabon" onclick="tabClick(this.id)">Blocks</td>
-            <td class="tabmin">&nbsp;</td>
-            <!--td id="tab_javascript" class="taboff" onclick="tabClick(this.id)">JavaScript</td>
-            <td class="tabmin">&nbsp;</td-->
-            <!--td id="tab_dart" class="taboff" onclick="tabClick(this.id)">Dart</td>
-            <td class="tabmin">&nbsp;</td>
-            <td id="tab_python" class="taboff" onclick="tabClick(this.id)">Python</td>
-            <td class="tabmin">&nbsp;</td-->
-            <td id="tab_arduino" class="taboff" onclick="tabClick(this.id)">Arduino</td>
-            <td class="tabmin">&nbsp;</td>
-            <td id="tab_xml" class="taboff" onclick="tabClick(this.id)">XML</td>
-            <td class="tabmax">
-
-              <!--button class="launch" onclick="runJS()">Run Program</button-->
+      <td width="25%">
+        <table id="control_panel">
+          <tr>
+            <td>
+              Change the view:<br />
+              <button id="tab_blocks" class="tabon" onclick="tabClick(this.id)">Blocks</button>
+              <button id="tab_arduino" class="taboff" onclick="tabClick(this.id)">Arduino</button>
+              <button id="tab_xml" class="taboff" onclick="tabClick(this.id)">XML</button>
             </td>
           </tr>
-        </table>
-      </td>
-    </tr>
-    <tr>
-      <td height="75%" width="25%">
-        <table id="control_panel">
+          <tr>
+            <td>
+              <button onclick="discard()">Discard Sketch</button><br />
+              <button onclick="save()">Save Sketch</button><br />
+              <button id="fakeload">Load Sketch</button><br />
+              <input type="file" id="load" style="display: none;"/>
+            </td>
+          </tr>
           <tr>
             <td>
               <label for="cb_cf_boards">Select a board:</label>
@@ -308,11 +302,10 @@ function init(blockly) {
             <td>
               <button id="cb_cf_verify_btn" class="btn btn-success">Verify code!</button>
               <button id="cb_cf_flash_btn" >Flash</button>
-              <button onclick="discard()">Discard</button>
-              <button onclick="save()">Save XML</button>
-              <button id="fakeload">Load XML</button>
-              <input type="file" id="load" style="display: none;"/>
-
+            </td>
+          </tr>
+          <tr>
+            <td>
               <button id="cb_cf_serial_monitor_connect">Serial Monitor</button>
               <div id="cb_cf_serial_monitor"></div>
             </td>
@@ -327,7 +320,7 @@ function init(blockly) {
           </tr>
         </table>
       </td>
-      <td height="75%">
+      <td>
         <iframe id="content_blocks" src="frame.html"></iframe>
 		<!--div id="content_blocks" style="height:auto !important;height:400px; min-height:400px;"></div-->
         <!--pre id="content_javascript"></pre>
