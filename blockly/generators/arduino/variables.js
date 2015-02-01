@@ -59,7 +59,7 @@ Blockly.Language.variables_declare = {
         .appendTitle(new Blockly.FieldVariable(
         Blockly.LANG_VARIABLES_SET_ITEM), 'VAR')
         .appendTitle("as")
-     	.appendTitle(new Blockly.FieldDropdown([["Number", "int"]]), "TYPE")
+     	.appendTitle(new Blockly.FieldDropdown([["Number", "int"],["Byte","byte"]]), "TYPE")
 	    .appendTitle("value");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
