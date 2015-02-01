@@ -240,14 +240,25 @@ Blockly.Language.serial_print = {
 
 Blockly.Language.serial_read = {
     category: 'In/Out',
-    helpUrl: 'http://arduino.cc/en/Reference/DigitalRead',
+    helpUrl: 'http://arduino.cc/en/Reference/SerialRead',
     init: function() {
         this.setColour(230);
         this.appendDummyInput("")
             .appendTitle("Serial Read");
-            //.appendTitle(new Blockly.FieldDropdown(profile.default.digital), "PIN");
         this.setOutput(true, Boolean);
         this.setTooltip('');
+    }
+};
+
+Blockly.Language.serial_available = {
+    category: 'In/Out',
+    helpUrl: 'http://arduino.cc/en/Reference/SerialAvailable',
+    init: function() {
+        this.setColour(230);
+        this.appendDummyInput("")
+            .appendTitle("Serial Available");
+        this.setOutput(true, Boolean);
+        this.setTooltip('Is Serial Available?');
     }
 };
 
@@ -382,13 +393,16 @@ Blockly.Arduino.serial_print = function() {
   
   Blockly.Arduino.setups_['setup_serial_'+profile.default.serial] = 'Serial.begin('+profile.default.serial+');\n';
   
-  var code = 'Serial.print('+content+');\nSerial.print("\\t");\n';
+  var code = 'Serial.print('+content+');\n';
   return code;
 };
 
 Blockly.Arduino.serial_read = function() {
-    //var dropdown_pin = this.getTitleValue('PIN');
-    //Blockly.Arduino.setups_['setup_input_'+dropdown_pin] = 'pinMode('+dropdown_pin+', INPUT);';
     var code = 'Serial.read()';
+    return [code, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino.serial_available = function() {
+    var code = 'Serial.available()';
     return [code, Blockly.Arduino.ORDER_ATOMIC];
 };

@@ -31,6 +31,12 @@ Blockly.Arduino.text = function() {
   return [code, Blockly.Arduino.ORDER_ATOMIC];
 };
 
+Blockly.Arduino.text_cast = function() {
+    var variable_to_cast = Blockly.Arduino.valueToCode(this, 'VARIN', Blockly.Arduino.ORDER_ATOMIC);
+    var code = '(char)' + variable_to_cast;
+    return [code, Blockly.Arduino.ORDER_ATOMIC]
+};
+
 Blockly.Arduino.text_join = function() {
   // Create a string made up of any number of elements of any type.
   var code;
