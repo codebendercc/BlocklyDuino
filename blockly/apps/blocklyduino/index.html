@@ -265,45 +265,31 @@ function init(blockly) {
         <table id="control_panel">
           <tr>
             <td>
-              <label for="cb_cf_boards">Select a board:</label>
-              <select id="cb_cf_boards"></select>
+              <label for="cb_cf_boards">Select a board:</label><br>
+              <select id="cb_cf_boards" style="width: 230px;"></select>
+              <button id="cb_cf_verify_btn" class="btn btn-success">Verify code!</button>
             </td>
           </tr>
           <tr>
             <td>
-              <label for="cb_cf_baud_rates">Select a Baud Rate:</label>
-              <select id="cb_cf_baud_rates"></select>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button id="cb_cf_flash_btn" >Flash</button>
               <label for="cb_cf_ports">Select a Port:</label>
               <select id="cb_cf_ports"></select>
+              <button id="cb_cf_flash_btn" >Flash</button>
             </td>
           </tr>
           <tr>
             <td>
-              <button id="cb_cf_flash_with_prog_btn">Flash with Programer</button>
               <!--<label for="cb_cf_programmers">Select a Programmer:</label>-->
               <select id="cb_cf_programmers"> </select>
+              <button id="cb_cf_flash_with_prog_btn">Flash with Programer</button>
             </td>
           </tr>
           <tr>
             <td>
-              <label for="cb_cf_verify_btn">Compile your code:</label>
-              <button id="cb_cf_verify_btn" class="btn btn-success">Verify code!</button>
-              <!--<button onclick="discard()">Discard</button>-->
-              <!--<button onclick="save()">Save XML</button>-->
-              <!--<button id="fakeload">Load XML</button>-->
-              <!--<input type="file" id="load" style="display: none;"/>-->
-
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="cb_cf_serial_monitor_connect">Link to Device:</label>
-              <button id="cb_cf_serial_monitor_connect">Serial Monitor Connection</button>
+              <!--<label for="cb_cf_serial_monitor_connect">Link to Device:</label>-->
+              <label for="cb_cf_baud_rates">Speed:</label>
+              <select id="cb_cf_baud_rates"></select>
+              <button id="cb_cf_serial_monitor_connect">Open Serial Monitor</button>
               <div id="cb_cf_serial_monitor"></div>
             </td>
           </tr>
