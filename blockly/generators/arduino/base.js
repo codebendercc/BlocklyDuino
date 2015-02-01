@@ -238,6 +238,19 @@ Blockly.Language.serial_print = {
   }
 };
 
+Blockly.Language.serial_read = {
+    category: 'In/Out',
+    helpUrl: 'http://arduino.cc/en/Reference/DigitalRead',
+    init: function() {
+        this.setColour(230);
+        this.appendDummyInput("")
+            .appendTitle("Serial Read");
+            //.appendTitle(new Blockly.FieldDropdown(profile.default.digital), "PIN");
+        this.setOutput(true, Boolean);
+        this.setTooltip('');
+    }
+};
+
 // define generators
 Blockly.Arduino = Blockly.Generator.get('Arduino');
 
@@ -371,4 +384,11 @@ Blockly.Arduino.serial_print = function() {
   
   var code = 'Serial.print('+content+');\nSerial.print("\\t");\n';
   return code;
+};
+
+Blockly.Arduino.serial_read = function() {
+    //var dropdown_pin = this.getTitleValue('PIN');
+    //Blockly.Arduino.setups_['setup_input_'+dropdown_pin] = 'pinMode('+dropdown_pin+', INPUT);';
+    var code = 'Serial.read()';
+    return [code, Blockly.Arduino.ORDER_ATOMIC];
 };
