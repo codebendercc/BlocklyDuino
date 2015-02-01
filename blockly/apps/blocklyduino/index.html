@@ -287,25 +287,28 @@ function init(blockly) {
           </tr>
           <tr>
             <td>
+              <button id="cb_cf_flash_btn" >Flash</button>
               <label for="cb_cf_ports">Select a Port:</label>
               <select id="cb_cf_ports"></select>
             </td>
           </tr>
           <tr>
             <td>
-              <label for="cb_cf_programmers">Select a Programmer:</label>
-              <select id="cb_cf_programmers"> </select>
               <button id="cb_cf_flash_with_prog_btn">Flash with Programer</button>
+              <!--<label for="cb_cf_programmers">Select a Programmer:</label>-->
+              <select id="cb_cf_programmers"> </select>
             </td>
           </tr>
           <tr>
             <td>
+              <label for="cb_cf_verify_btn">Compile your code:</label>
               <button id="cb_cf_verify_btn" class="btn btn-success">Verify code!</button>
               <button id="cb_cf_flash_btn" >Flash</button>
-            </td>
-          </tr>
-          <tr>
-            <td>
+              <button onclick="discard()">Discard</button>
+              <button onclick="save()">Save XML</button>
+              <button id="fakeload">Load XML</button>
+              <input type="file" id="load" style="display: none;"/>
+
               <button id="cb_cf_serial_monitor_connect">Serial Monitor</button>
               <div id="cb_cf_serial_monitor"></div>
             </td>
