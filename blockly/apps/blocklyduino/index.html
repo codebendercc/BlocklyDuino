@@ -269,18 +269,7 @@ function init(blockly) {
             <td class="tabmin">&nbsp;</td>
             <td id="tab_xml" class="taboff" onclick="tabClick(this.id)">XML</td>
             <td class="tabmax">
-              <select id="cb_cf_baud_rates"></select>
-              <select id="cb_cf_ports"></select>
-              <select id="cb_cf_boards"></select>
-              <select id="cb_cf_programmers"> </select>
-              <button id="cb_cf_verify_btn" class="btn btn-success">Verify code!</button>
-              <button id="cb_cf_flash_btn" >Flash</button>
-              <button id="cb_cf_flash_with_prog_btn">Flash with Programer</button>
-              <button id="cb_cf_serial_monitor_connect">Serial Monitor</button>
-              <button onclick="discard()">Discard</button>
-              <button onclick="save()">Save XML</button>
-              <button id="fakeload">Load XML</button>
-              <input type="file" id="load" style="display: none;"/>
+
               <!--button class="launch" onclick="runJS()">Run Program</button-->
             </td>
           </tr>
@@ -302,8 +291,24 @@ function init(blockly) {
         </div>
       </td>
     </tr>
-      <tr>
-          <td height="24%">
+    <tr>
+      <td>
+        <select id="cb_cf_boards"></select>
+          <select id="cb_cf_baud_rates"></select>
+          <select id="cb_cf_ports"></select>
+          <select id="cb_cf_programmers"> </select>
+          </td>
+      </tr>
+    <tr>
+      <td>
+          <button id="cb_cf_verify_btn" class="btn btn-success">Verify code!</button>
+          <button id="cb_cf_flash_btn" >Flash</button>
+          <button id="cb_cf_flash_with_prog_btn">Flash with Programer</button>
+          <button id="cb_cf_serial_monitor_connect">Serial Monitor</button>
+          <button onclick="discard()">Discard</button>
+          <button onclick="save()">Save XML</button>
+          <button id="fakeload">Load XML</button>
+          <input type="file" id="load" style="display: none;"/>
           <div id="cb_cf_serial_monitor"></div>
           <p id="cb_cf_operation_output"></p>
           <label> Event messages: </label>
