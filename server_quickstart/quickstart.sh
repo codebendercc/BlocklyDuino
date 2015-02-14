@@ -25,8 +25,10 @@ sudo useradd -M -d /dev/null -s /bin/false -u 80 -g nginx nginx
 # Create www directory and clone our git repo in there.
 echo "[Step 4]: Creating a web directory and downloading the BlocklyDuino git repo..."
 sudo mkdir -p $WEBROOT
-cd $BDROOT
+cd $WEBROOT
 sudo git clone https://github.com/codebendercc/BlocklyDuino.git
+cd $BDROOT
+
 # The next line will need to be removed once this gets onto the master branch
 sudo git checkout server_quickstart
 
