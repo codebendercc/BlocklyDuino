@@ -1,0 +1,190 @@
+<html manifest=node.manifest>
+<head>
+    <meta charset="utf-8">
+    <title>Blockly Demo: Arduino</title>
+    <script type="text/javascript" src="../../blockly/apps/blocklyduino/Blob.js"></script>
+    <script type="text/javascript" src="../../blockly/apps/blocklyduino/FileSaver.min.js"></script>
+    <script type="text/javascript" src="../../blockly/apps/blocklyduino/blockly_helper.js"></script>
+    <script>
+
+        /**
+         * List of tab names.
+         * @private
+         */
+        var TABS_ = ['blocks', 'arduino', 'xml'];
+
+        var selected = 'blocks';
+
+        /**
+         * Switch the visible pane when a tab is clicked.
+         * @param {string} id ID of tab clicked.
+         */
+        function tabClick(id) {
+            // If the XML tab was open, save and render the content.
+            if (document.getElementById('tab_xml').className == 'tabon') {
+                var xmlTextarea = document.getElementById('textarea_xml');
+                var xmlText = xmlTextarea.value;
+                var xmlDom = null;
+                try {
+                    xmlDom = Blockly.Xml.textToDom(xmlText);
+                } catch (e) {
+                    var q =
+                            window.confirm('Error parsing XML:\n' + e + '\n\nAbandon changes?');
+                    if (!q) {
+                        // Leave the user on the XML tab.
+                        return;
+                    }
+                }
+                if (xmlDom) {
+                    Blockly.mainWorkspace.clear();
+                    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xmlDom);
+                }
+            }
+
+            // Deselect all tabs and hide all panes.
+            for (var x in TABS_) {
+                document.getElementById('tab_' + TABS_[x]).className = 'taboff';
+                document.getElementById('content_' + TABS_[x]).style.display = 'none';
+            }
+
+            // Select the active tab.
+            selected = id.replace('tab_', '');
+            document.getElementById(id).className = 'tabon';
+            // Show the selected pane.
+            var content = document.getElementById('content_' + selected);
+            content.style.display = 'block';
+            renderContent();
+        }
+
+        /**
+         * Populate the currently selected pane with content generated from the blocks.
+         */
+        function renderContent() {
+            var content = document.getElementById('content_' + selected);
+            // Initialize the pane.
+            if (content.id == 'content_blocks') {
+                // If the workspace was changed by the XML tab, Firefox will have performed
+                // an incomplete rendering due to Blockly being invisible.  Rerender.
+                Blockly.mainWorkspace.render();
+            } else if (content.id == 'content_xml') {
+                var xmlTextarea = document.getElementById('textarea_xml');
+                var xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+                var xmlText = Blockly.Xml.domToPrettyText(xmlDom);
+                xmlTextarea.value = xmlText;
+                xmlTextarea.focus();
+            } else if (content.id == 'content_arduino') {
+                var arduinoTextarea = document.getElementById('textarea_arduino');
+                arduinoTextarea.value = Blockly.Generator.workspaceToCode('Arduino');
+                arduinoTextarea.focus();
+            }
+        }
+
+        /**
+         * Initialize Blockly.  Called on page load.
+         * @param {!Blockly} blockly Instance of Blockly from iframe.
+         */
+        function init(blockly) {
+            window.Blockly = blockly;
+
+            // Make the 'Blocks' tab line up with the toolbox.
+            if (Blockly.Toolbox) {
+                window.setTimeout(function() {
+                    document.getElementById('tab_blocks').style.minWidth =
+                            (Blockly.Toolbox.width - 38) + 'px';
+                    // Account for the 19 pixel margin and on each side.
+                }, 1);
+            }
+
+            auto_save_and_restore_blocks();
+
+            //load from url parameter (single param)
+            //http://stackoverflow.com/questions/2090551/parse-query-string-in-javascript
+            var dest = unescape(location.search.replace(/^.*\=/, '')).replace(/\+/g, " ");
+            if(dest){
+                load_by_url(dest);
+            }
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../src/views/main.css">
+</head>
+<body>
+<table height="100%" width="100%">
+    <tr>
+        <td>
+            <h1><a href="https://github.com/gasolin/BlocklyDuino/wiki">BlocklyDuino</a> &gt; web-based visual programming editor for arduino</h1>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table>
+                <tr id="tabRow" height="1em">
+                    <td id="tab_blocks" class="tabon" onclick="tabClick(this.id)">Blocks</td>
+                    <td class="tabmin">&nbsp;</td>
+                    <!--td id="tab_javascript" class="taboff" onclick="tabClick(this.id)">JavaScript</td>
+                    <td class="tabmin">&nbsp;</td-->
+                    <!--td id="tab_dart" class="taboff" onclick="tabClick(this.id)">Dart</td>
+                    <td class="tabmin">&nbsp;</td>
+                    <td id="tab_python" class="taboff" onclick="tabClick(this.id)">Python</td>
+                    <td class="tabmin">&nbsp;</td-->
+                    <td id="tab_arduino" class="taboff" onclick="tabClick(this.id)">Arduino</td>
+                    <td class="tabmin">&nbsp;</td>
+                    <td id="tab_xml" class="taboff" onclick="tabClick(this.id)">XML</td>
+                    <td class="tabmax">
+                        <select id="cb_cf_baud_rates"></select>
+                        <select id="cb_cf_ports"></select>
+                        <select id="cb_cf_boards"></select>
+                        <select id="cb_cf_programmers"> </select>
+                        <button id="cb_cf_verify_btn" class="btn btn-success">Verify code!</button>
+                        <button id="cb_cf_flash_btn" >Flash</button>
+                        <button id="cb_cf_flash_with_prog_btn">Flash with Programer</button>
+                        <button id="cb_cf_serial_monitor_connect">Serial Monitor</button>
+                        <button onclick="discard()">Discard</button>
+                        <button onclick="save()">Save XML</button>
+                        <button id="fakeload">Load XML</button>
+                        <input type="file" id="load" style="display: none;"/>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td height="75%">
+            <iframe id="content_blocks" src="../../blockly/apps/blocklyduino/frame.html"></iframe>
+            <div id="content_arduino">
+                <textarea id="textarea_arduino" readonly></textarea>
+            </div>
+            <div id="content_xml">
+                <textarea id="textarea_xml" readonly></textarea>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td height="24%">
+            <div id="cb_cf_serial_monitor"></div>
+            <p id="cb_cf_operation_output"></p>
+            <label> Event messages: </label>
+            <div id="event_msg"></div>
+        </td></tr>
+</table>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://codebender.cc/embed/compilerflasher.js" type="text/javascript"></script>
+<script type="text/javascript">
+    function getFiles(){
+        return {"sketch.ino": Blockly.Generator.workspaceToCode('Arduino')}
+    }
+    $(document).ready(function(){
+        compilerflasher = new compilerflasher(getFiles);
+        compilerflasher.on("pre_verify", function(){
+            $("#event_msg").append('pre_verify event fired!<br/><br/>')
+        });
+        compilerflasher.on("verification_succeed", function(binary_size){
+            $("#event_msg").append('verification_succeed event fired! Sketch size: '+binary_size+"<br/><br/>")
+        });
+        compilerflasher.on("verification_failed", function(error_output){
+            $("#event_msg").append("verification_failed event fired! \nCompilation error: <pre>"+error_output+"</pre><br/><br/>")
+        });
+    });
+</script>
+</body>
+</html>
