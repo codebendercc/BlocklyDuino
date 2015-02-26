@@ -29,6 +29,14 @@ $app['debug_code_request'] = "{\"files\":[{\"filename\":\"Blink Example.ino\",\"
 // Dependencies:
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
+//Pull code from blocks into variable
+
+//compile JSON request to send.
+
+//send JSON to compile
+
+//parse response from compiler
+
 // Routes:
 
 // /
