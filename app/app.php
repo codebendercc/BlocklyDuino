@@ -29,12 +29,23 @@ $app['debug_code_request'] = "{\"files\":[{\"filename\":\"Blink Example.ino\",\"
 // Dependencies:
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
-//Pull code from blocks into variable
+//Pull code from blocks into variable...
 
+$app['code'] = Blockly.Generator.workspaceToCode('Arduino');
+$app['filename']= 'XXXX';//input from something?
 //compile JSON request to send.
-
+    $filename = 'XXX';
+    $code = $app['code'];
+$app['debug_code_request'] = "{
+\"files\":[{\"filename\": $filename,\"content\":$code}],
+\"libraries\":[],
+\"logging\":true,
+\"format\":\"binary\",
+\"version\":\"105\",
+\"build\":{\"mcu\":\"atmega328p\",\"f_cpu\":\"16000000L\",\"core\":\"arduino\",\"variant\":\"standard\"}}\"
+}";
 //send JSON to compile
-
+$builderResponse = postToBuilder($app['builder_url'], $code);
 //parse response from compiler
 
 // Routes:
@@ -53,6 +64,7 @@ $app->get('/compile/{code}', function (Silex\Application $app, $code)  { // Add 
     // This $code will need to be removed when we figure out
     // how to pipe the stuff from the page in.
     $code = $app['debug_code_request'];
+
 
     // Guzzle it and get the results
     $builderResponse = postToBuilder($app['builder_url'], $code);
