@@ -30,27 +30,27 @@ $app['debug_code_request'] = "{\"files\":[{\"filename\":\"Blink Example.ino\",\"
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 //Pull code from blocks into variable...
-
-$app['code'] = Blockly.Generator.workspaceToCode('Arduino');
-$app['filename']= 'XXXX';//input from something?
-//compile JSON request to send.
-    $filename = 'XXX';
-    $code = $app['code'];
-$app['code_request'] = "{
-\"files\":[{\"filename\": $filename,\"content\":$code}],
-\"libraries\":[],
-\"logging\":true,
-\"format\":\"binary\",
-\"version\":\"105\",
-\"build\":{\"mcu\":\"atmega328p\",
-            \"f_cpu\":\"16000000L\",
-            \"core\":\"arduino\",
-            \"variant\":\"standard\"
-            }
-}";
-//send JSON to compile
-$builderResponse = postToBuilder($app['builder_url'], $app['code_request']);
-//parse response from compiler - 
+//
+//$app['code'] = Blockly.Generator.workspaceToCode('Arduino');
+//$app['filename']= 'XXXX';//input from something?
+////compile JSON request to send.
+//    $filename = 'XXX';
+//    $code = $app['code'];
+//$app['code_request'] = "{
+//\"files\":[{\"filename\": $filename,\"content\":$code}],
+//\"libraries\":[],
+//\"logging\":true,
+//\"format\":\"binary\",
+//\"version\":\"105\",
+//\"build\":{\"mcu\":\"atmega328p\",
+//            \"f_cpu\":\"16000000L\",
+//            \"core\":\"arduino\",
+//            \"variant\":\"standard\"
+//            }
+//}";
+////send JSON to compile
+//$builderResponse = postToBuilder($app['builder_url'], $app['code_request']);
+////parse response from compiler -
 
 // Routes:
 
