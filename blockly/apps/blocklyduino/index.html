@@ -3,6 +3,7 @@
   <meta charset="utf-8">
   <title>Blockly Demo: Arduino</title>
   <!--script type="text/javascript" src="../blockly_compressed.js"></script-->
+  <link href="favicon.ico" rel="shortcut icon" />
   <script type="text/javascript" src="Blob.js"></script>
   <script type="text/javascript" src="FileSaver.min.js"></script>
   <script type="text/javascript" src="blockly_helper.js"></script>
@@ -249,46 +250,66 @@ function init(blockly) {
 <body>
   <table height="100%" width="100%">
     <tr>
-      <td>
-        <h1><a href="https://github.com/gasolin/BlocklyDuino/wiki">BlocklyDuino</a> &gt; web-based visual programming editor for arduino</h1>
+      <td colspan="2" height="1.5em">
+        <div id="sketch_buttons" style="float:right;">
+          <button onclick="discard()">Discard Sketch</button>
+          <button onclick="save()">Save Sketch</button>
+          <button id="fakeload">Load Sketch</button>
+          <input type="file" id="load" style="display: none;"/>
+        </div>
+        <h2><a href="https://github.com/gasolin/BlocklyDuino/wiki">BlocklyDuino</a> <a href="http://codebendercc.github.io/compilerflasher">Compilerflasher</a></h2>
+        <h4>A web-based visual programming editor for Arduino with Flashing!</h4>
       </td>
     </tr>
     <tr>
-      <td>
-        <table>
-          <tr id="tabRow" height="1em">
-            <td id="tab_blocks" class="tabon" onclick="tabClick(this.id)">Blocks</td>
-            <td class="tabmin">&nbsp;</td>
-            <!--td id="tab_javascript" class="taboff" onclick="tabClick(this.id)">JavaScript</td>
-            <td class="tabmin">&nbsp;</td-->
-            <!--td id="tab_dart" class="taboff" onclick="tabClick(this.id)">Dart</td>
-            <td class="tabmin">&nbsp;</td>
-            <td id="tab_python" class="taboff" onclick="tabClick(this.id)">Python</td>
-            <td class="tabmin">&nbsp;</td-->
-            <td id="tab_arduino" class="taboff" onclick="tabClick(this.id)">Arduino</td>
-            <td class="tabmin">&nbsp;</td>
-            <td id="tab_xml" class="taboff" onclick="tabClick(this.id)">XML</td>
-            <td class="tabmax">
-              <select id="cb_cf_baud_rates"></select>
-              <select id="cb_cf_ports"></select>
-              <select id="cb_cf_boards"></select>
-              <select id="cb_cf_programmers"> </select>
+      <td width="25%">
+        <table id="control_panel">
+          <tr>
+            <td>
+              <label for="cb_cf_boards">Select a board:</label><br>
+              <select id="cb_cf_boards" style="width: 230px;"></select>
               <button id="cb_cf_verify_btn" class="btn btn-success">Verify code!</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="cb_cf_ports">Select a Port:</label><br />
+              <select id="cb_cf_ports"></select>
               <button id="cb_cf_flash_btn" >Flash</button>
-              <button id="cb_cf_flash_with_prog_btn">Flash with Programer</button>
-              <button id="cb_cf_serial_monitor_connect">Serial Monitor</button>
-              <button onclick="discard()">Discard</button>
-              <button onclick="save()">Save XML</button>
-              <button id="fakeload">Load XML</button>
-              <input type="file" id="load" style="display: none;"/>
-              <!--button class="launch" onclick="runJS()">Run Program</button-->
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="cb_cf_programmers">Select a Programmer:</label><br />
+              <select id="cb_cf_programmers"> </select>
+              <button id="cb_cf_flash_with_prog_btn">Flash w/ Programmer</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="cb_cf_baud_rates">Select a Speed:</label><br />
+              <select id="cb_cf_baud_rates"></select>
+              <button id="cb_cf_serial_monitor_connect">Open Serial Monitor</button>
+              <div id="cb_cf_serial_monitor"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="cb_cf_operation_output">Status:</label>
+              <p id="cb_cf_operation_output"></p>
+              <label for="event_msg">Event messages:</label>
+              <div id="event_msg"></div>
             </td>
           </tr>
         </table>
       </td>
-    </tr>
-    <tr>
-      <td height="75%">
+      <td>
+        <div id="view_buttons">
+          Change the view:
+          <button id="tab_blocks" class="tabon" onclick="tabClick(this.id)">Blocks</button>
+          <button id="tab_arduino" class="taboff" onclick="tabClick(this.id)">Arduino</button>
+          <button id="tab_xml" class="taboff" onclick="tabClick(this.id)">XML</button>
+        </div>
         <iframe id="content_blocks" src="frame.html"></iframe>
 		<!--div id="content_blocks" style="height:auto !important;height:400px; min-height:400px;"></div-->
         <!--pre id="content_javascript"></pre>
@@ -302,13 +323,6 @@ function init(blockly) {
         </div>
       </td>
     </tr>
-      <tr>
-          <td height="24%">
-          <div id="cb_cf_serial_monitor"></div>
-          <p id="cb_cf_operation_output"></p>
-          <label> Event messages: </label>
-          <div id="event_msg"></div>
-      </td></tr>
   </table>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
