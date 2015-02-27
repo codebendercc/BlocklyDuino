@@ -36,17 +36,21 @@ $app['filename']= 'XXXX';//input from something?
 //compile JSON request to send.
     $filename = 'XXX';
     $code = $app['code'];
-$app['debug_code_request'] = "{
+$app['code_request'] = "{
 \"files\":[{\"filename\": $filename,\"content\":$code}],
 \"libraries\":[],
 \"logging\":true,
 \"format\":\"binary\",
 \"version\":\"105\",
-\"build\":{\"mcu\":\"atmega328p\",\"f_cpu\":\"16000000L\",\"core\":\"arduino\",\"variant\":\"standard\"}}\"
+\"build\":{\"mcu\":\"atmega328p\",
+            \"f_cpu\":\"16000000L\",
+            \"core\":\"arduino\",
+            \"variant\":\"standard\"
+            }
 }";
 //send JSON to compile
-$builderResponse = postToBuilder($app['builder_url'], $code);
-//parse response from compiler
+$builderResponse = postToBuilder($app['builder_url'], $app['code_request']);
+//parse response from compiler - 
 
 // Routes:
 
