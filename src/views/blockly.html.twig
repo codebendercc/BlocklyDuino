@@ -171,13 +171,13 @@
 {#<script src="http://codebender.cc/embed/compilerflasher.js" type="text/javascript"></script>#}
 <script src="../../public/blocklyflasher.js" type="text/javascript"></script>
 <script type="text/javascript">
-    function getFiles(){
-        return {"sketch.ino": Blockly.Generator.workspaceToCode('Arduino')}
-    }
+    //function getFiles(){
+    //    return {"sketch.ino": Blockly.Generator.workspaceToCode('Arduino')}
+    //}
     $(document).ready(function(){
 
-//complileflasher name is remaining but is no longer compilerflasher now blockly flasher
-        compilerflasher = new blocklyflasher(getFiles);
+        //complileflasher name is remaining but is no longer compilerflasher now blockly flasher
+        compilerflasher = new blocklyflasher(Blockly.Generator.workspaceToCode('Arduino'));
 
         compilerflasher.on("pre_verify", function(){
             $("#event_msg").append('pre_verify event fired!<br/><br/>')
