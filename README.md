@@ -1,7 +1,7 @@
 
 
 
-### Welcome to Codebenders BlocklyDuino
+### Welcome to Codebender's BlocklyDuino
 
 BlocklyDuino is a **web-based visual programming editor for [Arduino](http://www.arduino.cc/)**.
 
