@@ -28,6 +28,30 @@ class Routes
      */
     public static function addCompileRoute(Application $app)
     {
+        if($app['debug'] == true) {
+            // Provide a more human-readable post path for testing.
+            $app->post('/compile/show', function (Request $request) use ($app) { // The code will be sent in via the request body
+
+                //$builderRequestJSON = $app['debug_code_request']; // Handy debug code
+
+                $code = new BuilderRequest($request->getContent());
+                $builderRequestJSON = Utilities::formatJSON($code);
+
+                // Guzzle it and get the results
+                $builderResponse = Utilities::postToBuilder($app['builder_url'], $builderRequestJSON);
+
+                // This route (or at least the return value of it)  will probably need to change in order to pass things back to the JavaScript layer
+                return $app['twig']->render(
+                    'compile.html.twig',
+                    array(
+                        'request' => $builderRequestJSON,
+                        'response' => $builderResponse->getRaw()
+                    )
+                );
+            })->bind('compile_show');
+        }
+
+        // This is our default implementation of the /compile path. It returns a JSON.
         $app->post('/compile', function (Request $request) use ($app) { // The code will be sent in via the request body
 
             //$builderRequestJSON = $app['debug_code_request']; // Handy debug code
@@ -39,13 +63,7 @@ class Routes
             $builderResponse = Utilities::postToBuilder($app['builder_url'], $builderRequestJSON);
 
             // This route (or at least the return value of it)  will probably need to change in order to pass things back to the JavaScript layer
-            return $app['twig']->render(
-                'compile.html.twig',
-                array(
-                    'request' => $builderRequestJSON,
-                    'response' => $builderResponse->getRaw()
-                )
-            );
+            return $builderResponse->getRaw();
         })->bind('compile');
     }
 
