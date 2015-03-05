@@ -110,10 +110,6 @@ blocklyflasher = function(code){
 //plugin_running
 //compilerflasher.on("plugin_running", function(){{/*your code here*/});
 
-    $.post( "/compile", function( code ) {
-        $( ".result" ).html( data );
-    });
-
 ////compile JSON request to send.
 //    $filename = 'XXX';
 //    $code = $app['code'];
@@ -131,11 +127,10 @@ blocklyflasher = function(code){
 //}";
 ////send JSON to compile
 //
-var response = //json string
-    $.post( "/compile", function( code ) {
-    $( ".result" ).html( data );
+var response = $.post( "/compile", function( code ) {
+    return JSON.parse(code);
 });
-    // JSON.parse(response) //if we need to
+     //if we need to convert
 
 //read response from post request - all we care about is "success" for verification,
     //we need to use output for flashing? right?
