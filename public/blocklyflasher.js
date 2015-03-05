@@ -130,7 +130,12 @@ blocklyflasher = function(code){
 //            }
 //}";
 ////send JSON to compile
-
+//
+var response = //json string
+    $.post( "/compile", function( code ) {
+    $( ".result" ).html( data );
+});
+    // JSON.parse(response) //if we need to
 
 //read response from post request - all we care about is "success" for verification,
     //we need to use output for flashing? right?
@@ -140,6 +145,9 @@ blocklyflasher = function(code){
 //        "size":"2758",
 //        "output":"HUGE STRING HERE WITH BASE64 ENCODING OF BINARY AMMAGAAAAAD!!!!!11111oneoneonecos(0)=="
 //    }
+  var  verification_success = response.success;
+
+
 
 
 
