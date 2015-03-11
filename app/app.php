@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../vendor/autoload.php'; // Add the autoloading mechanism of Composer
 
 // Create the Silex application, in which all configuration is going to go
-$app = new Silex\Application();
+$app = new app\Blocklyduino();
 
 // Set to false if you don't want debug messages
 $app['debug'] = true;
