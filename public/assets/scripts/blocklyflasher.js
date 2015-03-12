@@ -1,5 +1,4 @@
 Blocklyflasher = function(lf){
-
     this.boards_list = [];
     this.programmers_list = [];
     this.selectedBoard = '';
@@ -10,6 +9,10 @@ Blocklyflasher = function(lf){
     this.minVersion = "1.6.0.8";
 
     var that = this;
+
+    this.builder_path = new function(uri) {
+        return location.protocol + '\x2F\x2F' + location.host + '\x2Fbuilder\x2F' + uri;
+    };
 
     this.eventManager = new function(){
         this._listeners = {};
@@ -626,14 +629,14 @@ Blocklyflasher = function(lf){
                 if(Browsers.isBrowser("Chrome") || Browsers.isBrowser("Chromium"))
                 {
                     if(Browsers.isOs('Windows','>=','6.2'))
-                        alert+= '<a onclick=\'compilerflasher.pluginHandler.addTo("Windows", "\x2F\x2Fcodebender.cc\x2FCodebendercc.msi")\' id="msi-download-url" href = "javascript:void(0);" >Add to Windows.</a>';
+                        alert+= '<a onclick=\'Blocklyflasher.pluginHandler.addTo("Windows", "\x2F\x2Fcodebender.cc\x2FCodebendercc.msi")\' id="msi-download-url" href = "javascript:void(0);" >Add to Windows.</a>';
                     else
-                        alert += "<a onclick='compilerflasher.pluginHandler.addTo(\"Chrome\")' href='https://chrome.google.com/webstore/detail/codebendercc-extension/fkjidelplakiboijmadcpcbpboihkmee' target='_blank'>Add to Chrome</a>";
+                        alert += "<a onclick='Blocklyflasher.pluginHandler.addTo(\"Chrome\")' href='https://chrome.google.com/webstore/detail/codebendercc-extension/fkjidelplakiboijmadcpcbpboihkmee' target='_blank'>Add to Chrome</a>";
 
                 }
                 else if(Browsers.isBrowser("Firefox"))
                 {
-                    alert+= '<a onclick=\'compilerflasher.pluginHandler.addTo("Firefox", "\x2F\x2Fcodebender.cc\x2Fcodebender.xpi")\' id="xpi-download-url" href = "javascript:void(0);" >Add to Firefox.</a>';
+                    alert+= '<a onclick=\'Blocklyflasher.pluginHandler.addTo("Firefox", "\x2F\x2Fcodebender.cc\x2Fcodebender.xpi")\' id="xpi-download-url" href = "javascript:void(0);" >Add to Firefox.</a>';
                 }
             }
 
@@ -727,17 +730,17 @@ Blocklyflasher = function(lf){
             window.hasPerm = document.getElementById('plugin0').setCallback(function (from, output) {
                 if (output == "disconnect") {
 
-                    compilerflasher.pluginHandler.disconnect(true);
+                    Blocklyflasher.pluginHandler.disconnect(true);
                 } else
                 {
-                    compilerflasher.eventManager.fire("plugin_notification", output);
-                    compilerflasher.setOperationOutput(output);
+                    Blocklyflasher.eventManager.fire("plugin_notification", output);
+                    Blocklyflasher.setOperationOutput(output);
                 }
             });
 
             if (!window.hasPerm) {
-                compilerflasher.setOperationOutput("You need to grant permissions to the Codebender extension.");
-                compilerflasher.eventManager.fire('plugin_notification', "You need to grant permissions to the Codebender extension.");
+                Blocklyflasher.setOperationOutput("You need to grant permissions to the Codebender extension.");
+                Blocklyflasher.eventManager.fire('plugin_notification', "You need to grant permissions to the Codebender extension.");
             }
 
 
@@ -752,7 +755,6 @@ Blocklyflasher = function(lf){
             alertElement = "<div id='";
             alertElement += divname;
             alertElement += "' class='alert'>";
-//        alertElement += "<button type='button' class='close' data-dismiss='alert'>x</button>";
             alertElement += message
             alertElement += "</div>";
             $("#cb_cf_ports_div .alert").hide(100).remove();
@@ -812,9 +814,9 @@ Blocklyflasher = function(lf){
                                 }
                             };
                             createLogFlasher(actionId, metaData);
-                            var msg = compilerflasher.getFlashFailMessage(line);
-                            compilerflasher.setOperationOutput(msg);
-                            compilerflasher.eventManager.fire("plugin_notification", msg);
+                            var msg = Blocklyflasher.getFlashFailMessage(line);
+                            Blocklyflasher.setOperationOutput(msg);
+                            Blocklyflasher.eventManager.fire("plugin_notification", msg);
                         }
                     );
 
@@ -1032,7 +1034,9 @@ Blocklyflasher = function(lf){
             .attr('disabled', 'disabled')
             .click(function(){cb.clickedBoard()})
             .change(function(){cb.saveBoard()});
-        $.getJSON("https\x3A\x2F\x2Fcodebender.cc\x2Fboard\x2Flistboards", function(data){boardsListCallback(data)});
+        //$.getJSON("https\x3A\x2F\x2Fcodebender.cc\x2Fboard\x2Flistboards", function(data){boardsListCallback(data)});
+        $.getJSON("http://localhost/builder/listboards", function(data){boardsListCallback(data)});
+        //$.getJSON(this.builder_path("listboards"), function(data){boardsListCallback(data)});
         this.loaded_elements.push("cb_cf_boards");
     }
     if($("select#cb_cf_ports").length > 0)
@@ -1055,11 +1059,14 @@ Blocklyflasher = function(lf){
     }
     if($("select#cb_cf_programmers").length > 0)
     {
+        debugger;
         $("#cb_cf_programmers").append($('<option></option>').html("Loading Programmers..."))
             .attr('disabled', 'disabled')
             .click(function(){cb.clickedProgrammer()})
             .change(function(){cb.saveProgrammer()});
-        $.getJSON("https\x3A\x2F\x2Fcodebender.cc\x2Fboard\x2Fprogrammers", function (data)
+        //$.getJSON("https\x3A\x2F\x2Fcodebender.cc\x2Fboard\x2Fprogrammers", function (data)
+        $.getJSON("http://localhost/builder/programmers", function (data)
+        //$.getJSON(this.builder_path("programmers"), function (data)
         {
             programmersListCallback(data)
         });
@@ -1093,7 +1100,7 @@ Blocklyflasher = function(lf){
     }
     if($("#cb_cf_serial_monitor").length > 0)
     {
-        $("#cb_cf_serial_monitor").html('\x3Cdiv\x20id\x3D\x22serial_monitor_content\x22\x20style\x3D\x22display\x3Anone\x3B\x22\x3E\x0A\x20\x20\x20\x20\x3Cdiv\x20class\x3D\x22input\x2Dappend\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3Cinput\x20id\x3D\x22text2send\x22\x20type\x3D\x22text\x22\x20placeholder\x3D\x22Type\x20a\x20message\x22\x20onkeypress\x3D\x22compilerflasher.pluginHandler.serialSendOnEnter\x28event\x29\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3Cbutton\x20id\x3D\x22serial_send\x22\x20onclick\x3D\x22compilerflasher.pluginHandler.serialSend\x28\x29\x22\x20class\x3D\x22btn\x22\x20title\x3D\x22Send\x20Message\x22\x3ESend\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3C\x2Fbutton\x3E\x0A\x20\x20\x20\x20\x3C\x2Fdiv\x3E\x0A\x20\x20\x20\x20\x3Cdiv\x20id\x3D\x22serial_monitor_hud_and_autoscroll\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3Cpre\x20id\x3D\x22serial_hud\x22\x20class\x3D\x22well\x22\x20style\x3D\x22overflow\x2Dy\x3Ascroll\x22\x3E\x3C\x2Fpre\x3E\x0A\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3Clabel\x20class\x3D\x22checkbox\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x3Cinput\x20id\x3D\x27autoscroll_check\x27\x20type\x3D\x22checkbox\x22\x20checked\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Autoscroll\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3C\x2Flabel\x3E\x0A\x20\x20\x20\x20\x3C\x2Fdiv\x3E\x0A\x3C\x2Fdiv\x3E\x0A\x0A');
+        $("#cb_cf_serial_monitor").html('\x3Cdiv\x20id\x3D\x22serial_monitor_content\x22\x20style\x3D\x22display\x3Anone\x3B\x22\x3E\x0A\x20\x20\x20\x20\x3Cdiv\x20class\x3D\x22input\x2Dappend\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3Cinput\x20id\x3D\x22text2send\x22\x20type\x3D\x22text\x22\x20placeholder\x3D\x22Type\x20a\x20message\x22\x20onkeypress\x3D\x22Blocklyflasher.pluginHandler.serialSendOnEnter\x28event\x29\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3Cbutton\x20id\x3D\x22serial_send\x22\x20onclick\x3D\x22Blocklyflasher.pluginHandler.serialSend\x28\x29\x22\x20class\x3D\x22btn\x22\x20title\x3D\x22Send\x20Message\x22\x3ESend\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3C\x2Fbutton\x3E\x0A\x20\x20\x20\x20\x3C\x2Fdiv\x3E\x0A\x20\x20\x20\x20\x3Cdiv\x20id\x3D\x22serial_monitor_hud_and_autoscroll\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3Cpre\x20id\x3D\x22serial_hud\x22\x20class\x3D\x22well\x22\x20style\x3D\x22overflow\x2Dy\x3Ascroll\x22\x3E\x3C\x2Fpre\x3E\x0A\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3Clabel\x20class\x3D\x22checkbox\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x3Cinput\x20id\x3D\x27autoscroll_check\x27\x20type\x3D\x22checkbox\x22\x20checked\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Autoscroll\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3C\x2Flabel\x3E\x0A\x20\x20\x20\x20\x3C\x2Fdiv\x3E\x0A\x3C\x2Fdiv\x3E\x0A\x0A');
         this.loaded_elements.push("cb_cf_serial_monitor");
     }
     if($("#cb_cf_burn_bootloader").length > 0)
@@ -1276,9 +1283,9 @@ Blocklyflasher = function(lf){
         });
 
         if(logging)
-            var payload = {"files":files_array, "logging":logging, "format":format, "version":"105", "build":compilerflasher.selectedBoard["build"]};
+            var payload = {"files":files_array, "logging":logging, "format":format, "version":"105", "build":Blocklyflasher.selectedBoard["build"]};
         else
-            var payload = {"files":files_array, "format":format, "version":"105", "build":compilerflasher.selectedBoard["build"]};
+            var payload = {"files":files_array, "format":format, "version":"105", "build":Blocklyflasher.selectedBoard["build"]};
 
         if(format == 'autocomplete' && typeof editor !== 'undefined')
         {
@@ -1306,9 +1313,9 @@ Blocklyflasher = function(lf){
 
         if (progress)
         {
-            msg = compilerflasher.getFlashFailMessage(progress);
-            compilerflasher.setOperationOutput(msg);
-            compilerflasher.eventManager.fire('flash_failed', msg, progress);
+            msg = Blocklyflasher.getFlashFailMessage(progress);
+            Blocklyflasher.setOperationOutput(msg);
+            Blocklyflasher.eventManager.fire('flash_failed', msg, progress);
 
             if (progress != 0 && (progress > -1 || progress < -23) && progress != -30 && progress != -55 && progress != -56 && progress != -57)
             {
@@ -1323,11 +1330,14 @@ Blocklyflasher = function(lf){
         }
         else
         {
-            compilerflasher.eventManager.fire('flash_succeed');
-            compilerflasher.setOperationOutput("Upload successful!");
+            Blocklyflasher.eventManager.fire('flash_succeed');
+            Blocklyflasher.setOperationOutput("Upload successful!");
         }
 
-        var url = "https\x3A\x2F\x2Fcodebender.cc\x2Futilities\x2Fflash\x2FERROR_CODE";
+        //var url = "https\x3A\x2F\x2Fcodebender.cc\x2Futilities\x2Fflash\x2FERROR_CODE";
+        var url = "http://localhost/builder/utilities/flash/ERROR_CODE";
+        //var url = this.builder_path("utilities\x2Fflash\x2FERROR_CODE");
+
         url = url.replace('ERROR_CODE', progress+'&'+that.pluginHandler.tabID);
         $.get(url);
 
@@ -1340,7 +1350,9 @@ Blocklyflasher = function(lf){
         this.eventManager.fire('pre_hex');
         var payload = this.generate_payload("hex");
         var cb = this;
-        $.post("https\x3A\x2F\x2Fcodebender.cc\x2Futilities\x2Fcompile\x2F", payload, function (data) {
+        //$.post("https\x3A\x2F\x2Fcodebender.cc\x2Futilities\x2Fcompile\x2F", payload, function (data) {
+        $.post("http://localhost/builder/utilities/compile/", payload, function (data) {
+        //$.post(this.builder_path("utilities\x2Fcompile\x2F"), payload, function (data) {
             try{
                 var obj = jQuery.parseJSON(data);
                 if (obj.success == 0) {
@@ -1479,7 +1491,9 @@ Blocklyflasher = function(lf){
         window.operationInProgress = true;
         var payload = this.generate_payload("binary");
         var cb = this;
-        $.post("https\x3A\x2F\x2Fcodebender.cc\x2Futilities\x2Fcompile\x2F", payload, function (data) {
+        //$.post("https\x3A\x2F\x2Fcodebender.cc\x2Futilities\x2Fcompile\x2F", payload, function (data) {
+        $.post("http://localhost/builder/utilities/compile/", payload, function (data) {
+        //$.post(this.builder_path("utilities\x2Fcompile\x2F"), payload, function (data) {
             try{
                 var obj = jQuery.parseJSON(data);
                 callback(obj);
@@ -1574,7 +1588,7 @@ Blocklyflasher = function(lf){
     this.disableCompilerFlasherActions = function(){
         $("#cb_cf_boards").attr("disabled", "disabled");
         $("#cb_cf_verify_btn").attr("disabled", "disabled");
-        if(compilerflasher.pluginHandler.plugin_running)
+        if(Blocklyflasher.pluginHandler.plugin_running)
         {
             $("#cb_cf_ports").attr("disabled", "disabled");
             $("#cb_cf_flash_btn").attr("disabled", "disabled");
@@ -1590,7 +1604,7 @@ Blocklyflasher = function(lf){
     this.enableCompilerFlasherActions = function(){
         $("#cb_cf_boards").removeAttr("disabled");
         $("#cb_cf_verify_btn").removeAttr("disabled");
-        if(compilerflasher.pluginHandler.plugin_running)
+        if(Blocklyflasher.pluginHandler.plugin_running)
         {
             $("#cb_cf_ports").removeAttr("disabled");
             $("#cb_cf_flash_btn").removeAttr("disabled");
@@ -1617,15 +1631,15 @@ Blocklyflasher = function(lf){
 
 
 function boardsListCallback(data) {
-    compilerflasher.setBoardsList(data);
+    Blocklyflasher.setBoardsList(data);
 
     $('#cb_cf_boards').find('option').remove().end();
     var found = false;
     if ($("#cb_cf_boards").data().board){
-        for (var i = 0; i < compilerflasher.boards_list.length; i++) {
-            if (compilerflasher.boards_list[i]["name"] == $("#cb_cf_boards").data().board)
+        for (var i = 0; i < Blocklyflasher.boards_list.length; i++) {
+            if (Blocklyflasher.boards_list[i]["name"] == $("#cb_cf_boards").data().board)
             {
-                compilerflasher.selectedBoard = compilerflasher.boards_list[i];
+                Blocklyflasher.selectedBoard = Blocklyflasher.boards_list[i];
                 $('#cb_cf_boards').hide();
                 found = true;
             }
@@ -1634,16 +1648,16 @@ function boardsListCallback(data) {
     }
     if(!found)
     {
-        for (var i = 0; i < compilerflasher.boards_list.length; i++)
-            $("#cb_cf_boards").append($('<option></option>').val(compilerflasher.boards_list[i]["name"]).html(compilerflasher.boards_list[i]["name"]));
-        compilerflasher.loadBoard();
+        for (var i = 0; i < Blocklyflasher.boards_list.length; i++)
+            $("#cb_cf_boards").append($('<option></option>').val(Blocklyflasher.boards_list[i]["name"]).html(Blocklyflasher.boards_list[i]["name"]));
+        Blocklyflasher.loadBoard();
 
 
-        var board = compilerflasher.getDefaultBoard();
+        var board = Blocklyflasher.getDefaultBoard();
         if(board !== 'undefined' && $("#cb_cf_boards option[value='"+board+"']").length == 1)
         {
             $("#cb_cf_boards").val(board);
-            compilerflasher.saveBoard();
+            Blocklyflasher.saveBoard();
         }
 
         $('#cb_cf_boards').removeAttr('disabled');
@@ -1651,11 +1665,11 @@ function boardsListCallback(data) {
 }
 
 function programmersListCallback(data){
-    compilerflasher.programmers_list = data;
+    Blocklyflasher.programmers_list = data;
     $('#cb_cf_programmers').find('option').remove().end();
-    for (var i = 0; i < compilerflasher.programmers_list.length; i++)
-        $("#cb_cf_programmers").append($('<option></option>').val(compilerflasher.programmers_list[i]["name"]).html(compilerflasher.programmers_list[i]["name"]));
-    compilerflasher.loadProgrammer();
+    for (var i = 0; i < Blocklyflasher.programmers_list.length; i++)
+        $("#cb_cf_programmers").append($('<option></option>').val(Blocklyflasher.programmers_list[i]["name"]).html(Blocklyflasher.programmers_list[i]["name"]));
+    Blocklyflasher.loadProgrammer();
 }
 
 function createLogFlasher(actionId, metaData, callback)
@@ -1671,7 +1685,8 @@ function logging()
     var payload = generate_payload("binary", true);
 
 
-    $.post("\x2Futilities\x2Fcompile\x2F", payload, function (data) {
+    //$.post("\x2Futilities\x2Fcompile\x2F", payload, function (data) {
+    $.post("http://localhost/builder/utilities/compile/", payload, function (data) {
         var obj = jQuery.parseJSON(data);
 
     });
