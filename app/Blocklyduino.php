@@ -6,14 +6,16 @@ namespace app;
 use Silex\Application;
 
 class Blocklyduino extends Application {
+
+    /**
+     * Add some traits that make our Application special
+     */
     use Application\TwigTrait;
     use Application\UrlGeneratorTrait;
 
     /**
      * Instantiate a new Blocklyduino Application.
-     *
      * Objects and parameters can be passed as argument to the constructor.
-     *
      * @param array $values The parameters or objects.
      */
     function __construct(array $values = array()) {

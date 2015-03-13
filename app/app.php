@@ -1,4 +1,5 @@
 <?php
+// app.php
 
 // Add the autoloading mechanism of Composer
 require_once __DIR__ . '/../vendor/autoload.php';

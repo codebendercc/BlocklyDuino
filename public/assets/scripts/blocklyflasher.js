@@ -10,10 +10,6 @@ Blocklyflasher = function(lf){
 
     var that = this;
 
-    this.builder_path = new function(uri) {
-        return location.protocol + '\x2F\x2F' + location.host + '\x2Fbuilder\x2F' + uri;
-    };
-
     this.eventManager = new function(){
         this._listeners = {};
 
@@ -77,11 +73,11 @@ Blocklyflasher = function(lf){
 
     this.setOperationOutput = function(message){
         $("#cb_cf_operation_output").html(message);
-    }
+    };
 
     this.on = function(type, listener){
         this.eventManager.addListener(type, listener);
-    }
+    };
 
 
     this.pluginHandler = new function(){
@@ -100,7 +96,7 @@ Blocklyflasher = function(lf){
                 return (c=='x' ? r : (r&0x7|0x8)).toString(16);
             });
             return uuid;
-        }
+        };
 
         this.tabID = this.uuid4();
 
@@ -123,7 +119,7 @@ Blocklyflasher = function(lf){
                 board['build']['mcu'],
                 bootloader_callback
             );
-        }
+        };
 
         this.clickedPort = function()
         {
@@ -134,7 +130,7 @@ Blocklyflasher = function(lf){
                 "tabID": this.tabID
             };
             createLogFlasher(actionId, metaData);
-        }
+        };
 
         this.oldPort = null;
 
@@ -176,7 +172,7 @@ Blocklyflasher = function(lf){
                 });
             }
             cb.logPorts();
-        }
+        };
 
         this.loadPort = function() {
             var cb = this;
@@ -212,12 +208,12 @@ Blocklyflasher = function(lf){
             else {
                 $('#cb_cf_ports').append('<option value="">No ports detected</option>');
             }
-        }
+        };
 
         this.initializePlugin = function()
         {
             var url = '';
-            var location = ''
+            var location = '';
             if (typeof window.location.origin === undefined)
                 location = window.location;
             else
@@ -284,7 +280,7 @@ Blocklyflasher = function(lf){
                             pl.runPlugin();
                         }
                     },2000);
-                    return;
+
                 }
                 else
                 {
@@ -293,7 +289,7 @@ Blocklyflasher = function(lf){
 
             }
 
-        }
+        };
 
         this.searchPlugin = function()
         {
@@ -301,7 +297,7 @@ Blocklyflasher = function(lf){
                 if (navigator.plugins[i].name == "Codebender.cc" || navigator.plugins[i].name == "Codebendercc")
                     this.plugin_found = true;
             this.plugin_searched = true;
-        }
+        };
 
         this.runPlugin = function()
         {
@@ -360,7 +356,7 @@ Blocklyflasher = function(lf){
 
                 }
             }, 100);
-        }
+        };
 
         this.showPlugin = function()
         {
@@ -371,7 +367,7 @@ Blocklyflasher = function(lf){
                     $("#"+v).removeAttr("disabled");
             });
             this.plugin_running = true;
-        }
+        };
 
         this.parseVersionString = function(str) {
             if (typeof(str) != 'string') {
@@ -389,7 +385,7 @@ Blocklyflasher = function(lf){
                 patch:pat,
                 build:bui
             }
-        }
+        };
 
         this.comparePluginVersions = function(firstVersion, secondVersion)
         {
@@ -402,7 +398,7 @@ Blocklyflasher = function(lf){
             if (minor != 0) return minor;
             if (patch != 0) return patch;
             return build;
-        }
+        };
 
         this.validateVersion = function(version)
         {
@@ -438,7 +434,7 @@ Blocklyflasher = function(lf){
                 this.showPlugin();
             }
             this.plugin_validated = true;
-        }
+        };
 
         this.initializePluginPortsLogger = function()
         {
@@ -543,17 +539,12 @@ Blocklyflasher = function(lf){
                     createLogFlasher(actionId, metaData);
                 }
             }, 500);
-        }
+        };
 
         this.canBurnBootloader = function(programmer)
         {
-            if (this.portslist.options[this.portslist.selectedIndex].value == '' && programmer['communication'] == 'serial') {
-                return false;
-            }
-            else
-                return true;
-
-        }
+            return !(this.portslist.options[this.portslist.selectedIndex].value == '' && programmer['communication'] == 'serial');
+        };
 
         this.doflash = function(select, board, programmer, binary, flash_callback)
         {
@@ -570,7 +561,7 @@ Blocklyflasher = function(lf){
                     var disable_flushing = ((typeof board["upload"]["disable_flushing"] === 'undefined') ? "" : board["upload"]["disable_flushing"]);
                     document.getElementById('plugin0').flash(this.portslist.options[this.portslist.selectedIndex].text, binary, board["upload"]["maximum_size"], board["upload"]["protocol"], disable_flushing, board["upload"]["speed"], board["build"]["mcu"], flash_callback);
                 }
-            }else
+            } else
             {
                 if(typeof programmer == "undefined")
                 {
@@ -587,7 +578,7 @@ Blocklyflasher = function(lf){
                 }
             }
 
-        }
+        };
 
         this.canflash = function(board, programmer, useProgrammer){
             if (programmer.communication == 'serial' &&
@@ -598,18 +589,15 @@ Blocklyflasher = function(lf){
             useProgrammer = useProgrammer || false;
             if (($("#cb_cf_ports").val() != null && $("#cb_cf_ports").val() != "") || (($("#cb_cf_ports").val() == null || $("#cb_cf_ports").val() == "") && typeof board["upload"]["protocol"] === 'undefined') || useProgrammer) {
 
-                if (typeof this.portslist.options[this.portslist.selectedIndex] === 'undefined' && programmer["communication"] == "serial" && (typeof board["upload"]["protocol"] === 'undefined' || useProgrammer))
-                {
+                return !(typeof this.portslist.options[this.portslist.selectedIndex] === 'undefined' &&
+                         programmer["communication"] == "serial" &&
+                         (typeof board["upload"]["protocol"] === 'undefined' || useProgrammer));
 
-                    return false;
-                }
-
-                return true;
             }
             else {
                 return false;
             }
-        }
+        };
 
         this.browserSpecificPluginInstall = function(alert)
         {
@@ -641,7 +629,7 @@ Blocklyflasher = function(lf){
             }
 
             return alert;
-        }
+        };
 
         this.addTo = function(where, pluginUrl)
         {
@@ -657,7 +645,7 @@ Blocklyflasher = function(lf){
                     window.location.replace(pluginUrl);
                 });
             }
-        }
+        };
 
 
         this.enableUSB = function()
@@ -682,7 +670,7 @@ Blocklyflasher = function(lf){
             {
                 pl.loadPort();
             }, 500);
-        }
+        };
 
         this.getFire = function() {
             try {
@@ -722,7 +710,7 @@ Blocklyflasher = function(lf){
                 $('#cb_cf_ports').find('option').remove();
                 this.oldPorts = ports;
             }
-        }
+        };
 
 
         this.scan = function() {
@@ -749,17 +737,17 @@ Blocklyflasher = function(lf){
             this.getFireInterval = setInterval(function () {
                 pl.getFire();
             }, 1000);
-        }
+        };
 
         this.show_alert = function(message, divname) {
             alertElement = "<div id='";
             alertElement += divname;
             alertElement += "' class='alert'>";
-            alertElement += message
+            alertElement += message;
             alertElement += "</div>";
             $("#cb_cf_ports_div .alert").hide(100).remove();
             $("#cb_cf_ports_div").prepend(alertElement);
-        }
+        };
 
         /*
          Serial Monitor functions
@@ -790,7 +778,7 @@ Blocklyflasher = function(lf){
                     $("#cb_cf_serial_monitor_connect").html("Disconnect").unbind('click').click(function(){pl.disconnect()});
                     $("#serial_hud").html("");
 
-                    var pl = this;
+                    pl = this;
                     var port = this.portslist.options[this.portslist.selectedIndex].text;
                     document.getElementById('plugin0').serialRead(
                         this.portslist.options[this.portslist.selectedIndex].text,
@@ -871,7 +859,7 @@ Blocklyflasher = function(lf){
                 window.operationInProgress = false;
                 this.disconnect();
             }
-        }
+        };
 
         this.disconnect = function(notified) {
             notified = notified || false;
@@ -915,7 +903,7 @@ Blocklyflasher = function(lf){
                     document.getElementById('plugin0').serialMonitorSetStatus();
                 }
             }
-        }
+        };
 
         this.serialHudAppendString = function(msg)
         {
@@ -932,7 +920,7 @@ Blocklyflasher = function(lf){
             {
                 this.serialMonitorToAppend = this.serialMonitorToAppend + msg;
             }
-        }
+        };
 
         this.serialHudAppend = function(line) {
             if (isNaN(line)) {
@@ -942,7 +930,7 @@ Blocklyflasher = function(lf){
                 if (line == "10")    serialHudWrite($("#serial_hud").html() + "<br>");
                 if (line != "10")    serialHudWrite($("#serial_hud").html() + String.fromCharCode(line));
             }
-        }
+        };
 
         this.serialHudWrite = function(message) {
             if( $("#serial_hud").find('br').length > 500)
@@ -953,7 +941,7 @@ Blocklyflasher = function(lf){
                 $("#serial_hud").html(message);
             if($('#autoscroll_check').is(':checked'))
                 $("#serial_hud").scrollTo(99999999);
-        }
+        };
 
         this.serialSendOnEnter = function(event){
             var e = event || window.event;   // resolve event instance
@@ -962,14 +950,14 @@ Blocklyflasher = function(lf){
             }else if (e.keyCode == '10'){
                 this.serialSend();
             }
-        }
+        };
 
         this.serialSend = function() {
             if (document.getElementById('plugin0').version <= "1.6.0.8")
                 document.getElementById('plugin0').serialWrite($("#text2send").val());
             else
                 document.getElementById('plugin0').serialWrite($("#text2send").val(), this.serialMonitorPort);
-        }
+        };
 
         var _that = this;
         this.plugin_error_logger = function(from, msg, status){
@@ -1014,7 +1002,7 @@ Blocklyflasher = function(lf){
         }
 
 
-    }
+    };
 
     this.pluginHandler.owner = this;
 
@@ -1034,9 +1022,7 @@ Blocklyflasher = function(lf){
             .attr('disabled', 'disabled')
             .click(function(){cb.clickedBoard()})
             .change(function(){cb.saveBoard()});
-        //$.getJSON("https\x3A\x2F\x2Fcodebender.cc\x2Fboard\x2Flistboards", function(data){boardsListCallback(data)});
-        $.getJSON("http://localhost/builder/listboards", function(data){boardsListCallback(data)});
-        //$.getJSON(this.builder_path("listboards"), function(data){boardsListCallback(data)});
+        $.getJSON("\x2Fbuilder\x2Flistboards", function(data){boardsListCallback(data)});
         this.loaded_elements.push("cb_cf_boards");
     }
     if($("select#cb_cf_ports").length > 0)
@@ -1054,19 +1040,16 @@ Blocklyflasher = function(lf){
     {
         $("#cb_cf_flash_btn")
             .click(function(){cb.usbflash()})
-            .attr("disabled", "disabled");;
+            .attr("disabled", "disabled");
         this.loaded_elements.push("cb_cf_flash_btn");
     }
     if($("select#cb_cf_programmers").length > 0)
     {
-        debugger;
         $("#cb_cf_programmers").append($('<option></option>').html("Loading Programmers..."))
             .attr('disabled', 'disabled')
             .click(function(){cb.clickedProgrammer()})
             .change(function(){cb.saveProgrammer()});
-        //$.getJSON("https\x3A\x2F\x2Fcodebender.cc\x2Fboard\x2Fprogrammers", function (data)
-        $.getJSON("http://localhost/builder/programmers", function (data)
-        //$.getJSON(this.builder_path("programmers"), function (data)
+        $.getJSON("\x2Fbuilder\x2Fprogrammers", function (data)
         {
             programmersListCallback(data)
         });
@@ -1100,7 +1083,21 @@ Blocklyflasher = function(lf){
     }
     if($("#cb_cf_serial_monitor").length > 0)
     {
-        $("#cb_cf_serial_monitor").html('\x3Cdiv\x20id\x3D\x22serial_monitor_content\x22\x20style\x3D\x22display\x3Anone\x3B\x22\x3E\x0A\x20\x20\x20\x20\x3Cdiv\x20class\x3D\x22input\x2Dappend\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3Cinput\x20id\x3D\x22text2send\x22\x20type\x3D\x22text\x22\x20placeholder\x3D\x22Type\x20a\x20message\x22\x20onkeypress\x3D\x22Blocklyflasher.pluginHandler.serialSendOnEnter\x28event\x29\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3Cbutton\x20id\x3D\x22serial_send\x22\x20onclick\x3D\x22Blocklyflasher.pluginHandler.serialSend\x28\x29\x22\x20class\x3D\x22btn\x22\x20title\x3D\x22Send\x20Message\x22\x3ESend\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3C\x2Fbutton\x3E\x0A\x20\x20\x20\x20\x3C\x2Fdiv\x3E\x0A\x20\x20\x20\x20\x3Cdiv\x20id\x3D\x22serial_monitor_hud_and_autoscroll\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3Cpre\x20id\x3D\x22serial_hud\x22\x20class\x3D\x22well\x22\x20style\x3D\x22overflow\x2Dy\x3Ascroll\x22\x3E\x3C\x2Fpre\x3E\x0A\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3Clabel\x20class\x3D\x22checkbox\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x3Cinput\x20id\x3D\x27autoscroll_check\x27\x20type\x3D\x22checkbox\x22\x20checked\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Autoscroll\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x3C\x2Flabel\x3E\x0A\x20\x20\x20\x20\x3C\x2Fdiv\x3E\x0A\x3C\x2Fdiv\x3E\x0A\x0A');
+        $("#cb_cf_serial_monitor").html('\x3Cdiv\x20id\x3D\x22serial_monitor_content\x22' +
+                                        '\x20style\x3D\x22display\x3Anone\x3B\x22\x3E\x0A\x20\x20\x20\x20' +
+                                        '\x3Cdiv\x20class\x3D\x22input\x2Dappend\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20' +
+                                        '\x3Cinput\x20id\x3D\x22text2send\x22\x20type\x3D\x22text\x22\x20placeholder\x3D\x22Type\x20a\x20message\x22\x20onkeypress\x3D\x22Blocklyflasher.pluginHandler.serialSendOnEnter\x28event\x29\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20' +
+                                        '\x3Cbutton\x20id\x3D\x22serial_send\x22\x20onclick\x3D\x22Blocklyflasher.pluginHandler.serialSend\x28\x29\x22\x20class\x3D\x22btn\x22\x20title\x3D\x22Send\x20Message\x22\x3ESend\x0A\x20\x20\x20\x20\x20\x20\x20\x20' +
+                                        '\x3C\x2Fbutton\x3E\x0A\x20\x20\x20\x20' +
+                                        '\x3C\x2Fdiv\x3E\x0A\x20\x20\x20\x20' +
+                                        '\x3Cdiv\x20id\x3D\x22serial_monitor_hud_and_autoscroll\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20' +
+                                        '\x3Cpre\x20id\x3D\x22serial_hud\x22\x20class\x3D\x22well\x22\x20style\x3D\x22overflow\x2Dy\x3Ascroll\x22\x3E\x3C' +
+                                        '\x2Fpre\x3E\x0A\x0A\x20\x20\x20\x20\x20\x20\x20\x20' +
+                                        '\x3Clabel\x20class\x3D\x22checkbox\x22\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20' +
+                                        '\x3Cinput\x20id\x3D\x27autoscroll_check\x27\x20type\x3D\x22checkbox\x22\x20checked\x3E\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Autoscroll\x0A\x20\x20\x20\x20\x20\x20\x20\x20' +
+                                        '\x3C\x2Flabel\x3E\x0A\x20\x20\x20\x20' +
+                                        '\x3C\x2Fdiv\x3E\x0A' +
+                                        '\x3C\x2Fdiv\x3E\x0A\x0A');
         this.loaded_elements.push("cb_cf_serial_monitor");
     }
     if($("#cb_cf_burn_bootloader").length > 0)
@@ -1172,7 +1169,7 @@ Blocklyflasher = function(lf){
 
     this.getMaxSize = function() {
         return parseInt(this.selectedBoard["upload"]["maximum_size"]);
-    }
+    };
 
 
     this.saveProgrammer = function() {
@@ -1239,11 +1236,11 @@ Blocklyflasher = function(lf){
 
     this.setBoardsList = function(data){
         this.boards_list = data;
-    }
+    };
 
     this.getBoardsList = function(){
         return this.boards_list ;
-    }
+    };
 
     this.clickedBoard = function()
     {
@@ -1255,7 +1252,7 @@ Blocklyflasher = function(lf){
             "tabID": this.pluginHandler.tabID
         };
         createLogFlasher(actionId, metaData);
-    }
+    };
 
     this.clickedProgrammer = function()
     {
@@ -1267,7 +1264,7 @@ Blocklyflasher = function(lf){
             "tabID": this.pluginHandler.tabID
         };
         createLogFlasher(actionId, metaData);
-    }
+    };
 
     this.generate_payload =  function(format, logging) {
         logging = (typeof logging === "undefined") ? false : logging;
@@ -1296,7 +1293,7 @@ Blocklyflasher = function(lf){
         }
 
         return JSON.stringify(payload)
-    }
+    };
 
     this.getFlashFailMessage = function(error){
         var msg = '';
@@ -1306,7 +1303,7 @@ Blocklyflasher = function(lf){
             msg = "An error occured while connecting to your device. Please try again.";
 
         return msg
-    }
+    };
 
 
     this.flash_callback = function(from, progress) {
@@ -1334,15 +1331,12 @@ Blocklyflasher = function(lf){
             Blocklyflasher.setOperationOutput("Upload successful!");
         }
 
-        //var url = "https\x3A\x2F\x2Fcodebender.cc\x2Futilities\x2Fflash\x2FERROR_CODE";
-        var url = "http://localhost/builder/utilities/flash/ERROR_CODE";
-        //var url = this.builder_path("utilities\x2Fflash\x2FERROR_CODE");
-
+        var url = "\x2Fbuilder\x2Futilities\x2Fflash\x2FERROR_CODE";
         url = url.replace('ERROR_CODE', progress+'&'+that.pluginHandler.tabID);
         $.get(url);
 
         window.operationInProgress = false;
-    }
+    };
 
 
     this.getHex = function() {
@@ -1350,9 +1344,7 @@ Blocklyflasher = function(lf){
         this.eventManager.fire('pre_hex');
         var payload = this.generate_payload("hex");
         var cb = this;
-        //$.post("https\x3A\x2F\x2Fcodebender.cc\x2Futilities\x2Fcompile\x2F", payload, function (data) {
-        $.post("http://localhost/builder/utilities/compile/", payload, function (data) {
-        //$.post(this.builder_path("utilities\x2Fcompile\x2F"), payload, function (data) {
+        $.post("\x2Fbuilder\x2Futilities\x2Fcompile\x2F", payload, function (data) {
             try{
                 var obj = jQuery.parseJSON(data);
                 if (obj.success == 0) {
@@ -1361,7 +1353,7 @@ Blocklyflasher = function(lf){
                 }
                 else
                 {
-                    cb.setOperationOutput("Verification Successful!")
+                    cb.setOperationOutput("Verification Successful!");
                     cb.eventManager.fire('hex_succeed', obj);
                 }
 
@@ -1372,7 +1364,7 @@ Blocklyflasher = function(lf){
             }
 
         });
-    }
+    };
 
     this.usbflash = function()
     {
@@ -1398,7 +1390,7 @@ Blocklyflasher = function(lf){
             this.setOperationOutput("<i class='icon-spinner icon-spin'> </i> Working...");
             this.getbin(function(obj){
                 if (obj.success == 0) {
-                    cb.setOperationOutput("There was an error compiling.")
+                    cb.setOperationOutput("There was an error compiling.");
                     cb.eventManager.fire('verification_failed', obj.message);
                 }
                 else
@@ -1432,7 +1424,7 @@ Blocklyflasher = function(lf){
             window.operationInProgress = false;
         }
 
-    }
+    };
 
 
     this.usbflashWithProgrammer = function()
@@ -1459,7 +1451,7 @@ Blocklyflasher = function(lf){
             this.setOperationOutput("<i class='icon-spinner icon-spin'> </i> Working...");
             this.getbin(function(obj){
                 if (obj.success == 0) {
-                    cb.setOperationOutput("There was an error compiling.")
+                    cb.setOperationOutput("There was an error compiling.");
                     cb.eventManager.fire('verification_failed', obj.message);
                 }
                 else
@@ -1484,16 +1476,14 @@ Blocklyflasher = function(lf){
             this.eventManager.fire('plugin_notification', "Please select a valid port for the programmer!");
             window.operationInProgress = false;
         }
-    }
+    };
 
 
     this.getbin = function(callback) {
         window.operationInProgress = true;
         var payload = this.generate_payload("binary");
         var cb = this;
-        //$.post("https\x3A\x2F\x2Fcodebender.cc\x2Futilities\x2Fcompile\x2F", payload, function (data) {
-        $.post("http://localhost/builder/utilities/compile/", payload, function (data) {
-        //$.post(this.builder_path("utilities\x2Fcompile\x2F"), payload, function (data) {
+        $.post("\x2Fbuilder\x2Futilities\x2Fcompile\x2F", payload, function (data) {
             try{
                 var obj = jQuery.parseJSON(data);
                 callback(obj);
@@ -1510,7 +1500,7 @@ Blocklyflasher = function(lf){
             .always(function () {
                 window.operationInProgress = false;
             });
-    }
+    };
 
     this.verify =  function() {
         if (window.operationInProgress)
@@ -1543,7 +1533,7 @@ Blocklyflasher = function(lf){
             }
         });
 
-    }
+    };
 
     this.burn_bootloader = function() {
         if(this.pluginHandler.canBurnBootloader(this.selectedProgrammer))
@@ -1557,7 +1547,7 @@ Blocklyflasher = function(lf){
             };
             createLogFlasher(actionId, metaData);
 
-            this.setOperationOutput("<i class='icon-spinner icon-spin'></i> Working...")
+            this.setOperationOutput("<i class='icon-spinner icon-spin'></i> Working...");
             if (typeof this.selectedBoard['bootloader']['file'] === "undefined")
             {
                 document.getElementById('plugin0').saveToHex("");
@@ -1582,7 +1572,7 @@ Blocklyflasher = function(lf){
             this.setOperationOutput("Please select a valid port!")
         }
 
-    }
+    };
 
     this.serial_monitor_disabled = false;
     this.disableCompilerFlasherActions = function(){
@@ -1599,7 +1589,7 @@ Blocklyflasher = function(lf){
             that.serial_monitor_disabled = true;
         }
 
-    }
+    };
 
     this.enableCompilerFlasherActions = function(){
         $("#cb_cf_boards").removeAttr("disabled");
@@ -1614,7 +1604,7 @@ Blocklyflasher = function(lf){
             $("#cb_cf_serial_monitor_connect").removeAttr("disabled");
             that.serial_monitor_disabled = false;
         }
-    }
+    };
 
     this.on("pre_verify", this.disableCompilerFlasherActions);
     this.on("verification_succeed", this.enableCompilerFlasherActions);
@@ -1685,8 +1675,7 @@ function logging()
     var payload = generate_payload("binary", true);
 
 
-    //$.post("\x2Futilities\x2Fcompile\x2F", payload, function (data) {
-    $.post("http://localhost/builder/utilities/compile/", payload, function (data) {
+    $.post("\x2Futilities\x2Fcompile\x2F", payload, function (data) {
         var obj = jQuery.parseJSON(data);
 
     });
