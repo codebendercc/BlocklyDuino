@@ -19,7 +19,7 @@ class Dependencies {
         $app->register(new UrlGeneratorServiceProvider());
 
         // CodebenderService
-        $app->register(new CodebenderServiceProvider());
+        $app->register(new CodebenderServiceProvider($app['config']['codebender_api']));
 
         // Twig
         $app->register(new TwigServiceProvider(), array('twig.path' => __DIR__.'/../src/views'));

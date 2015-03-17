@@ -46,7 +46,7 @@ class Routes
             $builderRequestJSON = $request->getContent();
 
             // Guzzle it and return the results
-            return $app['codebender.post']($app['codebender.utilities']('compile'), $builderRequestJSON);
+            return $app['codebender.post']($app['codebender.builder']('compile'), $builderRequestJSON);
         })->bind('util_compile');
     }
 

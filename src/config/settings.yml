@@ -1,0 +1,6 @@
+debug:
+  is_on: true
+  code_file: debug.ino.json
+codebender_api:
+  codebender_url: https://codebender.cc
+  builder_url: http://builder.codebender.cc:8080/compile?api_key=blocklyduino

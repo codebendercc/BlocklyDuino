@@ -12,7 +12,21 @@ class CodebenderServiceProvider implements ServiceProviderInterface
     /**
      * @var string The URL for the Codebender website
      */
-    protected $codebender_url = 'https://codebender.cc';
+    protected $codebender_url;
+
+    /**
+     * @var string The URL for the builder service
+     */
+    protected $builder_url;
+
+    /**
+     * Default Constructor
+     * @param array $config
+     */
+    function __construct(array $config) {
+      $this->codebender_url = $config['codebender_url'];
+      $this->builder_url = $config['builder_url'];
+    }
 
     /**
      * Registers services on the given app.
@@ -35,6 +49,9 @@ class CodebenderServiceProvider implements ServiceProviderInterface
         });
         $app['codebender.utilities'] = $app->protect(function ($uri) use ($app) {
             return sprintf('%s/utilities/%s', $this->codebender_url, ltrim($uri, '/'));
+        });
+        $app['codebender.builder'] = $app->protect(function ($uri) use ($app) {
+            return sprintf('%s/%s', $this->builder_url, ltrim($uri, '/'));
         });
 
         /**

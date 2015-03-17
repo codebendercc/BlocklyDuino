@@ -200,15 +200,15 @@
      * Document Ready actions
      */
     $(document).ready(function(){
-        blocklyflasher = new Blocklyflasher(getFiles);
+        Blocklyflasher = new Blocklyflasher(getFiles);
 
-        blocklyflasher.on("pre_verify", function(){
+        Blocklyflasher.on("pre_verify", function(){
             $("#event_msg").append('pre_verify event fired!<br/><br/>')
         });
-        blocklyflasher.on("verification_succeed", function(binary_size){
+        Blocklyflasher.on("verification_succeed", function(binary_size){
             $("#event_msg").append('verification_succeed event fired! Sketch size: '+binary_size+"<br/><br/>")
         });
-        blocklyflasher.on("verification_failed", function(error_output){
+        Blocklyflasher.on("verification_failed", function(error_output){
             $("#event_msg").append("verification_failed event fired!\nCompilation error: <pre>"+error_output+"</pre><br/><br/>")
         });
     });
