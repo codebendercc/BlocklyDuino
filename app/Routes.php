@@ -27,27 +27,14 @@ class Routes
      * @param Blocklyduino $app The current application
      */
     public static function addBuilderRoutes(Blocklyduino $app) {
-        /* GET Requests */
-        $app->get('/builder/listboards', function () use ($app) {
-            return $app['codebender.get']($app['codebender.board']('listboards'));
-        })->bind('listboards');
-
-        $app->get('/builder/programmers', function () use ($app) {
-            return $app['codebender.get']($app['codebender.board']('programmers'));
-        })->bind('programmers');
-
-        $app->get('/builder/utilities/flash/ERROR_CODE', function () use ($app) {
-            return $app['codebender.get']($app['codebender.utilities']('flash/ERROR_CODE'));
-        })->bind('flash_error_codes');
-
         /* POST Requests */
-        $app->post('/builder/utilities/compile', function (Request $request) use ($app) {
+        $app->post('/builder/compile', function (Request $request) use ($app) {
             // Break out what we got
             $builderRequestJSON = $request->getContent();
 
             // Guzzle it and return the results
-            return $app['codebender.post']($app['codebender.builder']('compile'), $builderRequestJSON);
-        })->bind('util_compile');
+            return $app['codebender.post']($app['codebender.builder'](), $builderRequestJSON);
+        })->bind('compile');
     }
 
     /**

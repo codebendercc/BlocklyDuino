@@ -3,4 +3,4 @@ debug:
   code_file: debug.ino.json
 codebender_api:
   codebender_url: https://codebender.cc
-  builder_url: http://builder.codebender.cc:8080/compile?api_key=blocklyduino
+  builder_url: REPLACE_ME_WITH_YOUR_BUILDER_API_COMPILE_PATH_URL+KEY

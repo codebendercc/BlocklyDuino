@@ -6,6 +6,7 @@ namespace codebender\blocklyduino\services;
 use GuzzleHttp\Client;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
 
 class CodebenderServiceProvider implements ServiceProviderInterface
 {
@@ -20,12 +21,19 @@ class CodebenderServiceProvider implements ServiceProviderInterface
     protected $builder_url;
 
     /**
-     * Default Constructor
-     * @param array $config
+     * Default Constructor. Absorbs information from a configuration array.
+     * @param array $config Configuration settings.
      */
     function __construct(array $config) {
-      $this->codebender_url = $config['codebender_url'];
-      $this->builder_url = $config['builder_url'];
+        if(is_null($config['codebender_url'])) {
+            throw new MissingMandatoryParametersException('Missing or incorrectly identified configuration for the Codebender URL.');
+        }
+        if(is_null($config['builder_url'])) {
+            throw new MissingMandatoryParametersException('Missing or incorrectly identified configuration for the Builder URL.');
+        }
+
+        $this->codebender_url = $config['codebender_url'];
+        $this->builder_url = $config['builder_url'];
     }
 
     /**
@@ -44,14 +52,8 @@ class CodebenderServiceProvider implements ServiceProviderInterface
         $app['codebender'] = $app->protect(function ($uri) {
             return sprintf('%s/%s', $this->codebender_url, ltrim($uri, '/'));
         });
-        $app['codebender.board'] = $app->protect(function ($uri) use ($app) {
-            return sprintf('%s/board/%s', $this->codebender_url, ltrim($uri, '/'));
-        });
-        $app['codebender.utilities'] = $app->protect(function ($uri) use ($app) {
-            return sprintf('%s/utilities/%s', $this->codebender_url, ltrim($uri, '/'));
-        });
-        $app['codebender.builder'] = $app->protect(function ($uri) use ($app) {
-            return sprintf('%s/%s', $this->builder_url, ltrim($uri, '/'));
+        $app['codebender.builder'] = $app->protect(function () use ($app) {
+            return $this->builder_url;
         });
 
         /**

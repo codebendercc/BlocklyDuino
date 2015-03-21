@@ -194,21 +194,49 @@
         </td>
     </tr>
 </table>
-<script src="{{ script('blocklyflasher.js') }}" type="text/javascript"></script>
+<script src="//codebender.cc/embed/compilerflasher.js" type="text/javascript"></script>
 <script>
     /**
      * Document Ready actions
      */
     $(document).ready(function(){
-        Blocklyflasher = new Blocklyflasher(getFiles);
+        compilerflasher = new compilerflasher(getFiles);
 
-        Blocklyflasher.on("pre_verify", function(){
+        /**
+         * Redefines compilerflasher's getbin function so that it points at our builder route.
+         * @param callback The callback function that hooks into getbin.
+         */
+        compilerflasher.getbin = function(callback) {
+            window.operationInProgress = true;
+            var payload = this.generate_payload("binary");
+            var cb = this;
+            $.post("\x2Fbuilder\x2Fcompile", payload, function (data) {
+                try{
+                    var obj = jQuery.parseJSON(data);
+                    callback(obj);
+                }
+                catch(err){
+                    cb.setOperationOutput('<i class="icon-remove"></i> Unexpected error occurred. Try again later.');
+                    cb.eventManager.fire('verification_failed', '<i class="icon-remove"></i> Unexpected error occurred. Try again later.');
+                }
+            })
+            .fail(function() {
+                cb.setOperationOutput("Connection to server failed.");
+                cb.eventManager.fire('verification_failed', "Connection to server failed.");
+            })
+            .always(function () {
+                window.operationInProgress = false;
+            });
+        };
+
+        /* Events to react to: */
+        compilerflasher.on("pre_verify", function(){
             $("#event_msg").append('pre_verify event fired!<br/><br/>')
         });
-        Blocklyflasher.on("verification_succeed", function(binary_size){
+        compilerflasher.on("verification_succeed", function(binary_size){
             $("#event_msg").append('verification_succeed event fired! Sketch size: '+binary_size+"<br/><br/>")
         });
-        Blocklyflasher.on("verification_failed", function(error_output){
+        compilerflasher.on("verification_failed", function(error_output){
             $("#event_msg").append("verification_failed event fired!\nCompilation error: <pre>"+error_output+"</pre><br/><br/>")
         });
     });
