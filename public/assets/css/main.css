@@ -116,6 +116,10 @@ button:hover {
     box-shadow: 2px 2px 5px #888;
 }
 
+#tab_xml {
+    display: none;
+}
+
 #control_panel {
 
 }
