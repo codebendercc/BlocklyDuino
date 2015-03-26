@@ -37,9 +37,6 @@ cd ${WEBROOT}
 sudo git clone https://github.com/codebendercc/BlocklyDuino.git
 cd ${BDROOT}
 
-# The next line will need to be removed once this gets onto the master branch
-sudo git checkout builder_service_integration
-
 echo -e "${grn}[Step 5]: Applying configuration files...${NC}"
 sudo cp ${BDROOT}/server_quickstart/nginx.conf ${NGINXROOT}/nginx.conf
 sudo cp ${BDROOT}/server_quickstart/blocklyduino.conf ${NGINXROOT}/sites-available/default
