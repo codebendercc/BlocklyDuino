@@ -1,0 +1,6 @@
+debug:
+  is_on: true
+  code_file: debug.ino.json
+codebender_api:
+  codebender_url: https://codebender.cc
+  builder_url: REPLACE_ME_WITH_YOUR_BUILDER_API_COMPILE_PATH_URL+KEY
