@@ -200,6 +200,9 @@
      * Document Ready actions
      */
     $(document).ready(function(){
+        window.osBrowserIsSupported = function () {
+            return true;
+        };
         compilerflasher = new compilerflasher(getFiles);
 
         /**
