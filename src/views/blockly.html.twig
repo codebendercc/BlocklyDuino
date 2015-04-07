@@ -194,7 +194,12 @@
         window.osBrowserIsSupported = function () {
             return true;
         };
+
         compilerflasher = new compilerflasher(getFiles);
+
+        compilerflasher.pluginHandler.browserSpecificPluginInstall = function (alert) {
+            return alert;
+        };
 
         /**
          * Redefines compilerflasher's getbin function so that it points at our builder route.
