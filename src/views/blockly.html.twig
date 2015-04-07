@@ -122,7 +122,7 @@
     </script>
 </head>
 <body>
-<table height="100%" width="100%">
+<table width="100%">
     <tr>
         <td colspan="2" height="1.5em">
             <div id="sketch_buttons" style="float:right;">
@@ -131,52 +131,43 @@
                 <button id="fakeload">Load Sketch</button>
                 <input type="file" id="load" style="display: none;"/>
             </div>
-            <h2><a href="https://github.com/gasolin/BlocklyDuino/wiki">BlocklyDuino</a> <a href="http://codebendercc.github.io/compilerflasher">Compilerflasher</a></h2>
-            <h4>A web-based visual programming editor for Arduino with Flashing!</h4>
+            <h4><img src="{{ image('codebender_hq_medium.png') }}" style="width: 25px;"> <span> A web-based visual programming editor for Arduino with Flashing!</span></h4>
         </td>
     </tr>
+</table>
+<table width="100%" height="60px" style="margin-top: 10px;">
     <tr>
-        <td width="25%">
-            <table id="control_panel">
-                <tr>
-                    <td>
-                        <label for="cb_cf_boards">Select a board:</label><br>
-                        <select id="cb_cf_boards" style="width: 230px;"></select>
-                        <button id="cb_cf_verify_btn" class="btn btn-success">Verify code!</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="cb_cf_ports">Select a Port:</label><br />
-                        <select id="cb_cf_ports"></select>
-                        <button id="cb_cf_flash_btn" >Flash</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="cb_cf_programmers">Select a Programmer:</label><br />
-                        <select id="cb_cf_programmers"></select>
-                        <button id="cb_cf_flash_with_prog_btn">Flash w/ Programmer</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="cb_cf_baud_rates">Select a Speed:</label><br />
-                        <select id="cb_cf_baud_rates"></select>
-                        <button id="cb_cf_serial_monitor_connect">Open Serial Monitor</button>
-                        <div id="cb_cf_serial_monitor"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="cb_cf_operation_output">Status:</label>
-                        <p id="cb_cf_operation_output"></p>
-                        <label for="event_msg">Event messages:</label>
-                        <div id="event_msg"></div>
-                    </td>
-                </tr>
-            </table>
+        <td>
+            <label for="cb_cf_boards">Select a board:</label><br>
+            <select id="cb_cf_boards" style="width: 230px;"></select><br>
+            <button id="cb_cf_verify_btn" class="btn btn-success">Verify code!</button>
         </td>
+         <td>
+            <label for="cb_cf_ports">Select a port:</label><br>
+            <select id="cb_cf_ports"></select><br>
+            <button id="cb_cf_flash_btn" >Flash</button>
+        </td>
+        <td>
+            <label for="cb_cf_programmers">Select a programmer:</label><br>
+            <select id="cb_cf_programmers"></select><br>
+            <button id="cb_cf_flash_with_prog_btn">Flash w/ Programmer</button>
+        </td>
+        <td>
+            <label for="cb_cf_baud_rates">Select port speed:</label><br>
+            <select id="cb_cf_baud_rates"></select><br>
+            <button id="cb_cf_serial_monitor_connect">Open Serial Monitor</button>
+            <div id="cb_cf_serial_monitor"></div>
+        </td>
+        <td>
+            <label for="cb_cf_operation_output">Status:</label>
+            <p id="cb_cf_operation_output" style="max-width: 300px;"></p>
+            <label for="event_msg">Event messages:</label>
+            <div id="event_msg"></div>
+        </td>
+    </tr>
+</table>
+<table width="100%" style="margin-top: 10px; height: 100%;">
+    <tr>
         <td>
             <div id="view_buttons">
                 Change the view:
