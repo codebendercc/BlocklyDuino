@@ -5,17 +5,16 @@ namespace codebender\blocklyduino\tests;
 use app\Blocklyduino;
 use Silex\WebTestCase;
 
-class FrameTest extends WebTestCase {
+class BlocklyduinoTestCase extends WebTestCase {
 
     /**
-     * Creates the application.
+     * Creates the application for use in tests.
      *
      * @return \Symfony\Component\HttpKernel\HttpKernel
      */
     public function createApplication()
     {
-//        require __DIR__ . '/../../app/app.php';
-        require_once __DIR__ . '/../../vendor/autoload.php';
+        require_once __DIR__ . '/../vendor/autoload.php';
 
         // Create the Blocklyduino Silex application.
         // The constructor handles all the default configuration.
@@ -26,14 +25,4 @@ class FrameTest extends WebTestCase {
         return $app;
     }
 
-    /**
-     *
-     */
-    public function testFrameLoadsDirectly() {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/blocklyframe');
-
-        // Assert yoself
-        $this->assertTrue($client->getResponse()->isOk());
-    }
 }

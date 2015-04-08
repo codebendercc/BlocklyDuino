@@ -16,7 +16,8 @@
   "autoload": {
     "psr-4": {
       "codebender\\blocklyduino\\": "src/",
-      "app\\": "app/"
+      "app\\": "app/",
+      "codebender\\blocklyduino\\tests\\": "tests/"
     }
   }
 }
