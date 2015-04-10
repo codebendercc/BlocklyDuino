@@ -76,7 +76,7 @@ class ButtonTest extends BlocklyduinoTestCase {
      */
     public function testTabs() {
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/...'); //TODO get blocks tab
+        $crawler = $client->request('GET', '/view_buttons'); //TODO get blocks tab
                                                               //TODO get arduino code tab
         // test both tabs
         $this->assertTrue($client->getResponse()->isOk());
@@ -86,30 +86,12 @@ class ButtonTest extends BlocklyduinoTestCase {
      */
     public function testSketchButtons() {
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/...'); //TODO get discard
-        //TODO get load
-        //TODO get save
+        $crawler = $client->request('GET', '/discard()'); //TODO get discard
+        $crawler = $client->request('GET', '/fakeload');//TODO get load
+        $crawler = $client->request('GET', '/save()');//TODO get save
         // test em
         $this->assertTrue($client->getResponse()->isOk());
     }
-    /**
-     * tests that the block menu has loaded
-     */
-    public function testBlockMenu() {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/...'); //TODO get blocks menu
 
-        // test both tabs
-        $this->assertTrue($client->getResponse()->isOk());
-    }
-    /**
-     * tests that the favicon has loaded properly
-     */
-    public function testFavIcon() {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/favico'); //TODO get favicon
-        // test both tabs
-        $this->assertTrue($client->getResponse()->isOk());
-    }
 
 }

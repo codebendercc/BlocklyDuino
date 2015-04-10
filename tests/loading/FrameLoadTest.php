@@ -50,7 +50,7 @@ class FrameLoadTest extends BlocklyduinoTestCase {
      */
     public function testHeader() {
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/...'); //TODO
+        $crawler = $client->request('GET', '/<h4>'); //TODO ??
 
         // Assert yoself
         $this->assertTrue($client->getResponse()->isOk());
@@ -60,7 +60,7 @@ class FrameLoadTest extends BlocklyduinoTestCase {
      */
     public function testButtonBar() {
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/...'); //TODO
+        $crawler = $client->request('GET', '/sketch_buttons'); //TODO
 
         // Assert yoself
         $this->assertTrue($client->getResponse()->isOk());
