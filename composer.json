@@ -16,13 +16,15 @@
     "behat/mink-extension": "~2.0",
     "behat/mink-selenium2-driver": "~1.2",
     "behat/mink-browserkit-driver": "~1.2",
-    "behat/symfony2-extension": "~2.0"
+    "behat/symfony2-extension": "~2.0",
+    "behat/mink": "~1.6"
   },
   "autoload": {
     "psr-4": {
       "codebender\\blocklyduino\\": "src/",
       "app\\": "app/",
-      "codebender\\blocklyduino\\tests\\": "tests/"
+      "codebender\\blocklyduino\\tests\\": "tests/",
+      "codebender\\blocklyduino\\tests\\functional\\": "features/bootstrap/"
     }
   }
 }
