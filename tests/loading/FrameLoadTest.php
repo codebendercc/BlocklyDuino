@@ -25,6 +25,9 @@ class FrameLoadTest extends BlocklyduinoTestCase {
 
         // Assert yoself
         $this->assertTrue($client->getResponse()->isOk());
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
     /**
      * tests that the block menu has loaded
@@ -35,6 +38,9 @@ class FrameLoadTest extends BlocklyduinoTestCase {
 
         // test both tabs
         $this->assertTrue($client->getResponse()->isOk());
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
     /**
      * tests that the favicon has loaded properly
@@ -44,6 +50,9 @@ class FrameLoadTest extends BlocklyduinoTestCase {
         $crawler = $client->request('GET', '/favico'); //TODO get favicon
         // test both tabs
         $this->assertTrue($client->getResponse()->isOk());
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
     /**
      *tests that the header is there
@@ -54,6 +63,9 @@ class FrameLoadTest extends BlocklyduinoTestCase {
 
         // Assert yoself
         $this->assertTrue($client->getResponse()->isOk());
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
     /**
      *tests that the buttonspace is there
@@ -64,6 +76,9 @@ class FrameLoadTest extends BlocklyduinoTestCase {
 
         // Assert yoself
         $this->assertTrue($client->getResponse()->isOk());
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
 
 }

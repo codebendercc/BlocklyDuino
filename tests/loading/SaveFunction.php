@@ -17,7 +17,9 @@ class FrameLoadTest extends BlocklyduinoTestCase {
      * No idea how to do this automatically
      */
     public function testSketch(){
-
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
 
     /**
@@ -25,6 +27,9 @@ class FrameLoadTest extends BlocklyduinoTestCase {
      *
      */
     public function testLoad(){
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
 
     }
     /**
@@ -37,13 +42,18 @@ class FrameLoadTest extends BlocklyduinoTestCase {
 
         // Assert yoself
         $this->assertTrue($client->getResponse()->isOk());
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
     /**
      * tests that code verification is successful with a preverified code in the block space.
      * @depends testLoad()
      */
     public function testVerifyCode(){
-
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
 
 
@@ -52,6 +62,8 @@ class FrameLoadTest extends BlocklyduinoTestCase {
      * @depends testLoad()
      */
     public function testDiscard(){
-
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
 }

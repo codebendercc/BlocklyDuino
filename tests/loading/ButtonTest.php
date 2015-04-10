@@ -22,6 +22,9 @@ class ButtonTest extends BlocklyduinoTestCase {
 
         // Assert yoself
         $this->assertTrue($client->getResponse()->isOk());
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
     /**
      * Tests that verification is successful on an empty block space
@@ -35,6 +38,9 @@ class ButtonTest extends BlocklyduinoTestCase {
 
         // Assert yoself
         $this->assertTrue($client->getResponse()->isOk());
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
     /**
      * Test the flash button accessable
@@ -47,6 +53,9 @@ class ButtonTest extends BlocklyduinoTestCase {
 
         // Assert yoself
         $this->assertTrue($client->getResponse()->isOk());
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
     /**
      * Test the flash with programer  button accessable
@@ -58,6 +67,9 @@ class ButtonTest extends BlocklyduinoTestCase {
 
         // Assert yoself
         $this->assertTrue($client->getResponse()->isOk());
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
     /**
      * Test the port speed button accessable
@@ -70,6 +82,9 @@ class ButtonTest extends BlocklyduinoTestCase {
 
         // Assert yoself
         $this->assertTrue($client->getResponse()->isOk());
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
     /**
      * tests that the view tabs are there
@@ -80,6 +95,9 @@ class ButtonTest extends BlocklyduinoTestCase {
                                                               //TODO get arduino code tab
         // test both tabs
         $this->assertTrue($client->getResponse()->isOk());
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
     /**
      * tests that the load/save/discard buttons are there
@@ -91,6 +109,9 @@ class ButtonTest extends BlocklyduinoTestCase {
         $crawler = $client->request('GET', '/save()');//TODO get save
         // test em
         $this->assertTrue($client->getResponse()->isOk());
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
 
 
