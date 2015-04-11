@@ -1,0 +1,5 @@
+Buttons:
+  Blocks: //*[@id="tab_blocks"]
+  Arduino: //*[@id="tab_arduino"]
+Blockly:
+  iFrame: //*[@id="content_blocks"]
