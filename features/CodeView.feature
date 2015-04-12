@@ -4,11 +4,11 @@ Feature: Viewing code or blocks
   I need to be able to toggle between the Blockly blocks view and the Arduino code view
 
   Scenario: Blocks View
-    Given I am on "/"
+    Given I am on the homepage
     When  I click on the "Blocks" button
     Then  I should see blocks
 
   Scenario: Arduino View
-    Given I am on "/"
+    Given I am on the homepage
     When  I click on the "Arduino" button
     Then  I should see code

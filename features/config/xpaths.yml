@@ -1,5 +1,9 @@
 Buttons:
   Blocks: //*[@id="tab_blocks"]
   Arduino: //*[@id="tab_arduino"]
+  Load Sketch: //*[@id="fakeload"]
+  Save Sketch: //*[@id="save_sketch_button"]
+  Discard Sketch: //*[@id="discard_sketch_button"]
 Blockly:
   iFrame: //*[@id="content_blocks"]
+  Arduino Code: //*[@id="textarea_arduino"]

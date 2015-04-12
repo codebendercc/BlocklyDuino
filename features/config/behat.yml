@@ -15,4 +15,5 @@ default:
     default:
       paths: [ %paths.base%/../ ]
       contexts:
-        - codebender\blocklyduino\tests\functional\FeatureContext
+        - codebender\blocklyduino\tests\functional\FeatureContext:
+          files_path: [ %paths.base%/../fixtures/ ]

@@ -3,10 +3,6 @@
 namespace codebender\blocklyduino\tests\functional;
 
 use app\Blocklyduino;
-use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\NodeElement;
 use Behat\MinkExtension\Context\MinkContext;
 use Symfony\Component\Yaml\Yaml;
@@ -18,6 +14,7 @@ class FeatureContext extends MinkContext {
 
     /* Include any of the traits that define additional steps.*/
     use AMainPageUITrait;
+    use ASketchButtonsTrait;
 
     /* Variables */
     /**
@@ -29,6 +26,10 @@ class FeatureContext extends MinkContext {
      * @var $xpaths array A listing of known xpaths that we'd like to use in our tests
      */
     public $xpaths;
+    /**
+     * @var $identifiers array A listing of known identifiers that we'd like to use in our tests
+     */
+    public $identifiers;
 
     /* Functions */
     /**
@@ -40,6 +41,8 @@ class FeatureContext extends MinkContext {
      */
     public function __construct() {
         $this->xpaths = Yaml::parse(file_get_contents(__DIR__ . '/../config/xpaths.yml'));
+        $this->identifiers = Yaml::parse(file_get_contents(__DIR__ . '/../config/ids.yml'));
+        $this->setMinkParameter('files_path', __DIR__ . '/../fixtures/');
     }
 
     /**
@@ -90,7 +93,33 @@ class FeatureContext extends MinkContext {
      * @When I click on the :button button
      */
     public function iClickOnTheButton($button) {
-        $this->iClickOnTheElementWithXPath($this->xpaths['Buttons'][$button]);
+        $this->pressButton($this->identifiers['Buttons'][$button]);
+    }
+
+    /**
+     * @Given /^I select a file to load$/
+     */
+    public function iSelectAFileToLoad($file) {
+//        $fullPath = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
+//
+//        // Cannot use the build in MinkExtension function
+//        // because the id of the file input field constantly changes and the input field is hidden
+//        if ($this->getMinkParameter('files_path')) {
+//            //$fullPath = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
+//
+//            if (is_file($fullPath)) {
+//                $fileInput = 'input[type="file"]';
+//                $field = $this->getSession()->getPage()->find('css', $fileInput);
+//
+//                if (null === $field) {
+//                    throw new \InvalidArgumentException("File input is not found");
+//                }
+//                $field->attachFile($fullPath);
+//            }
+//        }
+//        else throw new \InvalidArgumentException("File is not found at the given location (" . $fullPath . ")");
+
+        $this->attachFileToField('load', $file);
     }
 
 }

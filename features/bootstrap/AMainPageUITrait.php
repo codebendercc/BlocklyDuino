@@ -2,6 +2,7 @@
 
 namespace codebender\blocklyduino\tests\functional;
 
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Mink\Element\NodeElement;
 
 trait AMainPageUITrait {
@@ -30,6 +31,22 @@ trait AMainPageUITrait {
 
         \PHPUnit_Framework_Assert::assertNotTrue($element->isVisible('style'),
                                                  'The Arduino view is not displayed.');
+    }
+
+    /**
+     * @Then /^the code on the page should be reset$/
+     */
+    public function theCodeOnThePageShouldBeReset()
+    {
+        $element = $this->getXPath($this->xpaths['Blockly']['Arduino Code']);
+        if (null === $element) {
+            throw new \LogicException('Could not find the element using xPath of ' . $this->xpaths['Blockly']['Arduino Code']);
+        }
+
+        throw new PendingException('Need to figure out how to actually view the code within the Arduino view.');
+
+//        \PHPUnit_Framework_Assert::assertTrue($element->isVisible('style'),
+//            'The Arduino view is not displayed.');
     }
 
     /* Variables and functions that will be overridden by the Context. */
