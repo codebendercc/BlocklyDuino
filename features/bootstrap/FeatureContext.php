@@ -14,12 +14,23 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext extends  MinkContext {
+class FeatureContext extends MinkContext {
+
+    /* Include any of the traits that define additional steps.*/
     use AMainPageUITrait;
 
+    /* Variables */
+    /**
+     * @var $app Blocklyduino Silex application
+     */
     static private $app;
+
+    /**
+     * @var $xpaths array A listing of known xpaths that we'd like to use in our tests
+     */
     public $xpaths;
 
+    /* Functions */
     /**
      * Initializes context.
      *
@@ -32,11 +43,11 @@ class FeatureContext extends  MinkContext {
     }
 
     /**
+     * Ensures that the Blocklyduino application and its libraries are loaded before the test suite runs.
      * @static
      * @BeforeSuite
      */
-    static public function bootstrapSilex()
-    {
+    static public function bootstrapSilex() {
         require_once __DIR__ . '/../../vendor/autoload.php';
 
         // Create the Blocklyduino Silex application.
@@ -48,13 +59,12 @@ class FeatureContext extends  MinkContext {
         return $app;
     }
 
-    /** Click on the element with the provided xpath query
-     *
+    /**
+     * Returns one or more Mink Elements associated with the given XPath, if it is on the page.
      * @param $xpath
      * @return NodeElement|mixed|null
      */
-    public function getXPath($xpath)
-    {
+    public function getXPath($xpath) {
         $session = $this->getSession(); // get the mink session
         $element = $session->getPage()->find(
             'xpath',
@@ -69,16 +79,11 @@ class FeatureContext extends  MinkContext {
         return $element;
     }
 
-    /** Click on the element with the provided xpath query
-     *
+    /**
      * @When /^I click on the element with xpath "([^"]*)"$/
      */
-    public function iClickOnTheElementWithXPath($xpath)
-    {
-        $element = $this->getXPath($xpath);
-
-        // ok, let's click on it
-        $element->click();
+    public function iClickOnTheElementWithXPath($xpath) {
+        $this->getXPath($xpath)->click();
     }
 
     /**
@@ -88,29 +93,4 @@ class FeatureContext extends  MinkContext {
         $this->iClickOnTheElementWithXPath($this->xpaths['Buttons'][$button]);
     }
 
-    /**
-     * @Then I should see blocks
-     */
-    public function iShouldSeeBlocks() {
-        $element = $this->getXPath($this->xpaths['Blockly']['iFrame']);
-        if (null === $element) {
-            throw new \LogicException('Could not find the element using xPath of ' . $this->xpaths['Blockly']['iFrame']);
-        }
-
-        \PHPUnit_Framework_Assert::assertTrue($element->isVisible('style'),
-            'The Blocks view is not displayed.');
-    }
-
-    /**
-     * @Then I should see code
-     */
-    public function iShouldSeeCode() {
-        $element = $this->getXPath($this->xpaths['Blockly']['iFrame']);
-        if (null === $element) {
-            throw new \LogicException('Could not find the element using xPath of ' . $this->xpaths['Blockly']['iFrame']);
-        }
-
-        \PHPUnit_Framework_Assert::assertNotTrue($element->isVisible('style'),
-                                                 'The Arduino view is not displayed.');
-    }
 }
