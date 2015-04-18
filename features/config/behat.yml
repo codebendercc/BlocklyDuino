@@ -7,7 +7,7 @@ default:
       base_url: 'http://localhost/'
       files_path: %paths.base%/../fixtures/
       javascript_session: selenium_session
-      browser_name: chrome
+      browser_name: firefox
       sessions:
         selenium_session:
           selenium2:
