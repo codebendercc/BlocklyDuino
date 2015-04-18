@@ -7,8 +7,11 @@ use Behat\Mink\Element\NodeElement;
 
 trait ASketchButtonsTrait {
 
-    /** @var $sketch_file string The file to use for working with the sketch buttons */
-    public $sketch_file;
+    /** @var $sketchFile string The file to use for working with the sketch buttons */
+    public $sketchFile;
+
+    /** @var $sketchFileContent string The content of the sketch file */
+    public $sketchFileContent;
 
     /**
      * @Given /^I load a sketch$/
@@ -29,11 +32,10 @@ trait ASketchButtonsTrait {
      * @Given /^I select a sketch to load$/
      */
     public function iSelectASketchToLoad() {
-        $this->sketch_file = 'testBlockCode.xml';
+        $this->sketchFile = 'testBlockCode.xml';
         $this->jqueryWait(20000);
 
-        $this->iSelectAFileToLoad($this->sketch_file);
-//        $this->getSession()->getDriver()->setValue($this->xpaths['Blockly']['Arduino Code'], $this->sketch_file);
+        $this->sketchFileContent = $this->iSelectAFileToLoad($this->sketchFile);
     }
 
     /**
@@ -47,7 +49,10 @@ trait ASketchButtonsTrait {
      * @Then /^the code on the page should match the sketch file$/
      */
     public function theCodeOnThePageShouldMatchTheSketchFile() {
-        throw new PendingException();
+        $selector = '#' . $this->identifiers['Blockly']['Arduino Code'];
+        $arduinoTextarea = $this->getXPath($this->xpaths['Blockly']['Arduino Code']);
+        print $arduinoTextarea->getText();
+        $this->assertElementContains($selector, $this->sketchFileContent);
     }
 
     /**
@@ -59,7 +64,8 @@ trait ASketchButtonsTrait {
 
     /* Variables and functions that will be overridden by the Context. */
     public $xpaths;
-    public function iSelectAFileToLoad($file) {}
+    public $identifiers;
+    public function iSelectAFileToLoad($file) { return  'File contents not found.'; }
     public function getXPath($xpath) {
         return new NodeElement('You should never see this message. ' .
             'This method is supposed to come from the Context, ' .

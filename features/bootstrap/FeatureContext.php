@@ -3,6 +3,7 @@
 namespace codebender\blocklyduino\tests\functional;
 
 use app\Blocklyduino;
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Mink\Element\NodeElement;
 use Behat\MinkExtension\Context\MinkContext;
 use Symfony\Component\Yaml\Yaml;
@@ -42,7 +43,6 @@ class FeatureContext extends MinkContext {
     public function __construct() {
         $this->xpaths = Yaml::parse(file_get_contents(__DIR__ . '/../config/xpaths.yml'));
         $this->identifiers = Yaml::parse(file_get_contents(__DIR__ . '/../config/ids.yml'));
-        $this->setMinkParameter('files_path', __DIR__ . '/../fixtures/');
     }
 
     /**
@@ -100,26 +100,22 @@ class FeatureContext extends MinkContext {
      * @Given /^I select a file to load$/
      */
     public function iSelectAFileToLoad($file) {
-//        $fullPath = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
-//
-//        // Cannot use the build in MinkExtension function
-//        // because the id of the file input field constantly changes and the input field is hidden
-//        if ($this->getMinkParameter('files_path')) {
-//            //$fullPath = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
-//
-//            if (is_file($fullPath)) {
-//                $fileInput = 'input[type="file"]';
-//                $field = $this->getSession()->getPage()->find('css', $fileInput);
-//
-//                if (null === $field) {
-//                    throw new \InvalidArgumentException("File input is not found");
-//                }
-//                $field->attachFile($fullPath);
-//            }
-//        }
-//        else throw new \InvalidArgumentException("File is not found at the given location (" . $fullPath . ")");
-
         $this->attachFileToField('load', $file);
+        return $this->iReadFixtureFile($file);
+    }
+
+    /**
+     * @Given /^I read a fixture file named (.*)$/
+     */
+    public function iReadFixtureFile($file) {
+        $path = $file;
+        if ($this->getMinkParameter('files_path')) {
+            $fullPath = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
+            if (is_file($fullPath)) {
+                $path = $fullPath;
+            }
+        }
+        return file_get_contents($path);
     }
 
 }
