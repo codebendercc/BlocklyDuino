@@ -101,7 +101,6 @@ class FeatureContext extends MinkContext {
      */
     public function iSelectAFileToLoad($file) {
         $this->attachFileToField('load', $file);
-        return $this->iReadFixtureFile($file);
     }
 
     /**

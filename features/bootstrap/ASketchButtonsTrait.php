@@ -35,7 +35,10 @@ trait ASketchButtonsTrait {
         $this->sketchFile = 'testBlockCode.xml';
         $this->jqueryWait(20000);
 
-        $this->sketchFileContent = $this->iSelectAFileToLoad($this->sketchFile);
+        $this->iSelectAFileToLoad($this->sketchFile);
+
+        $this->sketchFileContent = $this->iReadFixtureFile(str_replace('xml', 'ino', $this->sketchFile));
+//        $this->sketchFileContent =  preg_replace('/\s+/', ' ', trim($this->sketchFileContent));
     }
 
     /**
@@ -49,10 +52,17 @@ trait ASketchButtonsTrait {
      * @Then /^the code on the page should match the sketch file$/
      */
     public function theCodeOnThePageShouldMatchTheSketchFile() {
-        $selector = '#' . $this->identifiers['Blockly']['Arduino Code'];
-        $arduinoTextarea = $this->getXPath($this->xpaths['Blockly']['Arduino Code']);
-        print $arduinoTextarea->getText();
-        $this->assertElementContains($selector, $this->sketchFileContent);
+        $pageCode = $this->cleanupNewlinesAndWhitespace($this->getXPath($this->xpaths['Blockly']['Arduino Code'])->getText());
+        $fileCode = $this->cleanupNewlinesAndWhitespace($this->sketchFileContent);
+        $errorMsg = "The Arduino code does not match what was loaded from the file:\n" .
+                    "Got:\n" . $pageCode . "\n" .
+                    "Expected:\n" . $fileCode . "\n";
+
+        \PHPUnit_Framework_Assert::assertTrue(strcmp($pageCode, $fileCode) == 0, $errorMsg);
+    }
+
+    public function cleanupNewlinesAndWhitespace($file) {
+        return preg_replace('/\s+/', ' ', trim($file));
     }
 
     /**
@@ -65,7 +75,8 @@ trait ASketchButtonsTrait {
     /* Variables and functions that will be overridden by the Context. */
     public $xpaths;
     public $identifiers;
-    public function iSelectAFileToLoad($file) { return  'File contents not found.'; }
+    public function iSelectAFileToLoad($file) {}
+    public function iReadFixtureFile($file) { return 'Should not see this.'; }
     public function getXPath($xpath) {
         return new NodeElement('You should never see this message. ' .
             'This method is supposed to come from the Context, ' .
