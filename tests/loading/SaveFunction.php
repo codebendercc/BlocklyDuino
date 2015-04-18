@@ -16,20 +16,23 @@ class FrameLoadTest extends BlocklyduinoTestCase {
      *
      * No idea how to do this automatically
      */
-    public function testSketch(){
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
+//    public function testSketch(){
+//        $this->markTestIncomplete(
+//            'This test has not been implemented yet.'
+//        );
+//    }
 
     /**
      * tests that you can load a sketch from a file
      *
      */
     public function testLoad(){
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/');
+
+        $crawler->filterXPath()
+
+        $this->assertTrue($client->getResponse()->isOk());
 
     }
     /**
