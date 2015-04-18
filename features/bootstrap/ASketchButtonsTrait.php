@@ -24,10 +24,6 @@ trait ASketchButtonsTrait {
         $this->theCodeOnThePageShouldMatchTheSketchFile();
     }
 
-    protected function jqueryWait($duration = 1000) {
-        $this->getSession()->wait($duration, "(0 === jQuery.active && 0 === jQuery(':animated').length)");
-    }
-
     /**
      * @Given /^I select a sketch to load$/
      */
@@ -36,9 +32,7 @@ trait ASketchButtonsTrait {
         $this->jqueryWait(20000);
 
         $this->iSelectAFileToLoad($this->sketchFile);
-
         $this->sketchFileContent = $this->iReadFixtureFile(str_replace('xml', 'ino', $this->sketchFile));
-//        $this->sketchFileContent =  preg_replace('/\s+/', ' ', trim($this->sketchFileContent));
     }
 
     /**
@@ -61,10 +55,6 @@ trait ASketchButtonsTrait {
         \PHPUnit_Framework_Assert::assertTrue(strcmp($pageCode, $fileCode) == 0, $errorMsg);
     }
 
-    public function cleanupNewlinesAndWhitespace($file) {
-        return preg_replace('/\s+/', ' ', trim($file));
-    }
-
     /**
      * @Then /^I should see the saved file in the correct directory$/
      */
@@ -76,6 +66,7 @@ trait ASketchButtonsTrait {
     public $xpaths;
     public $identifiers;
     public function iSelectAFileToLoad($file) {}
+    public function cleanupNewlinesAndWhitespace($file) { return 'Should not see this.'; }
     public function iReadFixtureFile($file) { return 'Should not see this.'; }
     public function getXPath($xpath) {
         return new NodeElement('You should never see this message. ' .

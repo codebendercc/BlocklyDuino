@@ -38,15 +38,13 @@ trait AMainPageUITrait {
      */
     public function theCodeOnThePageShouldBeReset()
     {
-        $element = $this->getXPath($this->xpaths['Blockly']['Arduino Code']);
-        if (null === $element) {
-            throw new \LogicException('Could not find the element using xPath of ' . $this->xpaths['Blockly']['Arduino Code']);
-        }
+        $defaultCode = $this->cleanupNewlinesAndWhitespace($this->iReadFixtureFile('default_code.ino'));
+        $pageCode = $this->cleanupNewlinesAndWhitespace($this->getXPath($this->xpaths['Blockly']['Arduino Code'])->getText());
+        $errorMsg = "The Arduino code does not match what was loaded from the file:\n" .
+            "Got:\n" . $pageCode . "\n" .
+            "Expected:\n" . $defaultCode . "\n";
 
-        throw new PendingException('Need to figure out how to actually view the code within the Arduino view.');
-
-//        \PHPUnit_Framework_Assert::assertTrue($element->isVisible('style'),
-//            'The Arduino view is not displayed.');
+        \PHPUnit_Framework_Assert::assertTrue(strcmp($pageCode, $defaultCode) == 0, $errorMsg);
     }
 
     /* Variables and functions that will be overridden by the Context. */
@@ -57,5 +55,7 @@ trait AMainPageUITrait {
                                'but we have to mock it here.',
                                null);
     }
+    public function cleanupNewlinesAndWhitespace($file) { return 'Should not see this.'; }
+    public function iReadFixtureFile($file) { return 'Should not see this.'; }
 
 }

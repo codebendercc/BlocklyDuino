@@ -117,4 +117,30 @@ class FeatureContext extends MinkContext {
         return file_get_contents($path);
     }
 
+    /**
+     * @When /^I accept the modal dialog$/
+     */
+    public function iClickOnTheModalDialog()
+    {
+        $this->getSession()->getDriver()->getWebDriverSession()->accept_alert();
+        $this->jqueryWait();
+    }
+
+    /**
+     * @Then /^I see a modal dialog asking "(.*) # (.*)"$/
+     */
+    public function iSeeAModalDialogAsking($questionStart, $questionEnd)
+    {
+        $message = $this->getSession()->getDriver()->getWebDriverSession()->getAlert_text();
+        \PHPUnit_Framework_Assert::assertStringStartsWith($questionStart, $message);
+        \PHPUnit_Framework_Assert::assertStringEndsWith($questionEnd, $message);
+    }
+
+    public function cleanupNewlinesAndWhitespace($file) {
+        return preg_replace('/\s+/', ' ', trim($file));
+    }
+
+    protected function jqueryWait($duration = 1000) {
+        $this->getSession()->wait($duration, "(0 === jQuery.active && 0 === jQuery(':animated').length)");
+    }
 }

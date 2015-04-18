@@ -3,7 +3,6 @@ Feature: Sketch manipulation buttons
   As a user
   I need to be able to operate the sketch manipulation buttons
 
-  @wip
   Scenario: Load a sketch
     Given I am on the homepage
     When  I click on the "Load Sketch" button
@@ -20,5 +19,7 @@ Feature: Sketch manipulation buttons
   Scenario: Discard a sketch
     Given I load a sketch
     When  I click on the "Discard Sketch" button
+    Then  I see a modal dialog asking "Delete all # blocks?"
+    When  I accept the modal dialog
     And   I click on the "Arduino" button
     Then  the code on the page should be reset
