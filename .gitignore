@@ -3,3 +3,4 @@
 vendor
 src/config/settings.yml
 composer.lock
+features/fixtures/target

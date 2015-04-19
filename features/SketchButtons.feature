@@ -10,10 +10,11 @@ Feature: Sketch manipulation buttons
     And   I click on the "Arduino" button
     Then  the code on the page should match the sketch file
 
+  @wip
   Scenario: Save a sketch
     Given I load a sketch
     When  I click on the "Save Sketch" button
-    And   I select a directory to save the sketch
+    And   I save the sketch
     Then  I should see the saved file in the correct directory
 
   Scenario: Discard a sketch

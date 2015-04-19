@@ -13,6 +13,9 @@ trait ASketchButtonsTrait {
     /** @var $sketchFileContent string The content of the sketch file */
     public $sketchFileContent;
 
+    /** @var $saveDirectory string The directory to test file saving in */
+    public $saveDirectory;
+
     /**
      * @Given /^I load a sketch$/
      */
@@ -36,10 +39,10 @@ trait ASketchButtonsTrait {
     }
 
     /**
-     * @Given /^I select a directory to save the sketch$/
+     * @Given /^I save the sketch$/
      */
-    public function iSelectADirectoryToSaveTheSketch() {
-        throw new PendingException();
+    public function iSaveTheSketch() {
+        throw new PendingException('Need to figure out how to manipulate the file save dialog.');
     }
 
     /**
@@ -59,7 +62,7 @@ trait ASketchButtonsTrait {
      * @Then /^I should see the saved file in the correct directory$/
      */
     public function iShouldSeeTheSavedFileInTheCorrectDirectory() {
-        throw new PendingException();
+        throw new PendingException('Need to figure out how to verify that the file was saved in the specified directory');
     }
 
     /* Variables and functions that will be overridden by the Context. */
