@@ -2,6 +2,7 @@
 
 namespace codebender\blocklyduino\tests\functional;
 
+use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Mink\Element\NodeElement;
 
@@ -15,6 +16,15 @@ trait ASketchButtonsTrait {
 
     /** @var $saveDirectory string The directory to test file saving in */
     public $saveDirectory;
+
+    /**
+     * @AfterScenario @cleanup_sketch
+     */
+    public function discardSketch(AfterScenarioScope $scope)
+    {
+        $this->iClickOnTheButton('Discard Sketch');
+        $this->iAcceptTheModalDialog();
+    }
 
     /**
      * @Given /^I load a sketch$/
@@ -42,7 +52,7 @@ trait ASketchButtonsTrait {
      * @Given /^I save the sketch$/
      */
     public function iSaveTheSketch() {
-        throw new PendingException('Need to figure out how to manipulate the file save dialog.');
+        throw new PendingException('- Need to figure out how to manipulate the file save dialog!');
     }
 
     /**
@@ -62,7 +72,7 @@ trait ASketchButtonsTrait {
      * @Then /^I should see the saved file in the correct directory$/
      */
     public function iShouldSeeTheSavedFileInTheCorrectDirectory() {
-        throw new PendingException('Need to figure out how to verify that the file was saved in the specified directory');
+        throw new PendingException('- Need to figure out how to verify that the file was saved in the specified directory!');
     }
 
     /* Variables and functions that will be overridden by the Context. */
@@ -70,6 +80,7 @@ trait ASketchButtonsTrait {
     public $identifiers;
     public function iSelectAFileToLoad($file) {}
     public function cleanupNewlinesAndWhitespace($file) { return 'Should not see this.'; }
+    public function iAcceptTheModalDialog() {}
     public function iReadFixtureFile($file) { return 'Should not see this.'; }
     public function getXPath($xpath) {
         return new NodeElement('You should never see this message. ' .

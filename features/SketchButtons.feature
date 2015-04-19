@@ -3,6 +3,7 @@ Feature: Sketch manipulation buttons
   As a user
   I need to be able to operate the sketch manipulation buttons
 
+  @cleanup_sketch
   Scenario: Load a sketch
     Given I am on the homepage
     When  I click on the "Load Sketch" button
@@ -10,7 +11,7 @@ Feature: Sketch manipulation buttons
     And   I click on the "Arduino" button
     Then  the code on the page should match the sketch file
 
-  @wip
+  @cleanup_sketch @wip
   Scenario: Save a sketch
     Given I load a sketch
     When  I click on the "Save Sketch" button

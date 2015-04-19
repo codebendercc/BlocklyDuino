@@ -120,7 +120,7 @@ class FeatureContext extends MinkContext {
     /**
      * @When /^I accept the modal dialog$/
      */
-    public function iClickOnTheModalDialog()
+    public function iAcceptTheModalDialog()
     {
         $this->getSession()->getDriver()->getWebDriverSession()->accept_alert();
         $this->jqueryWait();
