@@ -51,7 +51,7 @@ class FeatureContext extends MinkContext {
      * @BeforeSuite
      */
     static public function bootstrapSilex() {
-        require_once __DIR__ . '/../../vendor/autoload.php';
+        require_once __DIR__ . '/../../../../vendor/autoload.php';
 
         // Create the Blocklyduino Silex application.
         // The constructor handles all the default configuration.

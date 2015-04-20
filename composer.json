@@ -24,7 +24,7 @@
       "codebender\\blocklyduino\\": "src/",
       "app\\": "app/",
       "codebender\\blocklyduino\\tests\\": "tests/",
-      "codebender\\blocklyduino\\tests\\functional\\": "features/bootstrap/"
+      "codebender\\blocklyduino\\tests\\functional\\": "tests/functional/features/contexts/"
     }
   }
 }
