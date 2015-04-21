@@ -23,7 +23,7 @@
     "psr-4": {
       "codebender\\blocklyduino\\": "src/",
       "app\\": "app/",
-      "codebender\\blocklyduino\\tests\\": "tests/",
+      "codebender\\blocklyduino\\tests\\unit\\": "tests/unit",
       "codebender\\blocklyduino\\tests\\functional\\": "tests/functional/features/contexts/"
     }
   }
