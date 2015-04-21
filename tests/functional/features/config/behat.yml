@@ -1,0 +1,19 @@
+default:
+  autoload: [ %paths.base%/../contexts/ ]
+  formatters:
+    pretty: true
+  extensions:
+    Behat\MinkExtension:
+      base_url: 'http://localhost/'
+      files_path: %paths.base%/../../../fixtures/
+      javascript_session: selenium_session
+      browser_name: firefox
+      sessions:
+        selenium_session:
+          selenium2:
+            wd_host: http://127.0.0.1:4444/wd/hub
+  suites:
+    default:
+      paths: [ %paths.base%/../ ]
+      contexts:
+        - codebender\blocklyduino\tests\functional\FeatureContext
