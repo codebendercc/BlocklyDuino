@@ -75,9 +75,19 @@ trait ASketchButtonsTrait {
         throw new PendingException('- Need to figure out how to verify that the file was saved in the specified directory!');
     }
 
+    /**
+     * @When /^I click on the trash can icon$/
+     */
+    public function iClickOnTheTrashCanIcon()
+    {
+        $this->iClickOnTheElementWithXPath($this->xpaths['Blockly']['Trash Can']);
+        throw new PendingException('- Figure out the xPath needed to click the Trash Can!');
+    }
+
     /* Variables and functions that will be overridden by the Context. */
     public $xpaths;
     public $identifiers;
+    public function iClickOnTheElementWithXPath($xpath) {}
     public function iSelectAFileToLoad($file) {}
     public function cleanupNewlinesAndWhitespace($file) { return 'Should not see this.'; }
     public function iAcceptTheModalDialog() {}

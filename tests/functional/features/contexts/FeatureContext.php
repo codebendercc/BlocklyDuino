@@ -41,8 +41,8 @@ class FeatureContext extends MinkContext {
      * context constructor through behat.yml.
      */
     public function __construct() {
-        $this->xpaths = Yaml::parse(file_get_contents(__DIR__ . '/../config/xpaths.yml'));
-        $this->identifiers = Yaml::parse(file_get_contents(__DIR__ . '/../config/ids.yml'));
+        $this->xpaths = Yaml::parse(file_get_contents(__DIR__ . '/../../../fixtures/xpaths.yml'));
+        $this->identifiers = Yaml::parse(file_get_contents(__DIR__ . '/../../../fixtures/ids.yml'));
     }
 
     /**
