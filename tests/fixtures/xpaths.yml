@@ -1,0 +1,17 @@
+Buttons:
+  Blocks: //*[@id="tab_blocks"]
+  Arduino: //*[@id="tab_arduino"]
+  Load Sketch: //*[@id="fakeload"]
+  Save Sketch: //*[@id="save_sketch_button"]
+  Discard Sketch: //*[@id="discard_sketch_button"]
+Blockly:
+  iFrame: //*[@id="content_blocks"]
+  Arduino Code: //*[@id="textarea_arduino"]
+  Trash Can: //iframe[@id="content_blocks"]/html
+Compilerflasher:
+  Status: //*[@id="cb_cf_operation_output"]
+  Boards: //*[@id="cb_cf_boards"]
+  Port: //*[@id="cb_cf_ports"]
+  Programmer: //*[@id="cb_cf_programmers"]
+  Speed: //*[@id="cb_cf_baud_rates"]
+  Event Message: //*[@id="event_msg"]
