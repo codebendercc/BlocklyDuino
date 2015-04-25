@@ -115,7 +115,6 @@ class FeatureContext extends MinkContext {
                 $path = $fullPath;
             }
         }
-        print $path;
         return file_get_contents($path);
     }
 

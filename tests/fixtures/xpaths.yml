@@ -7,7 +7,7 @@ Buttons:
 Blockly:
   iFrame: //*[@id="content_blocks"]
   Arduino Code: //*[@id="textarea_arduino"]
-  Trash Can: //iframe[@id="content_blocks"]/svg[@class="blocklySvg"]/g[1]/g[1]
+  Trash Can: //iframe[@id="content_blocks"]/html
 Compilerflasher:
   Status: //*[@id="cb_cf_operation_output"]
   Boards: //*[@id="cb_cf_boards"]

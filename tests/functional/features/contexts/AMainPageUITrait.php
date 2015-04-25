@@ -47,6 +47,30 @@ trait AMainPageUITrait {
         \PHPUnit_Framework_Assert::assertTrue(strcmp($pageCode, $defaultCode) == 0, $errorMsg);
     }
 
+    /**
+     * @Then /^the blocks menu displays$/
+     */
+    public function theBlocksMenuDisplays()
+    {
+        throw new PendingException('- Figure out how to get the Blocks Menu via XPath.');
+    }
+
+    /**
+     * @When /^I place a block$/
+     */
+    public function iPlaceABlock()
+    {
+        throw new PendingException('- Figure out how to place a block in the Blockly frame.');
+    }
+
+    /**
+     * @Then /^the placed block shows up in the code$/
+     */
+    public function thePlacedBlockShowsUpInTheCode()
+    {
+        throw new PendingException('- Match up the placed block with what is in the code.');
+    }
+
     /* Variables and functions that will be overridden by the Context. */
     public $xpaths;
     public function getXPath($xpath) {

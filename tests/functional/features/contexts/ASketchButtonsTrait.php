@@ -80,7 +80,7 @@ trait ASketchButtonsTrait {
      */
     public function iClickOnTheTrashCanIcon()
     {
-        $this->iClickOnTheElementWithXPath($this->xpaths['Blockly']['Trash Can']);
+//        $this->iClickOnTheElementWithXPath($this->xpaths['Blockly']['Trash Can']); // This doesn't work yet because we don't have the right XPath
         throw new PendingException('- Figure out the xPath needed to click the Trash Can!');
     }
 

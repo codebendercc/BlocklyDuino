@@ -11,7 +11,7 @@ Feature: Sketch manipulation buttons
     And   I click on the "Arduino" button
     Then  the code on the page should match the sketch file
 
-  @cleanup_sketch @wip1
+  @cleanup_sketch @wip
   Scenario: Save a sketch
     Given I load a sketch
     When  I click on the "Save Sketch" button
