@@ -16,6 +16,7 @@ class FeatureContext extends MinkContext {
     /* Include any of the traits that define additional steps.*/
     use AMainPageUITrait;
     use ASketchButtonsTrait;
+    use ACompilerflasherTrait;
 
     /* Variables */
     /**
@@ -114,6 +115,7 @@ class FeatureContext extends MinkContext {
                 $path = $fullPath;
             }
         }
+        print $path;
         return file_get_contents($path);
     }
 

@@ -26,7 +26,7 @@ Feature: Sketch manipulation buttons
     And   I click on the "Arduino" button
     Then  the code on the page should be reset
 
-  @wip
+  @wip1
   Scenario: Discard a sketch using the trash can
     Given I load a sketch
     When  I click on the trash can icon

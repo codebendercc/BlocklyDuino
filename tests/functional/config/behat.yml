@@ -1,11 +1,11 @@
 default:
-  autoload: [ %paths.base%/../contexts/ ]
+  autoload: [ %paths.base%/../features/contexts/ ]
   formatters:
     pretty: true
   extensions:
     Behat\MinkExtension:
       base_url: 'http://localhost/'
-      files_path: %paths.base%/../../../fixtures/
+      files_path: %paths.base%/../../fixtures/
       javascript_session: selenium_session
       browser_name: firefox
       sessions:

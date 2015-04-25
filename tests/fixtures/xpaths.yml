@@ -8,3 +8,10 @@ Blockly:
   iFrame: //*[@id="content_blocks"]
   Arduino Code: //*[@id="textarea_arduino"]
   Trash Can: //iframe[@id="content_blocks"]/svg[@class="blocklySvg"]/g[1]/g[1]
+Compilerflasher:
+  Status: //*[@id="cb_cf_operation_output"]
+  Boards: //*[@id="cb_cf_boards"]
+  Port: //*[@id="cb_cf_ports"]
+  Programmer: //*[@id="cb_cf_programmers"]
+  Speed: //*[@id="cb_cf_baud_rates"]
+  Event Message: //*[@id="event_msg"]

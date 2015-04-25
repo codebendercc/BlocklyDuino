@@ -4,6 +4,16 @@ Buttons:
   Load Sketch: fakeload
   Save Sketch: save_sketch_button
   Discard Sketch: discard_sketch_button
+  Verify Code: cb_cf_verify_btn
+  Flash: cb_cf_flash_btn
+  Open Serial Monitor: cb_cf_serial_monitor_connect
 Blockly:
   iFrame: content_blocks
   Arduino Code: textarea_arduino
+Compilerflasher:
+  Status: cb_cf_operation_output
+  Boards: cb_cf_boards
+  Port: cb_cf_ports
+  Programmer: cb_cf_programmers
+  Speed: cb_cf_baud_rates
+  Event Message: event_msg
