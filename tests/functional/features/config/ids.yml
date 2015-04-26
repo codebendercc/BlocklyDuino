@@ -1,9 +1,0 @@
-Buttons:
-  Blocks: tab_blocks
-  Arduino: tab_arduino
-  Load Sketch: fakeload
-  Save Sketch: save_sketch_button
-  Discard Sketch: discard_sketch_button
-Blockly:
-  iFrame: content_blocks
-  Arduino Code: textarea_arduino

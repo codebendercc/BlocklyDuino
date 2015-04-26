@@ -81,7 +81,7 @@
                 xmlTextarea.focus();
             } else if (content.id == 'content_arduino') {
                 var arduinoTextarea = document.getElementById('textarea_arduino');
-                arduinoTextarea.innerHTML = Blockly.Generator.workspaceToCode('Arduino');
+                arduinoTextarea.value = Blockly.Generator.workspaceToCode('Arduino');
                 arduinoTextarea.focus();
             }
         }
@@ -126,10 +126,10 @@
     <tr>
         <td colspan="2" height="1.5em">
             <div id="sketch_buttons" style="float:right;">
-                <button id="discard_sketch_button" onclick="discard()">Discard Sketch</button>
-                <button id="save_sketch_button" onclick="save()">Save Sketch</button>
+                <button onclick="discard()">Discard Sketch</button>
+                <button onclick="save()">Save Sketch</button>
                 <button id="fakeload">Load Sketch</button>
-                <input type="file" id="load" class="visuallyhidden"/>
+                <input type="file" id="load" style="display: none;"/>
             </div>
             <h2><a href="https://github.com/gasolin/BlocklyDuino/wiki">BlocklyDuino</a> <a href="http://codebendercc.github.io/compilerflasher">Compilerflasher</a></h2>
             <h4>A web-based visual programming editor for Arduino with Flashing!</h4>

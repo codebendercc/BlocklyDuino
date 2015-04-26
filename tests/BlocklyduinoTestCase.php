@@ -1,6 +1,6 @@
 <?php
 
-namespace codebender\blocklyduino\tests\unit;
+namespace codebender\blocklyduino\tests;
 
 use app\Blocklyduino;
 use Silex\WebTestCase;
@@ -14,7 +14,7 @@ class BlocklyduinoTestCase extends WebTestCase {
      */
     public function createApplication()
     {
-        require_once __DIR__ . '/../../vendor/autoload.php';
+        require_once __DIR__ . '/../vendor/autoload.php';
 
         // Create the Blocklyduino Silex application.
         // The constructor handles all the default configuration.

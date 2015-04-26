@@ -2,5 +2,3 @@
 .DS_store
 vendor
 src/config/settings.yml
-composer.lock
-features/fixtures/target

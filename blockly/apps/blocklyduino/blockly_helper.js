@@ -81,7 +81,6 @@ function load(event) {
     document.getElementById('load').value = '';
   };
   reader.readAsText(files[0]);
-  document.getElementById('tab_blocks').click(); // Return to block view automatically
 }
 
 /**

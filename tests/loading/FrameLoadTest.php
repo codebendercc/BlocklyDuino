@@ -1,8 +1,8 @@
 <?php
 
-namespace codebender\blocklyduino\tests\unit\loading;
+namespace codebender\blocklyduino\tests\loading;
 
-use codebender\blocklyduino\tests\unit\BlocklyduinoTestCase;
+use codebender\blocklyduino\tests\BlocklyduinoTestCase;
 
 class FrameLoadTest extends BlocklyduinoTestCase {
 
