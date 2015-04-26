@@ -12,7 +12,8 @@
     "phpunit/phpunit": "4.6.*",
     "symfony/browser-kit": "~2.6",
     "symfony/css-selector": "~2.6",
-    "facebook/webdriver": "dev-master"
+    "facebook/webdriver": "dev-master",
+    "phpunit/phpunit-selenium": ">=1.2"
   },
   "autoload": {
     "psr-4": {

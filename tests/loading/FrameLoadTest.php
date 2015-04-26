@@ -20,9 +20,11 @@ class FrameLoadTest extends BlocklyduinoTestCase {
     public function testBoardList(){
         $client = $this->createClient();
         $crawler = $client->request('GET', '/');
+        $craper = $crawler->filterXPath("//*[@id='cb_cf_boards']/option[1]");
+        print("heres the shit:\n");
+        var_dump( $craper->first());
 
-
-        $this->assertEquals("Ardunio Uno",$crawler->filterXPath("//select[@id='cb_cf_boards']")->eq(0)->text());
+        $this->assertEquals("Ardunio Uno",$crawler->filterXPath("//*[@id='cb_cf_boards']")->first()->text());
        // $this->assertEquals(1, $crawler->filter('body:contains("Ardunio Uno")')->count());
     }
 //    /**
