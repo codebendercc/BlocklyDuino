@@ -144,4 +144,14 @@ class FeatureContext extends MinkContext {
     protected function jqueryWait($duration = 1000) {
         $this->getSession()->wait($duration, "(0 === jQuery.active && 0 === jQuery(':animated').length)");
     }
+    /**
+         * @Then /^the blocks menu displays$/
+         */
+    public function theBlocksMenuDisplays()
+    {
+        $iframe = $this->getXPath('//*[@id="content_blocks"]');
+        $this->assertElementOnPage($iframe->getXPath('/html/body/svg/g[2]/g[2]'));
+
+
+    }
 }

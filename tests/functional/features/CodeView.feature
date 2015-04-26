@@ -14,7 +14,7 @@ Feature: Viewing code or blocks
     When  I click on the "Arduino" button
     Then  I should see code
 
-  @wip
+  @wip @john
   Scenario: Block view blocks menu displays
     Given I am on the homepage
     When  I click on the "Blocks" button
