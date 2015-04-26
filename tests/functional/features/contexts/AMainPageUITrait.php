@@ -47,13 +47,15 @@ trait AMainPageUITrait {
         \PHPUnit_Framework_Assert::assertTrue(strcmp($pageCode, $defaultCode) == 0, $errorMsg);
     }
 
-    /**
-     * @Then /^the blocks menu displays$/
-     */
-    public function theBlocksMenuDisplays()
-    {
-        throw new PendingException('- Figure out how to get the Blocks Menu via XPath.');
-    }
+//    /**
+//     * @Then /^the blocks menu displays$/
+//     */
+//    public function theBlocksMenuDisplays()
+//    {
+//
+//        \PHPUnit_Framework_Assert::ass
+//        throw new PendingException('- Figure out how to get the Blocks Menu via XPath.');
+//    }
 
     /**
      * @When /^I place a block$/

@@ -4,7 +4,7 @@ default:
     pretty: true
   extensions:
     Behat\MinkExtension:
-      base_url: 'http://localhost/'
+      base_url: 'http://blockly.codebender.cc/'
       files_path: %paths.base%/../../fixtures/
       javascript_session: selenium_session
       browser_name: firefox

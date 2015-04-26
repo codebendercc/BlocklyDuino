@@ -144,4 +144,23 @@ class FeatureContext extends MinkContext {
     protected function jqueryWait($duration = 1000) {
         $this->getSession()->wait($duration, "(0 === jQuery.active && 0 === jQuery(':animated').length)");
     }
+    /**
+         * @Then /^the blocks menu displays$/
+         */
+    public function theBlocksMenuDisplays()
+    {
+//        var iframe = document.getElementsByTagName("iframe")[0];
+//        var theFirstSpan = document.evaluate('//span', iframe.contentDocument,
+//            null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+
+//        selenium web driver
+        $driver = $this->getSession()->getDriver();
+        $iframe = $driver->find('//*[@id="content_blocks"]')[0];
+        $driver->switchToIFrame('//*[@id="content_blocks"]');
+//        $iframe = $this->getXPath('//*[@id="content_blocks"]');
+        $this->assertElementOnPage($this->getXPath('//html/body/svg/g[2]/g[2]'));
+
+
+
+    }
 }
