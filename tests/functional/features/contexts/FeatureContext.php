@@ -149,8 +149,17 @@ class FeatureContext extends MinkContext {
          */
     public function theBlocksMenuDisplays()
     {
-        $iframe = $this->getXPath('//*[@id="content_blocks"]');
-        $this->assertElementOnPage($iframe->getXPath('/html/body/svg/g[2]/g[2]'));
+//        var iframe = document.getElementsByTagName("iframe")[0];
+//        var theFirstSpan = document.evaluate('//span', iframe.contentDocument,
+//            null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+
+//        selenium web driver
+        $driver = $this->getSession()->getDriver();
+        $iframe = $driver->find('//*[@id="content_blocks"]')[0];
+        $driver->switchToIFrame('//*[@id="content_blocks"]');
+//        $iframe = $this->getXPath('//*[@id="content_blocks"]');
+        $this->assertElementOnPage($this->getXPath('//html/body/svg/g[2]/g[2]'));
+
 
 
     }
