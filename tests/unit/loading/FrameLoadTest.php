@@ -13,7 +13,7 @@ class FrameLoadTest extends BlocklyduinoTestCase {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/blocklyframe');
 
-        // Assert yoself
+        // Assert
         $this->assertTrue($client->getResponse()->isOk());
     }
 
