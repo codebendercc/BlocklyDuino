@@ -2,3 +2,4 @@
 .DS_store
 vendor
 src/config/settings.yml
+composer.phar
