@@ -30,7 +30,13 @@ class Routes
         /* POST Requests */
         $app->post('/builder/compile', function (Request $request) use ($app) {
             // Break out what we got
-            $builderRequestJSON = $request->getContent();
+            $requestContent = json_decode($request->getContent(), true);
+            /*
+             * Makes use of the latest codebender builder API, which
+             * allows the service to handle both compilation and library-related
+             * requests (code/example fetching, etc)
+             */
+            $builderRequestJSON = json_encode(array('type' => 'compiler', 'data' => $requestContent));
 
             // Guzzle it and return the results
             return $app['codebender.post']($app['codebender.builder'](), $builderRequestJSON);
