@@ -200,7 +200,11 @@
         }
 
         compilerflasher.pluginHandler.browserSpecificPluginInstall = function (alert) {
-            return alert + ' <a target="_blank" href="https://codebender.cc/static/plugin">Learn more.</a>';
+            var pluginOrApp = ' plugin ';
+            if (window.chrome) {
+                pluginOrApp = ' app '
+            }
+            return alert + pluginOrApp +'<a target="_blank" href="https://codebender.cc/static/plugin">Learn more.</a>';
         };
 
         /**
