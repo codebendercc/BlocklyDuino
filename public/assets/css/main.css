@@ -57,6 +57,7 @@ body {
     height: -webkit-calc(100% - 195px);
     height: -moz-calc(100% - 195px);
     height: calc(100% - 195px);
+    overflow-y: hidden;
 }
 
 .blockly-label {
