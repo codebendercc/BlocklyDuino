@@ -239,6 +239,10 @@
                 window.operationInProgress = false;
             });
         };
+
+        compilerflasher.on('serial-monitor-connected', function () {
+            $('#blockly-tabs').find('a:last').tab('show');
+        });
     });
 </script>
 </body>
