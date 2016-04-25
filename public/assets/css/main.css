@@ -1,10 +1,9 @@
 body {
     background-color: white;
     background-image: url('../images/blizzard.png');
-    font-family: sans-serif;
+    height: 100%;
     margin: 0;
     padding:0;
-    overflow: hidden;
 }
 
 .blocklySvg {
@@ -12,61 +11,97 @@ body {
     width: 100%;
 }
 
-h1 {
-    font-weight: normal;
-    font-size: 140%;
+.navbar-inner {
+    padding: 5px;
 }
 
-td {
-    vertical-align: top;
+.codebender-logo {
+    width: 30px;
 }
 
-/* Tabs */
-#tabRow>td {
-    border: 1px solid #ccc;
+.logo-title {
+    line-height: 30px;
 }
 
-td.tabon {
-    border-bottom-color: #ddd !important;
-    background-color: #ddd;
-    padding: 5px 19px;
+.blockly-controls {
+    margin-top: 5px;
 }
 
-td.taboff {
-    cursor: pointer;
-    padding: 5px 19px;
+#page-title {
+  margin: 5px;
 }
 
-td.taboff:hover {
-    background-color: #eee;
+#page-title a {
+    text-decoration: none;
 }
 
-td.tabmin {
-    border-top-style: none !important;
-    border-left-style: none !important;
-    border-right-style: none !important;
+#load {
+    display: none;
 }
 
-td.tabmax {
-    border-top-style: none !important;
-    border-left-style: none !important;
-    border-right-style: none !important;
-    width: 99%;
-    text-align: right;
+#blockly-tabs li {
+    height: 40px;
 }
 
-table {
-    border-collapse: collapse;
-    margin: 0;
-    padding: 0;
-    border: none;
+.container-fluid {
+    display: inline-block;
+    width: -webkit-calc(100% - 40px);
+    width: -moz-calc(100% - 40px);
+    width: calc(100% - 40px);
+    height: -webkit-calc(100% - 125px);
+    height: -moz-calc(100% - 125px);
+    height: calc(100% - 125px);
 }
 
-td {
-    padding: 0;
+.tab-content {
+    height: -webkit-calc(100% - 195px);
+    height: -moz-calc(100% - 195px);
+    height: calc(100% - 195px);
 }
 
-pre,
+.blockly-label {
+    display: inline-block;
+    position: relative;
+    top: 10px;
+    padding: 0 5px;
+    font-weight: bold;
+}
+
+.cb-cf-label {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.cb-cf-control {
+    width: 80%;
+}
+
+.operation-output {
+    display: inline-block;
+    width: -webkit-calc(100% - 435px);
+    width: -moz-calc(100% - 435px);
+    width: calc(100% - 435px);
+}
+
+#cb_cf_operation_output {
+    display: inline-block;
+    width: 100%;
+    height: 32px;
+    margin: 5px 0 0;
+    padding: 0 5px;
+    line-height: 32px;
+    overflow-y: auto;
+    background-color: #f1f1f1;
+}
+
+#sketch_buttons {
+  margin: 5px;
+}
+
+#tab_blocks {
+    overflow: hidden;
+}
+
 #content_xml,
 #content_arduino {
     width: 100%;
@@ -85,46 +120,38 @@ pre,
     height: 100%;
     border: none;
     resize: none;
+    overflow-y: auto;
 }
 
-iframe {
-    width: 100%;
-    height: 100%;
+#content_blocks {
+    width: 99%;
+    height: 99%;
     border: 1px solid #ccc;
     border-top-style: none;
 }
 
-button {
-    padding: 1px 1em;
-    font-size: 90%;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    background-color: #eee;
-    color: black;
+.serial-monitor-container {
+    position: relative;
+    height: 100%;
 }
 
-button.launch {
-    border: 1px solid #d43;
-    background-color: #d43;
-    color: white;
+#serial_monitor_content {
+    padding: 0 10px;
 }
 
-button:active {
-    border: 1px solid blue !important;
+#serial_hud {
+    margin-bottom: 0;
+    position: absolute;
+    top: 51px;
+    right: 10px;
+    bottom: 0;
+    left: 10px;
 }
 
-button:hover {
-    box-shadow: 2px 2px 5px #888;
+#text2send {
+    height: 30px;
 }
 
-#tab_xml {
+#blockly-blink {
     display: none;
-}
-
-#control_panel {
-
-}
-
-#content_blocks {
-
 }
