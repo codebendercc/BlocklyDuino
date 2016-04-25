@@ -3,12 +3,15 @@
     <meta charset="utf-8">
     <title>Blockly Demo: Arduino</title>
     <link href="{{ image('favicon.ico') }}" rel="shortcut icon" />
+    <link rel="stylesheet" href="{{ css('bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ css('font-awesome.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ css('main.css') }}" />
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="{{ script('bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ blocklyduino_lib('Blob.js') }}"></script>
     <script type="text/javascript" src="{{ blocklyduino_lib('FileSaver.min.js') }}"></script>
     <script type="text/javascript" src="{{ blocklyduino_lib('blockly_helper.js') }}"></script>
-    <script>
+    <script type="text/javascript">
         /**
          * List of tab names.
          * @type {string[]}
@@ -27,63 +30,31 @@
          * @param {string} id ID of tab clicked.
          */
         function tabClick(id) {
-            // If the XML tab was open, save and render the content.
-            if (document.getElementById('tab_xml').className == 'tabon') {
-                var xmlTextarea = document.getElementById('textarea_xml');
-                var xmlText = xmlTextarea.value;
-                var xmlDom = null;
-                try {
-                    xmlDom = Blockly.Xml.textToDom(xmlText);
-                } catch (e) {
-                    var q =
-                            window.confirm('Error parsing XML:\n' + e + '\n\nAbandon changes?');
-                    if (!q) {
-                        // Leave the user on the XML tab.
-                        return;
-                    }
-                }
-                if (xmlDom) {
-                    Blockly.mainWorkspace.clear();
-                    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xmlDom);
-                }
+            switch (id) {
+                case 'tab_blocks':
+                    Blockly.mainWorkspace.render();
+                    break;
+                case 'tab_arduino':
+                    var arduinoTextarea = document.getElementById('textarea_arduino');
+                    arduinoTextarea.value = Blockly.Generator.workspaceToCode('Arduino');
+                    arduinoTextarea.focus();
+                    break;
+                case 'tab_xml':
+                    var xmlTextarea = document.getElementById('textarea_xml');
+                    var xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+                    var xmlText = Blockly.Xml.domToPrettyText(xmlDom);
+                    xmlTextarea.value = xmlText;
+                    xmlTextarea.focus();
+                    break;
             }
-
-            // Deselect all tabs and hide all panes.
-            for (var x in TABS_) {
-                document.getElementById('tab_' + TABS_[x]).className = 'taboff';
-                document.getElementById('content_' + TABS_[x]).style.display = 'none';
-            }
-
-            // Select the active tab.
-            selected = id.replace('tab_', '');
-            document.getElementById(id).className = 'tabon';
-            // Show the selected pane.
-            var content = document.getElementById('content_' + selected);
-            content.style.display = 'block';
-            renderContent();
         }
 
-        /**
-         * Populate the currently selected pane with content generated from the blocks.
-         */
-        function renderContent() {
-            var content = document.getElementById('content_' + selected);
-            // Initialize the pane.
-            if (content.id == 'content_blocks') {
-                // If the workspace was changed by the XML tab, Firefox will have performed
-                // an incomplete rendering due to Blockly being invisible.  Rerender.
-                Blockly.mainWorkspace.render();
-            } else if (content.id == 'content_xml') {
-                var xmlTextarea = document.getElementById('textarea_xml');
-                var xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-                var xmlText = Blockly.Xml.domToPrettyText(xmlDom);
-                xmlTextarea.value = xmlText;
-                xmlTextarea.focus();
-            } else if (content.id == 'content_arduino') {
-                var arduinoTextarea = document.getElementById('textarea_arduino');
-                arduinoTextarea.value = Blockly.Generator.workspaceToCode('Arduino');
-                arduinoTextarea.focus();
-            }
+        function loadSketch(xmlSketch) {
+            var xml = Blockly.Xml.textToDom(xmlSketch);
+            Blockly.mainWorkspace.clear();
+            Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+            var selectedTab = $('#blockly-tabs').find('li.active').find('a').attr('href').replace('#', '');
+            tabClick(selectedTab);
         }
 
         /**
@@ -104,10 +75,10 @@
 
             auto_save_and_restore_blocks();
 
-            //load from url parameter (single param)
-            //http://stackoverflow.com/questions/2090551/parse-query-string-in-javascript
+            // Load from url parameter (single param)
+            // http://stackoverflow.com/questions/2090551/parse-query-string-in-javascript
             var dest = unescape(location.search.replace(/^.*\=/, '')).replace(/\+/g, " ");
-            if(dest){
+            if (dest){
                 load_by_url(dest);
             }
         }
@@ -122,90 +93,123 @@
     </script>
 </head>
 <body>
-<table width="100%" height="100%">
-    <tr>
-        <td colspan="5" height="1.5em">
-            <div id="sketch_buttons" style="float:right;">
-                <button onclick="discard()">Discard Sketch</button>
-                <button onclick="save()">Save Sketch</button>
-                <button id="fakeload">Load Sketch</button>
-                <input type="file" id="load" style="display: none;"/>
-            </div>
-            <h4><img src="{{ image('codebender_hq_medium.png') }}" style="width: 25px;"> <span> A web-based visual programming editor for Arduino with Flashing!</span></h4>
-        </td>
-    </tr>
-    <tr height="120px">
-        <td>
-            <label for="cb_cf_boards">Select a board:</label><br>
-            <select id="cb_cf_boards" style="width: 230px;"></select><br>
-            <button id="cb_cf_verify_btn" class="btn btn-success">Verify code!</button>
-        </td>
-         <td>
-            <label for="cb_cf_ports">Select a port:</label><br>
-            <select id="cb_cf_ports"></select><br>
-            <button id="cb_cf_flash_btn" >Flash</button>
-        </td>
-        <td>
-            <label for="cb_cf_programmers">Select a programmer:</label><br>
-            <select id="cb_cf_programmers"></select><br>
-            <button id="cb_cf_flash_with_prog_btn">Flash w/ Programmer</button>
-        </td>
-        <td>
-            <label for="cb_cf_baud_rates">Select port speed:</label><br>
-            <select id="cb_cf_baud_rates"></select><br>
-            <button id="cb_cf_serial_monitor_connect">Open Serial Monitor</button>
-            <div id="cb_cf_serial_monitor"></div>
-        </td>
-        <td style="max-height: 120px; overflow-y: auto;">
-            <label for="cb_cf_operation_output">Status:</label>
-            <p id="cb_cf_operation_output" style="max-width: 300px;"></p>
-            <label for="event_msg">Event messages:</label>
-            <div id="event_msg"></div>
-        </td>
-    </tr>
-    <tr >
-        <td colspan="5">
-            <div id="view_buttons">
-                Change the view:
-                <button id="tab_blocks" class="tabon" onclick="tabClick(this.id)">Blocks</button>
-                <button id="tab_arduino" class="taboff" onclick="tabClick(this.id)">Arduino</button>
-                <button id="tab_xml" class="taboff" onclick="tabClick(this.id)">XML</button>
-            </div>
+<div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="https://codebender.cc">
+            <img class="codebender-logo" src="{{ image('codebender_hq_medium.png') }}">
+        </a>
+        <div class="brand logo-title">A web-based visual programming editor for Arduino with Flashing!</div>
+
+        <div class="blockly-controls pull-right">
+            <button onclick="discard()" class="btn btn-danger">Discard Sketch</button>
+            <button onclick="save()" class="btn btn-success">Save Sketch</button>
+            <button id="fakeload" class="btn btn-info">Load Sketch</button>
+            <button id="load-blink" class="btn btn-info">Load Blink</button>
+            <input id="load" type="file">
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3 control-block">
+            <label for="cb_cf_boards" class="cb-cf-label">Selected board</label>
+            <select id="cb_cf_boards" class="cb-cf-control"></select>
+            <button id="cb_cf_verify_btn" class="btn btn-success">Verify code</button>
+        </div>
+        <div class="span3 control-block">
+            <label for="cb_cf_ports" class="cb-cf-label">Selected port</label>
+            <select id="cb_cf_ports" class="cb-cf-control"></select>
+            <br>
+            <button id="cb_cf_flash_btn" class="btn btn-success">Flash</button>
+        </div>
+        <div class="span3 control-block">
+            <label for="cb_cf_programmers" class="cb-cf-label">Selected programmer</label>
+            <select id="cb_cf_programmers" class="cb-cf-control"></select>
+            <button id="cb_cf_flash_with_prog_btn" class="btn btn-success">Flash w/ Programmer</button>
+        </div>
+        <div class="span3 control-block">
+            <label for="cb_cf_baud_rates" class="cb-cf-label">Serial monitor controls</label>
+            <select id="cb_cf_baud_rates" class="cb-cf-control"></select>
+            <button id="cb_cf_serial_monitor_connect" class="btn"><i class="icon-link"></i> Connect</button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row-fluid blockly-views">
+        <ul id="blockly-tabs" class="nav nav-tabs">
+            <li>
+                <span class="blockly-label">Available views</span>
+            </li>
+            <li>
+                <a href="#tab_blocks" data-toggle="tab" disabled="disabled">Blocks</a>
+            </li>
+            <li>
+                <a href="#tab_arduino" data-toggle="tab" disabled="disabled">Arduino</a>
+            </li>
+            <!-- <li>
+                <a href="#tab_xml" data-toggle="tab" disabled="disabled">XML</a>
+            </li> -->
+            <li class="tab-end">
+                <a href="#tab_serialmonitor" data-toggle="tab" disabled="disabled">Serial monitor</a>
+            </li>
+            <li class="operation-output">
+                <span id="cb_cf_operation_output"></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row-fluid tab-content">
+        <div id="tab_blocks" class="tab-pane active">
             <iframe id="content_blocks" src="{{ url('blocklyframe') }}"></iframe>
-            <div id="content_arduino">
-                <textarea id="textarea_arduino" readonly></textarea>
-            </div>
-            <div id="content_xml">
-                <textarea id="textarea_xml" readonly></textarea>
-            </div>
-        </td>
-    </tr>
-</table>
-<script src="//codebender.cc/embed/compilerflasher.js" type="text/javascript"></script>
-<script src="//codebender.cc/embed/compilerflasher_new.js" type="text/javascript"></script>
-<script>
+        </div>
+        <div id="tab_arduino" class="tab-pane">
+            <textarea id="textarea_arduino" readonly></textarea>
+        </div>
+        <!-- <div id="tab_xml" class="tab-pane">
+            <textarea id="textarea_xml" readonly></textarea>
+        </div> -->
+        <div id="tab_serialmonitor" class="tab-pane">
+            <div id="cb_cf_serial_monitor"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+  (function(){var p=[],w=window,d=document,e=f=0;p.push('ua='+encodeURIComponent(navigator.userAgent));e|=w.ActiveXObject?1:0;e|=w.opera?2:0;e|=w.chrome?4:0;
+  e|='getBoxObjectFor' in d || 'mozInnerScreenX' in w?8:0;e|=('WebKitCSSMatrix' in w||'WebKitPoint' in w||'webkitStorageInfo' in w||'webkitURL' in w)?16:0;
+  e|=(e&16&&({}.toString).toString().indexOf("\n")===-1)?32:0;p.push('e='+e);f|='sandbox' in d.createElement('iframe')?1:0;f|='WebSocket' in w?2:0;
+  f|=w.Worker?4:0;f|=w.applicationCache?8:0;f|=w.history && history.pushState?16:0;f|=d.documentElement.webkitRequestFullScreen?32:0;f|='FileReader' in w?64:0;
+  p.push('f='+f);p.push('r='+Math.random().toString(36).substring(7));p.push('w='+screen.width);p.push('h='+screen.height);var s=d.createElement('script');
+  s.src='//codebender.cc/js/whichbrowser/detect.js?' + p.join('&');d.getElementsByTagName('head')[0].appendChild(s);})();
+</script>
+<script type="text/javascript" src="//codebender.cc/js/codebender/browser_detect.js"></script>
+<script type="text/javascript" src="//codebender.cc/walkthrough/lawnchair-0.6.4.min.js"></script>
+<script type="text/javascript" src="//codebender.cc/embed/compilerflasher.js"></script>
+<script type="text/javascript">
     /**
      * Document Ready actions
      */
-    $(document).ready(function(){
-        window.osBrowserIsSupported = function () {
-            return true;
-        };
+    $(function() {
+        var $blocklyTabs = $('#blockly-tabs');
+        $blocklyTabs.find('a').on('show', function () {
+            var id = $(this).attr('href').replace('#', '');
+            tabClick(id);
+        });
+        $blocklyTabs.find('a:first').tab('show');
+        $blocklyTabs.find('a').each(function (key, value) {
+            $(value).removeAttr('disabled');
+        });
 
-        if (window.chrome) {
-            compilerflasher = new compilerflasher_new(getFiles);
-        }
-        else {
-            compilerflasher = new compilerflasher(getFiles);
-        }
+        var blinkSketch = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="variables_declare" inline="false" x="313" y="102"><title name="VAR">led</title><title name="TYPE">int</title><value name="VALUE"><block type="math_number"><title name="NUM">13</title></block></value><next><block type="inout_digital_write_to_var" inline="true"><title name="STAT">HIGH</title><value name="PIN"><block type="variables_get"><title name="VAR">led</title></block></value><next><block type="base_delay" inline="true"><value name="DELAY_TIME"><block type="math_number"><title name="NUM">1000</title></block></value><next><block type="inout_digital_write_to_var" inline="true"><title name="STAT">LOW</title><value name="PIN"><block type="variables_get"><title name="VAR">led</title></block></value><next><block type="base_delay" inline="true"><value name="DELAY_TIME"><block type="math_number"><title name="NUM">1000</title></block></value></block></next></block></next></block></next></block></next></block></xml>';
+        var $blocklyBlink = $('#blockly-blink');
+        $('#load-blink').on('click', function () {
+            loadSketch(blinkSketch);
+        });
 
-        compilerflasher.pluginHandler.browserSpecificPluginInstall = function (alert) {
-            var pluginOrApp = ' plugin ';
-            if (window.chrome) {
-                pluginOrApp = ' app '
-            }
-            return alert + pluginOrApp +'<a target="_blank" href="https://codebender.cc/static/plugin">Learn more.</a>';
-        };
+        compilerflasher = new compilerflasher(getFiles);
+        compilerflasher.embedded = true;
 
         /**
          * Redefines compilerflasher's getbin function so that it points at our builder route.
