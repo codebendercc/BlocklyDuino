@@ -188,10 +188,7 @@
 <script type="text/javascript" src="//codebender.cc/walkthrough/lawnchair-0.6.4.min.js"></script>
 <script type="text/javascript" src="//codebender.cc/embed/compilerflasher.js"></script>
 <script type="text/javascript">
-    /**
-     * Document Ready actions
-     */
-    $(function() {
+    $(window).load(function () {
         var $blocklyTabs = $('#blockly-tabs');
         $blocklyTabs.find('a').on('show', function () {
             var id = $(this).attr('href').replace('#', '');
@@ -207,7 +204,12 @@
         $('#load-blink').on('click', function () {
             loadSketch(blinkSketch);
         });
+    });
 
+    /**
+     * Document Ready actions
+     */
+    $(function() {
         compilerflasher = new compilerflasher(getFiles);
         compilerflasher.embedded = true;
 
