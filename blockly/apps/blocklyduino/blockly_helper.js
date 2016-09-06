@@ -32,20 +32,33 @@ function restore_blocks() {
 }
 
 /**
+* Save Arduino generated code to local file.
+*/
+function saveCode() {
+  var fileName = window.prompt('What would you like to name your file?', 'BlocklyDuino')
+  //doesn't save if the user quits the save prompt
+  if(fileName){
+    var blob = new Blob([Blockly.Arduino.workspaceToCode()], {type: 'text/plain;charset=utf-8'});
+    saveAs(blob, fileName + '.ino');
+  }
+}
+
+/**
  * Save blocks to local file.
  * better include Blob and FileSaver for browser compatibility
  */
 function save() {
   var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
   var data = Blockly.Xml.domToText(xml);
-
+  var fileName = window.prompt('What would you like to name your file?', 'BlocklyDuino');
   // Store data in blob.
   // var builder = new BlobBuilder();
   // builder.append(data);
   // saveAs(builder.getBlob('text/plain;charset=utf-8'), 'blockduino.xml');
-  console.log("saving blob");
-  var blob = new Blob([data], {type: 'text/xml'});
-  saveAs(blob, 'blockduino.xml');
+  if(fileName){
+    var blob = new Blob([data], {type: 'text/xml'});
+    saveAs(blob, fileName + ".xml");
+  } 
 }
 
 /**
@@ -103,7 +116,7 @@ function auto_save_and_restore_blocks() {
   window.setTimeout(restore_blocks, 0);
   // Hook a save function onto unload.
   bindEvent(window, 'unload', backup_blocks);
-  tabClick('tab_' + selected);
+  tabClick(selected);
 
   // Init load event.
   var loadInput = document.getElementById('load');
@@ -149,7 +162,7 @@ function createAJAX() {
   }
 }
 
-function onSuccess () {
+function onSuccess() {
   if (ajax.readyState == 4) {
     if (ajax.status == 200) {
       try {
@@ -182,4 +195,78 @@ function load_by_url(uri) {
 　　ajax.onreadystatechange = onSuccess;
 　　ajax.open ("GET", uri, true);
 　　ajax.send ("");
+}
+
+function uploadCode(code, callback) {
+    var target = document.getElementById('content_arduino');
+    var spinner = new Spinner().spin(target);
+
+    var url = "http://127.0.0.1:8080/";
+    var method = "POST";
+
+    // You REALLY want async = true.
+    // Otherwise, it'll block ALL execution waiting for server response.
+    var async = true;
+
+    var request = new XMLHttpRequest();
+    
+    request.onreadystatechange = function() {
+        if (request.readyState != 4) { 
+            return; 
+        }
+        
+        spinner.stop();
+        
+        var status = parseInt(request.status); // HTTP response status, e.g., 200 for "200 OK"
+        var errorInfo = null;
+        switch (status) {
+        case 200:
+            break;
+        case 0:
+            errorInfo = "code 0\n\nCould not connect to server at " + url + ".  Is the local web server running?";
+            break;
+        case 400:
+            errorInfo = "code 400\n\nBuild failed - probably due to invalid source code.  Make sure that there are no missing connections in the blocks.";
+            break;
+        case 500:
+            errorInfo = "code 500\n\nUpload failed.  Is the Arduino connected to USB port?";
+            break;
+        case 501:
+            errorInfo = "code 501\n\nUpload failed.  Is 'ino' installed and in your path?  This only works on Mac OS X and Linux at this time.";
+            break;
+        default:
+            errorInfo = "code " + status + "\n\nUnknown error.";
+            break;
+        };
+        
+        callback(status, errorInfo);
+    };
+
+    request.open(method, url, async);
+    request.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+    request.send(code);	     
+}
+
+function uploadClick() {
+    var code = document.getElementById('content_arduino').value;
+
+    alert("Ready to upload to Arduino.");
+    
+    uploadCode(code, function(status, errorInfo) {
+        if (status == 200) {
+            alert("Program uploaded ok");
+        } else {
+            alert("Error uploading program: " + errorInfo);
+        }
+    });
+}
+
+function resetClick() {
+    var code = "void setup() {} void loop() {}";
+
+    uploadCode(code, function(status, errorInfo) {
+        if (status != 200) {
+            alert("Error resetting program: " + errorInfo);
+        }
+    });
 }

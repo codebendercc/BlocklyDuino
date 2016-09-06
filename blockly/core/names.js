@@ -1,8 +1,9 @@
 /**
- * Visual Blocks Language
+ * @license
+ * Visual Blocks Editor
  *
  * Copyright 2012 Google Inc.
- * http://blockly.googlecode.com/
+ * https://developers.google.com/blockly/
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,18 +24,24 @@
  */
 'use strict';
 
+goog.provide('Blockly.Names');
+
+
 /**
  * Class for a database of entity names (variables, functions, etc).
  * @param {string} reservedWords A comma-separated string of words that are
  *     illegal for use as names in a language (e.g. 'new,if,this,...').
+ * @param {string=} opt_variablePrefix Some languages need a '$' or a namespace
+ *     before all variable names.
  * @constructor
  */
-Blockly.Names = function(reservedWords) {
-  this.reservedDict_ = {};
+Blockly.Names = function(reservedWords, opt_variablePrefix) {
+  this.variablePrefix_ = opt_variablePrefix || '';
+  this.reservedDict_ = Object.create(null);
   if (reservedWords) {
     var splitWords = reservedWords.split(',');
-    for (var x = 0; x < splitWords.length; x++) {
-      this.reservedDict_[Blockly.Names.PREFIX_ + splitWords[x]] = true;
+    for (var i = 0; i < splitWords.length; i++) {
+      this.reservedDict_[splitWords[i]] = true;
     }
   }
   this.reset();
@@ -50,36 +57,29 @@ Blockly.Names = function(reservedWords) {
  */
 
 /**
- * JavaScript doesn't have a true hashtable, it uses object properties.
- * Since even clean objects have a few properties, prepend this prefix onto
- * names so that they don't collide with any builtins.
- * @const
- * @private
- */
-Blockly.Names.PREFIX_ = 'v_';
-
-/**
  * Empty the database and start from scratch.  The reserved words are kept.
  */
 Blockly.Names.prototype.reset = function() {
-  this.db_ = {};
-  this.dbReverse_ = {};
+  this.db_ = Object.create(null);
+  this.dbReverse_ = Object.create(null);
 };
 
 /**
  * Convert a Blockly entity name to a legal exportable entity name.
  * @param {string} name The Blockly entity name (no constraints).
  * @param {string} type The type of entity in Blockly
- *     ('variable', 'procedure', 'builtin', etc...).
+ *     ('VARIABLE', 'PROCEDURE', 'BUILTIN', etc...).
  * @return {string} An entity name legal for the exported language.
  */
 Blockly.Names.prototype.getName = function(name, type) {
-  var normalized = Blockly.Names.PREFIX_ + name.toLowerCase() + 'X' + type;
+  var normalized = name.toLowerCase() + '_' + type;
+  var prefix = (type == Blockly.Variables.NAME_TYPE) ?
+      this.variablePrefix_ : '';
   if (normalized in this.db_) {
-    return this.db_[normalized];
+    return prefix + this.db_[normalized];
   }
   var safeName = this.getDistinctName(name, type);
-  this.db_[normalized] = safeName;
+  this.db_[normalized] = safeName.substr(prefix.length);
   return safeName;
 };
 
@@ -90,27 +90,22 @@ Blockly.Names.prototype.getName = function(name, type) {
  * ensure name doesn't collide.
  * @param {string} name The Blockly entity name (no constraints).
  * @param {string} type The type of entity in Blockly
- *     ('variable', 'procedure', 'builtin', etc...).
+ *     ('VARIABLE', 'PROCEDURE', 'BUILTIN', etc...).
  * @return {string} An entity name legal for the exported language.
  */
 Blockly.Names.prototype.getDistinctName = function(name, type) {
   var safeName = this.safeName_(name);
   var i = '';
-  while (this.dbReverse_[Blockly.Names.PREFIX_ + safeName + i] ||
-      (Blockly.Names.PREFIX_ + safeName + i) in this.reservedDict_) {
+  while (this.dbReverse_[safeName + i] ||
+         (safeName + i) in this.reservedDict_) {
     // Collision with existing name.  Create a unique name.
     i = i ? i + 1 : 2;
   }
   safeName += i;
-  if(typeof(name)==='string') {
-      this.db_[Blockly.Names.PREFIX_ + name.toLowerCase() + 'X' + type] = safeName;
-  } else {
-    // console.log("process object "+name.name.toLowerCase()+"/"+type);
-	  this.db_[Blockly.Names.PREFIX_ + name.name.toLowerCase() + 'X' + type] = safeName;
-    //set comment Symbol to correspond type
-  }
-  this.dbReverse_[Blockly.Names.PREFIX_ + safeName] = true;
-  return safeName;
+  this.dbReverse_[safeName] = true;
+  var prefix = (type == Blockly.Variables.NAME_TYPE) ?
+      this.variablePrefix_ : '';
+  return prefix + safeName;
 };
 
 /**
@@ -125,14 +120,9 @@ Blockly.Names.prototype.safeName_ = function(name) {
   if (!name) {
     name = 'unnamed';
   } else {
-      if(typeof(name)==='string') {
-        // Unfortunately names in non-latin characters will look like
-        // _E9_9F_B3_E4_B9_90 which is pretty meaningless.
-        name = encodeURI(name.replace(/ /g, '_')).replace(/[^\w]/g, '_');
-      } else {
-		name = encodeURI(name.name.replace(/ /g, '_')).replace(/[^\w]/g, '_');
-      }
-    
+    // Unfortunately names in non-latin characters will look like
+    // _E9_9F_B3_E4_B9_90 which is pretty meaningless.
+    name = encodeURI(name.replace(/ /g, '_')).replace(/[^\w]/g, '_');
     // Most languages don't allow names with leading numbers.
     if ('0123456789'.indexOf(name[0]) != -1) {
       name = 'my_' + name;

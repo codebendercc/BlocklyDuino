@@ -23,11 +23,14 @@
  */
 'use strict';
 
-Blockly.Arduino = Blockly.Generator.get('Arduino');
+goog.provide('Blockly.Arduino.procedures');
+
+goog.require('Blockly.Arduino');
+
 
 Blockly.Arduino.procedures_defreturn = function() {
   // Define a procedure with a return value.
-  var funcName = Blockly.Arduino.variableDB_.getName(this.getTitleValue('NAME'),
+  var funcName = Blockly.Arduino.variableDB_.getName(this.getFieldValue('NAME'),
       Blockly.Procedures.NAME_TYPE);
   var branch = Blockly.Arduino.statementToCode(this, 'STACK');
   if (Blockly.Arduino.INFINITE_LOOP_TRAP) {
@@ -39,10 +42,10 @@ Blockly.Arduino.procedures_defreturn = function() {
   if (returnValue) {
     returnValue = '  return ' + returnValue + ';\n';
   }
-  var returnType = returnValue ? 'Dynamic' : 'void';
+  var returnType = returnValue ? 'int' : 'void';
   var args = [];
   for (var x = 0; x < this.arguments_.length; x++) {
-    args[x] = Blockly.Arduino.variableDB_.getName(this.arguments_[x],
+    args[x] = 'int ' + Blockly.Arduino.variableDB_.getName(this.arguments_[x],
         Blockly.Variables.NAME_TYPE);
   }
   var code = returnType + ' ' + funcName + '(' + args.join(', ') + ') {\n' +
@@ -58,7 +61,7 @@ Blockly.Arduino.procedures_defnoreturn = Blockly.Arduino.procedures_defreturn;
 
 Blockly.Arduino.procedures_callreturn = function() {
   // Call a procedure with a return value.
-  var funcName = Blockly.Arduino.variableDB_.getName(this.getTitleValue('NAME'),
+  var funcName = Blockly.Arduino.variableDB_.getName(this.getFieldValue('NAME'),
       Blockly.Procedures.NAME_TYPE);
   var args = [];
   for (var x = 0; x < this.arguments_.length; x++) {
@@ -71,7 +74,7 @@ Blockly.Arduino.procedures_callreturn = function() {
 
 Blockly.Arduino.procedures_callnoreturn = function() {
   // Call a procedure with no return value.
-  var funcName = Blockly.Arduino.variableDB_.getName(this.getTitleValue('NAME'),
+  var funcName = Blockly.Arduino.variableDB_.getName(this.getFieldValue('NAME'),
       Blockly.Procedures.NAME_TYPE);
   var args = [];
   for (var x = 0; x < this.arguments_.length; x++) {

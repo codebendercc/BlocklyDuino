@@ -2,7 +2,7 @@ var blocklyEngine = {
     codebender: window.codebender,
     compile: window.codebender.compile,
     arduinoCodeOpen: false,
-    arduinoCodeWidth: '100%',
+    arduinoCodeWidth: '450px',
     arduinoCodeAnimationDelay: 500,
     defaultFilename: 'Blockly',
     initialize: function () {
@@ -39,7 +39,7 @@ var blocklyEngine = {
          */
         compilerflasher.getbin = function (callback) {
             window.operationInProgress = true;
-            var payload = this.generate_payload("binary");
+            var payload = this.generate_payload('binary');
             var cb = this;
             $.post(window.codebender.compilerflasher.utilitiesCompile, payload, function (data) {
                 try {
@@ -51,16 +51,12 @@ var blocklyEngine = {
                     cb.eventManager.fire('verification_failed', '<i class="icon-remove"></i> Unexpected error occurred. Try again later.');
                 }
             }).fail(function () {
-                cb.setOperationOutput("Connection to server failed.");
+                cb.setOperationOutput('Connection to server failed.');
                 cb.eventManager.fire('verification_failed', "Connection to server failed.");
             }).always(function () {
                 window.operationInProgress = false;
             });
         };
-
-        compilerflasher.on('serial-monitor-connected', function () {
-            $('#blockly-tabs').find('a:last').tab('show');
-        });
     },
     toggleArduinoCode: function () {
         this.$toggleArduinoCode.tooltip('hide');
@@ -79,7 +75,7 @@ var blocklyEngine = {
 
         this.updateArduinoCode();
         this.$textAreaArduino.css({
-            padding: '5px 30px'
+            padding: '5px 10px'
         });
         this.$textAreaArduino.animate({
             width: this.arduinoCodeWidth
@@ -88,7 +84,7 @@ var blocklyEngine = {
         this.arduinoCodeOpen = true;
     },
     updateArduinoCode: function () {
-        this.$textareaArduino.val(Blockly.Generator.workspaceToCode('Arduino'));
+        this.$textareaArduino.val(Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace));
     },
     eventListeners: function () {
         var self = this;
@@ -141,10 +137,15 @@ var blocklyEngine = {
 
                 self.filename = response.name;
                 Blockly.mainWorkspace.clear();
-                var xml = window.Blockly.Xml.textToDom(response.code);
+                var xml = Blockly.Xml.textToDom(response.code);
                 Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
             }).fail(function () {
             });
+        });
+
+        Blockly.mainWorkspace.addChangeListener(function () {
+            var arduinoTextarea = document.getElementById('textarea_arduino');
+            arduinoTextarea.value = Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace);
         });
     },
     checkFileApis: function () {
@@ -208,7 +209,7 @@ var blocklyEngine = {
             return sketch;
         }
 
-        sketch[this.filename + '.ino'] = Blockly.Generator.workspaceToCode('Arduino');
+        sketch[this.filename + '.ino'] = Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace);
         return sketch;
     },
     getBlocklyWorkspace: function () {

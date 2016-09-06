@@ -2,96 +2,68 @@
 <head>
     <meta charset="utf-8">
     <title>Blockly Demo: Code</title>
-    <script type="text/javascript" src="{{ blockly_apps_lib('blockly_compressed.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('generators/arduino.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('generators/arduino/control.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('generators/arduino/logic.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('generators/arduino/math.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('generators/arduino/text.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('generators/arduino/lists.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('generators/arduino/variables.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('generators/arduino/procedures.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('language/en/_messages.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('language/common/control.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('language/common/logic.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('language/common/math.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('language/common/text.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('language/common/lists.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('language/common/procedures.js') }}"></script>
-    <!-- define blocks -->
-    <script type="text/javascript" src="{{ blockly_lib('generators/arduino/base.js') }}"></script>
-    <script type="text/javascript" src="{{ blockly_lib('generators/arduino/grove.js') }}"></script>
-    <!-- custom block -->
-    <script type="text/javascript" src="{{ blockly_lib('generators/arduino/custom.js') }}"></script>
+
+    <script type="text/javascript" src="{{ blockly_lib('blockly_compressed.js') }}"></script>
+    <script type="text/javascript" src="{{ blockly_lib('blocks_compressed.js') }}"></script>
+    <script type="text/javascript" src="{{ blockly_lib('arduino_compressed.js') }}"></script>
+    <script type="text/javascript" src="{{ blockly_lib('msg/js/en.js') }}"></script>
 
     <script src="{{ script('jquery-1.12.4.min.js') }}"></script>
 
     <style>
         html, body {
+            height: 100%;
             background-color: #fff;
+        }
+
+        body {
+            background-color: #fff;
+            font-family: sans-serif;
             margin: 0;
-            padding: 0;
             overflow: hidden;
         }
 
+        h1 {
+            font-weight: normal;
+            font-size: 140%;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
         .blocklySvg {
-            height: 100%;
             width: 100%;
-            /*pointer-events: none;*/
+            height: 100%;
+            border-top: none !important;
+        }
+
+        #content_xml {
+            resize: none;
+            outline: none;
+            border: none;
+            font-family: monospace;
+            overflow: scroll;
         }
     </style>
     <script>
+        /**
+         * Initialize Blockly.  Called on page load.
+         */
         function init() {
-            // Whitelist of blocks to keep.
-            var newLanguage = {};
-            var keepers = [
-                //io
-                'inout_highlow',
-                'inout_digital_write_to_var', 'inout_digital_read_from_var',
-                'inout_digital_write', 'inout_digital_read',
-                'inout_analog_write', 'inout_analog_read',
-                'inout_buildin_led',
-                //serial
-                'serial_print', 'serial_read', 'serial_available',
-                //servo
-                'servo_move', 'servo_read_degrees',
-                //grove analog
-                'grove_rotary_angle', 'grove_temporature_sensor', 'grove_sound_sensor', 'grove_thumb_joystick',
-                //grove
-                'grove_led', 'grove_button', 'grove_relay',
-                'grove_tilt_switch', 'grove_piezo_buzzer',
-                'grove_pir_motion_sensor', 'grove_line_finder',
-                'grove_rgb_led', 'grove_rgb_led_container', 'grove_rgb_led_item',
-                //grove LCD
-                'grove_serial_lcd_print', 'grove_serial_lcd_power',
-                'grove_serial_lcd_effect', 'grove_ultrasonic_ranger',
-                //grove motor
-                'grove_motor_shield',
-                //grove bluetooth
-                //'grove_bluetooth_slave',
-                //control
-                'base_delay', 'controls_if', 'controls_if_if', 'controls_if_elseif', 'controls_if_else', 'controls_for',
-                //'controls_whileUntil', 'controls_flow_statements',
-                //math
-                'base_map', 'math_number', 'math_arithmetic',//'math_modulo',
-                //text
-                'text', 'text_cast', //'text_join','text_create_join_container','text_create_join_item',
-                //logic
-                'logic_compare', 'logic_operation', 'logic_negate', 'logic_null',//'logic_boolean',
-                //variable
-                'variables_get', 'variables_set', 'variables_declare',
-                //procedure
-                'procedures_defnoreturn', 'procedures_defreturn', 'procedures_callnoreturn', 'procedures_callreturn', 'procedures_mutatorcontainer', 'procedures_mutatorarg',
-                'procedures_ifreturn',
-                //custom
-                //'custom_read','custom_write',
-            ];
-            for (var x = 0; x < keepers.length; x++) {
-                newLanguage[keepers[x]] = Blockly.Language[keepers[x]];
-            }
-            Blockly.Language = newLanguage;
+            //window.onbeforeunload = function() {
+            //  return 'Leaving this page will result in the loss of your work.';
+            //};
 
-            Blockly.inject(document.body, {path: '{{ blockly_lib('') }}'});
+            var toolbox = document.getElementById('toolbox');
+            Blockly.inject(document.getElementById('content_blocks'), {
+                grid: {
+                    spacing: 25,
+                    length: 3,
+                    colour: '#ccc',
+                    snap: true
+                },
+                media: '../../media/',
+                toolbox: toolbox
+            });
 
             if (window.parent.init) {
                 // Let the top-level application know that Blockly is ready.
@@ -123,5 +95,140 @@
     </script>
 </head>
 <body onload="init()">
+<div id="content_blocks" class="content"></div>
+
+<xml id="toolbox" style="display: none">
+    <category name="Logic">
+        <block type="controls_if"></block>
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_null"></block>
+    </category>
+    <category name="Control">
+        <block type="base_delay">
+            <value name="DELAY_TIME">
+                <block type="math_number">
+                    <field name="NUM">1000</field>
+                </block>
+            </value>
+        </block>
+        <block type="controls_for">
+            <value name="FROM">
+                <block type="math_number">
+                    <field name="NUM">1</field>
+                </block>
+            </value>
+            <value name="TO">
+                <block type="math_number">
+                    <field name="NUM">10</field>
+                </block>
+            </value>
+        </block>
+        <block type="controls_whileUntil"></block>
+    </category>
+    <category name="Math">
+        <block type="math_number"></block>
+        <block type="math_arithmetic"></block>
+        <block type="base_map">
+            <value name="DMAX">
+                <block type="math_number">
+                    <field name="NUM">180</field>
+                </block>
+            </value>
+        </block>
+    </category>
+    <category name="Text">
+        <block type="text"></block>
+    </category>
+    <category name="Variables" custom="VARIABLE"></category>
+    <category name="Functions" custom="PROCEDURE"></category>
+    <sep></sep>
+    <category name="Input/Output">
+        <block type="inout_highlow"></block>
+        <block type="inout_digital_write"></block>
+        <block type="inout_digital_read"></block>
+        <block type="inout_analog_write">
+            <value name="NUM">
+                <block type="math_number">
+                    <field name="NUM">0</field>
+                </block>
+            </value>
+        </block>
+        <block type="inout_analog_read"></block>
+        <block type="serial_print">
+            <value name="CONTENT">
+                <block type="text">
+                    <field name="TEXT"></field>
+                </block>
+            </value>
+        </block>
+        <block type="inout_tone">
+            <value name="NUM">
+                <block type="math_number">
+                    <field name="NUM">440</field>
+                </block>
+            </value>
+        </block>
+        <block type="inout_notone"></block>
+        <block type="inout_buildin_led"></block>
+    </category>
+    <category name="Servo">
+        <block type="servo_move">
+            <value name="DEGREE">
+                <block type="math_number">
+                    <field name="NUM">0</field>
+                </block>
+            </value>
+            <value name="DELAY_TIME">
+                <block type="math_number">
+                    <field name="NUM">1000</field>
+                </block>
+            </value>
+        </block>
+        <block type="servo_read_degrees"></block>
+    </category>
+    <category name="Grove Analog">
+        <block type="grove_rotary_angle"></block>
+        <block type="grove_temporature_sensor"></block>
+        <block type="grove_sound_sensor"></block>
+        <block type="grove_thumb_joystick"></block>
+    </category>
+    <category name="Grove">
+        <block type="grove_led"></block>
+        <block type="grove_button"></block>
+        <block type="grove_relay"></block>
+        <block type="grove_tilt_switch"></block>
+        <block type="grove_piezo_buzzer"></block>
+        <block type="grove_pir_motion_sensor"></block>
+        <block type="grove_line_finder"></block>
+        <block type="grove_rgb_led"></block>
+        <block type="grove_ultrasonic_ranger"></block>
+    </category>
+    <category name="Grove LCD">
+        <block type="grove_serial_lcd_print">
+            <value name="TEXT">
+                <block type="text">
+                    <field name="TEXT"></field>
+                </block>
+            </value>
+            <value name="TEXT2">
+                <block type="text">
+                    <field name="TEXT"></field>
+                </block>
+            </value>
+            <value name="DELAY_TIME">
+                <block type="math_number">
+                    <field name="NUM">1000</field>
+                </block>
+            </value>
+        </block>
+        <block type="grove_serial_lcd_power"></block>
+        <block type="grove_serial_lcd_effect"></block>
+    </category>
+    <category name="Grove Motor">
+        <block type="grove_motor_shield"></block>
+    </category>
+</xml>
 </body>
 </html>
