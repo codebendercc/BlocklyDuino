@@ -1,11 +1,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Blockly Demo: Arduino</title>
-    <link href="{{ image('favicon.ico') }}" rel="shortcut icon" />
+    <title>Blockly</title>
+    <link href="{{ image('favicon.ico') }}" rel="shortcut icon"/>
     <link rel="stylesheet" href="{{ css('bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ css('font-awesome.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ css('main.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ css('main.css') }}"/>
     <script src="{{ script('jquery-1.12.4.min.js') }}"></script>
     <script src="{{ script('bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ blocklyduino_lib('Blob.js') }}"></script>
@@ -13,237 +13,204 @@
     <script type="text/javascript" src="{{ blocklyduino_lib('blockly_helper.js') }}"></script>
     <script type="text/javascript">
         /**
-         * List of tab names.
-         * @type {string[]}
-         * @private
-         */
-        var TABS_ = ['blocks', 'arduino', 'xml'];
-
-        /**
-         * The default tab to select on page load
-         * @type {string}
-         */
-        var selected = 'blocks';
-
-        /**
-         * Switch the visible pane when a tab is clicked.
-         * @param {string} id ID of tab clicked.
-         */
-        function tabClick(id) {
-            switch (id) {
-                case 'tab_blocks':
-                    Blockly.mainWorkspace.render();
-                    break;
-                case 'tab_arduino':
-                    var arduinoTextarea = document.getElementById('textarea_arduino');
-                    arduinoTextarea.value = Blockly.Generator.workspaceToCode('Arduino');
-                    arduinoTextarea.focus();
-                    break;
-                case 'tab_xml':
-                    var xmlTextarea = document.getElementById('textarea_xml');
-                    var xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-                    var xmlText = Blockly.Xml.domToPrettyText(xmlDom);
-                    xmlTextarea.value = xmlText;
-                    xmlTextarea.focus();
-                    break;
-            }
-        }
-
-        function loadSketch(xmlSketch) {
-            var xml = Blockly.Xml.textToDom(xmlSketch);
-            Blockly.mainWorkspace.clear();
-            Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
-            var selectedTab = $('#blockly-tabs').find('li.active').find('a').attr('href').replace('#', '');
-            tabClick(selectedTab);
-        }
-
-        /**
          * Initialize Blockly.  Called on page load.
          * @param {!Blockly} blockly Instance of Blockly from iframe.
          */
         function init(blockly) {
             window.Blockly = blockly;
-
-            // Make the 'Blocks' tab line up with the toolbox.
-            if (Blockly.Toolbox) {
-                window.setTimeout(function() {
-                    document.getElementById('tab_blocks').style.minWidth =
-                            (Blockly.Toolbox.width - 38) + 'px';
-                    // Account for the 19 pixel margin and on each side.
-                }, 1);
-            }
-
-            auto_save_and_restore_blocks();
-
-            // Load from url parameter (single param)
-            // http://stackoverflow.com/questions/2090551/parse-query-string-in-javascript
-            var dest = unescape(location.search.replace(/^.*\=/, '')).replace(/\+/g, " ");
-            if (dest){
-                load_by_url(dest);
-            }
         }
 
         /**
          * Generates the JSON to use with CompilerFlasher
          * @returns {string} A JSON to punt to the compilerflasher
          */
-        function getFiles(){
-            return {"sketch.ino": Blockly.Generator.workspaceToCode('Arduino')};
+        function getFiles() {
+            return {
+                'sketch.ino': Blockly.Generator.workspaceToCode('Arduino')
+            };
         }
     </script>
 </head>
 <body>
-<div class="navbar">
-    <div class="navbar-inner">
-        <a class="brand" href="https://codebender.cc">
-            <img class="codebender-logo" src="{{ image('codebender_hq_medium.png') }}">
+{# Prevent js errors from Blockly #}
+<div id="load"></div>
+<div id="fakeload"></div>
+
+<div id="blockly-controls-container">
+    <button id="cb_cf_verify_btn" class="blockly-button btn" data-toggle="tooltip"
+            title="Verify Code"
+            disabled="disabled">
+        <i class="icon-ok"></i>
+    </button>
+
+    <button id="cb_cf_flash_btn" class="blockly-button btn" data-toggle="tooltip"
+            title="Run on Arduino" disabled="disabled">
+        <i class="icon-long-arrow-right"></i>
+    </button>
+
+    <select id="cb_cf_boards" class="cb-cf-control" data-toggle="tooltip" title="Boards"></select>
+
+    <select id="cb_cf_ports" class="cb-cf-control" data-toggle="tooltip" title="Ports"></select>
+
+    <pre id="cb_cf_operation_output" class="cb-cf-control"></pre>
+
+    <a id="serial_monitor_toggle" href="javascript:void(0)" class="btn" data-toggle="tooltip"
+       title="Toggle Serial Monitor">
+        <i class="icon-list-alt"></i> Serial Monitor
+    </a>
+
+    <div id="more-options-container" class="btn-group">
+        <a href="javascript:void(0)" class="options-button btn dropdown-toggle" data-toggle="dropdown">
+            <i class="icon-reorder"></i>
         </a>
-        <div class="brand logo-title">A web-based visual programming editor for Arduino with Flashing!</div>
 
-        <div class="blockly-controls pull-right">
-            <button onclick="discard()" class="btn btn-danger">Discard Sketch</button>
-            <button onclick="save()" class="btn btn-success">Save Sketch</button>
-            <button id="fakeload" class="btn btn-info">Load Sketch</button>
-            <button id="load-blink" class="btn btn-info">Load Blink</button>
-            <input id="load" type="file">
-        </div>
-    </div>
-</div>
-
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span3 control-block">
-            <label for="cb_cf_boards" class="cb-cf-label">Selected board</label>
-            <select id="cb_cf_boards" class="cb-cf-control"></select>
-            <button id="cb_cf_verify_btn" class="btn btn-success">Verify code</button>
-        </div>
-        <div class="span3 control-block">
-            <label for="cb_cf_ports" class="cb-cf-label">Selected port</label>
-            <select id="cb_cf_ports" class="cb-cf-control"></select>
-            <br>
-            <button id="cb_cf_flash_btn" class="btn btn-success">Flash</button>
-        </div>
-        <div class="span3 control-block">
-            <label for="cb_cf_programmers" class="cb-cf-label">Selected programmer</label>
-            <select id="cb_cf_programmers" class="cb-cf-control"></select>
-            <button id="cb_cf_flash_with_prog_btn" class="btn btn-success">Flash w/ Programmer</button>
-        </div>
-        <div class="span3 control-block">
-            <label for="cb_cf_baud_rates" class="cb-cf-label">Serial monitor controls</label>
-            <select id="cb_cf_baud_rates" class="cb-cf-control"></select>
-            <button id="cb_cf_serial_monitor_connect" class="btn"><i class="icon-link"></i> Connect</button>
-        </div>
-    </div>
-
-    <hr>
-
-    <div class="row-fluid blockly-views">
-        <ul id="blockly-tabs" class="nav nav-tabs">
-            <li>
-                <span class="blockly-label">Available views</span>
+        <ul id="more-options" class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li class="dropdown-submenu">
+                <a tabindex="-1" href="javascript:void(0)">Save</a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a id="save-arduino" href="javascript:void(0)">Arduino</a>
+                    </li>
+                    <li>
+                        <a id="save-xml" href="javascript:void(0)">XML</a>
+                    </li>
+                </ul>
             </li>
             <li>
-                <a href="#tab_blocks" data-toggle="tab" disabled="disabled">Blocks</a>
+                <a id="open" href="javascript:void(0)">Open
+                    <input id="open-file" type="file" accept="text/xml" name="file[]" action="upload" method="post">
+                </a>
             </li>
             <li>
-                <a href="#tab_arduino" data-toggle="tab" disabled="disabled">Arduino</a>
+                <a id="clear" href="javascript:void(0)">Clear</a>
             </li>
-            <!-- <li>
-                <a href="#tab_xml" data-toggle="tab" disabled="disabled">XML</a>
-            </li> -->
-            <li class="tab-end">
-                <a href="#tab_serialmonitor" data-toggle="tab" disabled="disabled">Serial monitor</a>
-            </li>
-            <li class="operation-output">
-                <span id="cb_cf_operation_output"></span>
+            <li class="dropdown-submenu">
+                <a tabindex="-1" href="javascript:void(0)">Load Example</a>
+                <ul id="examples" class="dropdown-menu">
+                    {% for example in examples %}
+                        <li>
+                            <a href="javascript:void(0)" class="example" data-name="{{ example }}">{{ example }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
             </li>
         </ul>
     </div>
+</div>
+<hr class="separator">
 
-    <div class="row-fluid tab-content">
-        <div id="tab_blocks" class="tab-pane active">
-            <iframe id="content_blocks" src="{{ url('blocklyframe') }}"></iframe>
-        </div>
-        <div id="tab_arduino" class="tab-pane">
-            <textarea id="textarea_arduino" readonly></textarea>
-        </div>
-        <!-- <div id="tab_xml" class="tab-pane">
-            <textarea id="textarea_xml" readonly></textarea>
-        </div> -->
-        <div id="tab_serialmonitor" class="tab-pane">
-            <div id="cb_cf_serial_monitor"></div>
+<div id="main-container">
+    <div id="container_top">
+        <a id="toggle-arduino-code" class="btn" href="javascript:void(0)" data-toggle="tooltip"
+           title="Toggle Arduino code">
+            <i class="icon-code"></i>
+        </a>
+
+        <textarea id="textarea_arduino" readonly></textarea>
+
+        <iframe id="content_blocks" src="{{ url('blocklyframe') }}"></iframe>
+    </div>
+
+    <div id="ns_draggable_handle"><i class="icon-ellipsis-horizontal"></i></div>
+
+    <div id="container_bottom">
+        <div id="serial_monitor">
+            <button id="serial_monitor_close_btn" type="button" class="close" onclick="close_serial_monitor()">
+                <i class="icon-remove"></i>
+            </button>
+            <div id="serial-wrapper" class="clearfix">
+                <div id="user_input" class="clearfix">
+                    <span id="serial-connect-container">
+                        <select id="cb_cf_baud_rates" class="dropdown" data-toggle="tooltip" data-placement="bottom"
+                                title="Serial Monitor Speed"></select>
+                        <button id="cb_cf_serial_monitor_connect" class="btn">
+                            <i class="icon-link"></i> <span class="text-large">Connect</span>
+                        </button>
+                    </span>
+
+                    <span id="serial_monitor_content">
+                        <span id="serial-controls-container">
+                            <span id="serial-checkboxes">
+                                <label id="autoscroll_label" class="checkbox">
+                                    <input id='autoscroll_check' type="checkbox" checked>
+                                    Autoscroll
+                                </label>
+
+                                <label id="echo_label" class="checkbox">
+                                    <input id='echo_check' type="checkbox">
+                                    Echo
+                                </label>
+                            </span>
+
+                            <select id="serial-line-endings">
+                                <option value="nle">No line ending</option>
+                                <option value="nl">Newline</option>
+                                <option value="cr">Carriage return</option>
+                                <option value="nlcr" selected="selected">Both NL & CR</option>
+                            </select>
+                        </span>
+
+                        <span id="serial-send-container">
+                            <input id="text2send" type="text" placeholder="Type a message"
+                                   onkeypress="compilerflasher.pluginHandler.serialSendOnEnter(event)">
+                            <button id="serial_send" onclick="compilerflasher.pluginHandler.serialSend()" class="btn"
+                                    title="Send Message">
+                                Send
+                            </button>
+                        </span>
+                    </span>
+
+                </div>
+                <div id="serial_monitor_output">
+                    <pre id="serial_hud"></pre>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-  (function(){var p=[],w=window,d=document,e=f=0;p.push('ua='+encodeURIComponent(navigator.userAgent));e|=w.ActiveXObject?1:0;e|=w.opera?2:0;e|=w.chrome?4:0;
-  e|='getBoxObjectFor' in d || 'mozInnerScreenX' in w?8:0;e|=('WebKitCSSMatrix' in w||'WebKitPoint' in w||'webkitStorageInfo' in w||'webkitURL' in w)?16:0;
-  e|=(e&16&&({}.toString).toString().indexOf("\n")===-1)?32:0;p.push('e='+e);f|='sandbox' in d.createElement('iframe')?1:0;f|='WebSocket' in w?2:0;
-  f|=w.Worker?4:0;f|=w.applicationCache?8:0;f|=w.history && history.pushState?16:0;f|=d.documentElement.webkitRequestFullScreen?32:0;f|='FileReader' in w?64:0;
-  p.push('f='+f);p.push('r='+Math.random().toString(36).substring(7));p.push('w='+screen.width);p.push('h='+screen.height);var s=d.createElement('script');
-  s.src='//codebender.cc/js/whichbrowser/detect.js?' + p.join('&');d.getElementsByTagName('head')[0].appendChild(s);})();
+    (function () {
+        var p = [], w = window, d = document, e = f = 0;
+        p.push('ua=' + encodeURIComponent(navigator.userAgent));
+        e |= w.ActiveXObject ? 1 : 0;
+        e |= w.opera ? 2 : 0;
+        e |= w.chrome ? 4 : 0;
+        e |= 'getBoxObjectFor' in d || 'mozInnerScreenX' in w ? 8 : 0;
+        e |= ('WebKitCSSMatrix' in w || 'WebKitPoint' in w || 'webkitStorageInfo' in w || 'webkitURL' in w) ? 16 : 0;
+        e |= (e & 16 && ({}.toString).toString().indexOf("\n") === -1) ? 32 : 0;
+        p.push('e=' + e);
+        f |= 'sandbox' in d.createElement('iframe') ? 1 : 0;
+        f |= 'WebSocket' in w ? 2 : 0;
+        f |= w.Worker ? 4 : 0;
+        f |= w.applicationCache ? 8 : 0;
+        f |= w.history && history.pushState ? 16 : 0;
+        f |= d.documentElement.webkitRequestFullScreen ? 32 : 0;
+        f |= 'FileReader' in w ? 64 : 0;
+        p.push('f=' + f);
+        p.push('r=' + Math.random().toString(36).substring(7));
+        p.push('w=' + screen.width);
+        p.push('h=' + screen.height);
+        var s = d.createElement('script');
+        s.src = '//codebender.cc/js/whichbrowser/detect.js?' + p.join('&');
+        d.getElementsByTagName('head')[0].appendChild(s);
+    })();
 </script>
 <script type="text/javascript" src="//codebender.cc/js/codebender/browser_detect.js"></script>
 <script type="text/javascript" src="//codebender.cc/walkthrough/lawnchair-0.6.4.min.js"></script>
-<script type="text/javascript" src="//codebender.cc/embed/compilerflasher.js"></script>
+<script type="text/javascript" src="{{ script('cbcf-frontend.js') }}"></script>
 <script type="text/javascript">
-    $(window).load(function () {
-        var $blocklyTabs = $('#blockly-tabs');
-        $blocklyTabs.find('a').on('show', function () {
-            var id = $(this).attr('href').replace('#', '');
-            tabClick(id);
-        });
-        $blocklyTabs.find('a:first').tab('show');
-        $blocklyTabs.find('a').each(function (key, value) {
-            $(value).removeAttr('disabled');
-        });
-
-        var blinkSketch = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="variables_declare" inline="false" x="313" y="102"><title name="VAR">led</title><title name="TYPE">int</title><value name="VALUE"><block type="math_number"><title name="NUM">13</title></block></value><next><block type="inout_digital_write_to_var" inline="true"><title name="STAT">HIGH</title><value name="PIN"><block type="variables_get"><title name="VAR">led</title></block></value><next><block type="base_delay" inline="true"><value name="DELAY_TIME"><block type="math_number"><title name="NUM">1000</title></block></value><next><block type="inout_digital_write_to_var" inline="true"><title name="STAT">LOW</title><value name="PIN"><block type="variables_get"><title name="VAR">led</title></block></value><next><block type="base_delay" inline="true"><value name="DELAY_TIME"><block type="math_number"><title name="NUM">1000</title></block></value></block></next></block></next></block></next></block></next></block></xml>';
-        var $blocklyBlink = $('#blockly-blink');
-        $('#load-blink').on('click', function () {
-            loadSketch(blinkSketch);
-        });
-    });
-
-    /**
-     * Document Ready actions
-     */
-    $(function() {
-        compilerflasher = new compilerflasher(getFiles);
-        compilerflasher.embedded = true;
-
-        /**
-         * Redefines compilerflasher's getbin function so that it points at our builder route.
-         * @param callback The callback function that hooks into getbin.
-         */
-        compilerflasher.getbin = function(callback) {
-            window.operationInProgress = true;
-            var payload = this.generate_payload("binary");
-            var cb = this;
-            $.post("{{ path('compile') }}", payload, function (data) {
-                try{
-                    var obj = jQuery.parseJSON(data);
-                    callback(obj);
-                }
-                catch(err){
-                    cb.setOperationOutput('<i class="icon-remove"></i> Unexpected error occurred. Try again later.');
-                    cb.eventManager.fire('verification_failed', '<i class="icon-remove"></i> Unexpected error occurred. Try again later.');
-                }
-            })
-            .fail(function() {
-                cb.setOperationOutput("Connection to server failed.");
-                cb.eventManager.fire('verification_failed', "Connection to server failed.");
-            })
-            .always(function () {
-                window.operationInProgress = false;
-            });
-        };
-
-        compilerflasher.on('serial-monitor-connected', function () {
-            $('#blockly-tabs').find('a:last').tab('show');
-        });
-    });
+    window.codebender = {
+        download: "{{ path('download') }}",
+        example: "{{ path('example') }}",
+        compilerflasher: {
+            utilitiesCompile: "{{ path('compile') }}",
+            listBoards: "{{ asset('boards.json') }}"
+        }
+    };
 </script>
+<script type="text/javascript" src="{{ script('jquery-ui.min.js') }}"></script>
+<script type="text/javascript" src="{{ script('serialMonitorUI.js') }}"></script>
+<script type="text/javascript" src="{{ script('main.js') }}"></script>
 </body>
 </html>

@@ -1,0 +1,82 @@
+{
+  "Arduino": [
+    {
+      "name": "Arduino Uno",
+      "description": "The Uno is the reference model for the Arduino platform. It has 14 digital input/output pins (of which 6 can be used as PWM outputs), 6 analog inputs, a 16 MHz ceramic resonator, a USB connection, a power jack, an ICSP header, and a reset button. It does not use the FTDI USB-to-serial driver chip. Instead, it features the Atmega16U2 (Atmega8U2 up to version R2) programmed as a USB-to-serial converter.",
+      "upload": {
+        "protocol": "arduino",
+        "maximum_size": "32256",
+        "speed": "115200"
+      },
+      "bootloader": {
+        "low_fuses": "0xff",
+        "high_fuses": "0xde",
+        "extended_fuses": "0x05",
+        "path": "optiboot",
+        "file": "optiboot_atmega328.hex",
+        "unlock_bits": "0x3F",
+        "lock_bits": "0x0F"
+      },
+      "build": {
+        "mcu": "atmega328p",
+        "f_cpu": "16000000L",
+        "core": "arduino",
+        "variant": "standard"
+      },
+      "id": 1
+    },
+    {
+      "name": "Arduino Leonardo",
+      "description": "The Leonardo differs from all preceding boards in that the ATmega32u4 has built-in USB communication, eliminating the need for a secondary processor. This allows the Leonardo to appear to a connected computer as a mouse and keyboard, in addition to a virtual (CDC) serial / COM port.",
+      "upload": {
+        "protocol": "avr109",
+        "maximum_size": "28672",
+        "speed": "57600",
+        "disable_flushing": "true"
+      },
+      "bootloader": {
+        "low_fuses": "0xff",
+        "high_fuses": "0xd8",
+        "extended_fuses": "0xcb",
+        "path": "caterina",
+        "file": "Caterina-Leonardo.hex",
+        "unlock_bits": "0x3F",
+        "lock_bits": "0x2F"
+      },
+      "build": {
+        "vid": "0x2341",
+        "pid": "0x8036",
+        "mcu": "atmega32u4",
+        "f_cpu": "16000000L",
+        "core": "arduino",
+        "variant": "leonardo"
+      },
+      "id": 9
+    },
+    {
+      "name": "Arduino Mega 2560 or Mega ADK",
+      "description": "The Mega 2560 is an update to the Arduino Mega, which it replaces. It features the Atmega2560, which has twice the memory, and uses the ATMega 8U2 for USB-to-serial communication.",
+      "upload": {
+        "protocol": "wiring",
+        "maximum_size": "258048",
+        "speed": "115200"
+      },
+      "bootloader": {
+        "low_fuses": "0xff",
+        "high_fuses": "0xd8",
+        "extended_fuses": "0xfd",
+        "path": "stk500v2",
+        "file": "stk500boot_v2_mega2560.hex",
+        "unlock_bits": "0x3F",
+        "lock_bits": "0x0F"
+      },
+      "build": {
+        "mcu": "atmega2560",
+        "f_cpu": "16000000L",
+        "core": "arduino",
+        "variant": "mega"
+      },
+      "id": 7
+    }
+  ]
+}

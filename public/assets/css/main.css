@@ -1,9 +1,20 @@
+#babelfish_iframe0 {
+    border: none;
+}
+
+html,
 body {
-    background-color: white;
-    background-image: url('../images/blizzard.png');
+    width: 100%;
     height: 100%;
+    min-width: 800px;
+    min-height: 600px;
     margin: 0;
-    padding:0;
+    padding: 0;
+    /*overflow: auto;*/
+}
+
+body {
+    background: #fff url('../images/blizzard.png');
 }
 
 .blocklySvg {
@@ -11,31 +22,75 @@ body {
     width: 100%;
 }
 
-.navbar-inner {
+.separator {
+    margin: 5px 0;
+}
+
+#blockly-controls-container {
+    width: calc(100% - 20px);
+    height: 30px;
+    padding: 10px 10px 5px;
+    display: flex;
+}
+
+.blockly-button {
+    margin-right: 5px;
+    border-radius: 50%;
+    text-align: center;
     padding: 5px;
+    float: left;
 }
 
-.codebender-logo {
-    width: 30px;
+.blockly-button i {
+    font-size: 18px;
 }
 
-.logo-title {
-    line-height: 30px;
+.cb-cf-control {
+    width: 100px;
+    margin: 0 5px 0 0;
+    float: left;
+    flex: auto;
 }
 
-.blockly-controls {
-    margin-top: 5px;
+#cb_cf_flash_btn i {
+    font-weight: bold;
 }
 
-#page-title {
-  margin: 5px;
+#cb_cf_boards,
+#cb_cf_ports {
+    font-weight: bold;
 }
 
-#page-title a {
-    text-decoration: none;
+#cb_cf_operation_output {
+    width: 300px;
+    height: 28px;
+    line-height: 28px;
+    margin: 0 5px 0 0;
+    padding: 0 10px;
+    display: inline-block;
+    overflow-y: auto;
+    word-wrap: break-word;
+    word-break: normal;
+    float: left;
+    flex-grow: 2;
 }
 
-#load {
+#serial_monitor_toggle {
+    min-width: 120px;
+    margin: 0 5px 0 0;
+    font-weight: bold;
+}
+
+.options-button {
+    height: 20px;
+}
+
+.options-button i {
+    font-size: 20px;
+}
+
+#load,
+#fakeload {
     display: none;
 }
 
@@ -43,116 +98,323 @@ body {
     height: 40px;
 }
 
-.container-fluid {
-    display: inline-block;
-    width: -webkit-calc(100% - 40px);
-    width: -moz-calc(100% - 40px);
-    width: calc(100% - 40px);
-    height: -webkit-calc(100% - 125px);
-    height: -moz-calc(100% - 125px);
-    height: calc(100% - 125px);
-}
-
-.tab-content {
-    height: -webkit-calc(100% - 195px);
-    height: -moz-calc(100% - 195px);
-    height: calc(100% - 195px);
-    overflow-y: hidden;
-}
-
-.blockly-label {
-    display: inline-block;
+#main-container {
+    width: 100%;
+    height: -webkit-calc(100% - 60px);
+    height: -moz-calc(100% - 60px);
+    height: calc(100% - 60px);
     position: relative;
-    top: 10px;
-    padding: 0 5px;
-    font-weight: bold;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
-.cb-cf-label {
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.cb-cf-control {
-    width: 80%;
-}
-
-.operation-output {
-    display: inline-block;
-    width: -webkit-calc(100% - 435px);
-    width: -moz-calc(100% - 435px);
-    width: calc(100% - 435px);
-}
-
-#cb_cf_operation_output {
-    display: inline-block;
-    width: 100%;
-    height: 32px;
-    margin: 5px 0 0;
-    padding: 0 5px;
-    line-height: 32px;
-    overflow-y: auto;
-    background-color: #f1f1f1;
-}
-
-#sketch_buttons {
-  margin: 5px;
-}
-
-#tab_blocks {
-    overflow: hidden;
-}
-
-#content_xml,
-#content_arduino {
-    width: 100%;
-    height: 100%;
+#container_top {
+    display: block;
     padding: 0;
-    margin: 0;
-    border: 1px solid #ccc;
-    border-top-style: none;
-    overflow: hidden;
-    display: none;
-}
-
-#textarea_xml,
-#textarea_arduino {
-    width: 100%;
-    height: 100%;
-    border: none;
-    resize: none;
-    overflow-y: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
 }
 
 #content_blocks {
-    width: 99%;
-    height: 99%;
-    border: 1px solid #ccc;
+    width: 100%;
+    height: 100%;
+    border: 0;
     border-top-style: none;
 }
 
-.serial-monitor-container {
-    position: relative;
-    height: 100%;
+#more-options-container {
+    margin-right: 10px;
 }
 
-#serial_monitor_content {
-    padding: 0 10px;
+#more-options {
+    right: 0;
+    left: inherit;
+}
+
+#more-options li {
+    z-index: 10;
+}
+
+#more-options .dropdown-submenu .dropdown-menu {
+    right: 160px;
+    left: inherit;
+}
+
+#more-options .dropdown-submenu a:after {
+    transform: rotate(180deg);
+    position: absolute;
+    top: 3px;
+    left: 4px;
+}
+
+#toggle-arduino-code {
+    height: 18px;
+    position: absolute;
+    right: 20px;
+    z-index: 9;
+}
+
+#toggle-arduino-code i {
+    font-size: 18px;
+}
+
+#textarea_arduino {
+    width: 0;
+    height: 100%;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    overflow: auto;
+    resize: none;
+}
+
+#open input {
+    display: none;
+}
+
+/**
+ * Serial Monitor
+ */
+#ns_draggable_handle {
+    cursor: ns-resize;
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 12px;
+    left: 0;
+    bottom: 0;
+}
+
+#ns_draggable_handle > i {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#ew_draggable_handle {
+    cursor: ew-resize;
+    display: none;
+    position: absolute;
+    width: 12px;
+    height: 100%;
+    bottom: 0;
+}
+
+#ew_draggable_handle > i {
+    position: relative;
+    top: 50%;
+    margin-left: 5px;
+}
+
+#container_bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+    visibility: hidden;
+    z-index: 20;
+}
+
+#serial_monitor {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    border: 1px solid #D8D8D8;
+    background-color: #f5f5f5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+#serial-wrapper {
+    width: 100%;
+    height: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#monitor_output_close {
+    position: absolute;
+    right: 8px;
+    top: 7px;
+    z-index: 1000;
+}
+
+#serial_monitor_close_btn {
+    font-size: 14px;
+    line-height: 14px;
+    z-index: 1000;
+    position: absolute;
+    top: 3px;
+    right: 7px;
+}
+
+#serial-connect-container,
+#serial-controls-container,
+#serial-send-container {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+#serial-connect-container {
+    margin: 10px 0;
+    height: 33px;
+}
+
+#serial-controls-container {
+    width: 230px;
+}
+
+#serial-send-container {
+    margin-bottom: 10px;
+}
+
+#serial_monitor_output {
+    width: 100%;
+    height: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 8px 8px;
 }
 
 #serial_hud {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    border: 1px solid #EAEAEA;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+    background-color: #fcfcfc;
+}
+
+
+#user_input {
+    width: 100%;
+    min-width: 120px;
+    display: inline-block;
+    padding: 0 0 0 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#user_input .checkbox {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 0 5px;
+}
+
+#user_input .input-append {
+    margin: 0 10px;
+}
+
+#serial-checkboxes {
+    display: inline-block;
+    width: 88px;
+}
+
+#serial-checkboxes > label {
     margin-bottom: 0;
-    position: absolute;
-    top: 51px;
-    right: 10px;
-    bottom: 0;
-    left: 10px;
+}
+
+#autoscroll_check {
+    display: block !important;
+}
+
+#echo_label {
+    vertical-align: bottom;
+}
+
+.serial-monitor-echo {
+    display: inline-block;
+    color: #FF0000;
+}
+
+#serial-line-endings {
+    width: 130px;
+    position: relative;
+    top: -10px;
+    margin: 0;
+}
+
+#serial_monitor_content {
+    display: none;
+    height: 20px;
+}
+
+#serial_monitor_hud {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #EAEAEA;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    overflow: auto;
 }
 
 #text2send {
+    display: inline-block;
+    width: 282px;
     height: 30px;
+    margin: 0;
 }
 
-#blockly-blink {
-    display: none;
+#user_input {
+    width: 100%;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#speed_label {
+    display: inline-block;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border: 1px solid #CCC;
+    border-right: none;
+    margin: 0 -4px 10px 0;
+    padding: 4px 8px;
+    vertical-align: middle;
+    background: #fff;
+}
+
+#cb_cf_baud_rates {
+    width: 88px;
+}
+
+#cb_cf_serial_monitor_connect {
+    position: relative;
+    top: -5px;
 }

@@ -1,0 +1,30 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="inout_digital_write" x="667" y="211">
+    <title name="PIN">13</title>
+    <title name="STAT">HIGH</title>
+    <next>
+      <block type="base_delay" inline="true">
+        <value name="DELAY_TIME">
+          <block type="math_number">
+            <title name="NUM">1000</title>
+          </block>
+        </value>
+        <next>
+          <block type="inout_digital_write">
+            <title name="PIN">13</title>
+            <title name="STAT">LOW</title>
+            <next>
+              <block type="base_delay" inline="true">
+                <value name="DELAY_TIME">
+                  <block type="math_number">
+                    <title name="NUM">1000</title>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
