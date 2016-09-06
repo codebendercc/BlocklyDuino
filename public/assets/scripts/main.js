@@ -25,6 +25,8 @@ var blocklyEngine = {
         };
 
         $('#blockly-controls-container').find('button, select').tooltip(tooltipOptions);
+        $('#more-options-container').tooltip(tooltipOptions);
+        this.$serialMonitorToggle.tooltip(tooltipOptions);
         this.$toggleArduinoCode.tooltip(tooltipOptions);
     },
     initializeCompilerflasher: function () {

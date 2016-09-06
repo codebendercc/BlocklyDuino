@@ -10,7 +10,7 @@ body {
     min-height: 600px;
     margin: 0;
     padding: 0;
-    /*overflow: auto;*/
+    overflow: auto;
 }
 
 body {
@@ -155,6 +155,7 @@ body {
 #toggle-arduino-code {
     height: 18px;
     position: absolute;
+    top: 5px;
     right: 20px;
     z-index: 9;
 }
