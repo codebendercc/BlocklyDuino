@@ -99,7 +99,7 @@
 
             // Send the mousemove event to parent frame
             // in order for serial monitor draggable to work when mouse is above the iframe
-            $(window).on('mousemove', function (event) {
+            $('#content_blocks').on('mousemove', function (event) {
                 var $target = window.parent.$('#ns_draggable_handle');
                 event.type = 'mousemove.draggable';
                 event.target = $target.get(0);
