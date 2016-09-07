@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Blockly</title>
+    <title>codebender : blocks</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -29,14 +29,19 @@
             margin: 0 auto;
         }
 
-        h1 {
+        .header {
             color: #fff;
             padding: 40px 0;
             background: url('public/assets/images/congruent_outline.png');
+            text-align: center;
         }
 
-        h1 .yellow {
-            color: #ffff00;
+        .red {
+            color: #ff0000;
+        }
+
+        .bold {
+            font-weight: bold;
         }
 
         .embed {
@@ -50,16 +55,17 @@
             padding-top: 60px;
         }
 
-        .marketing .col-lg-4 {
+        .marketing .col-lg-5 {
             margin-bottom: 20px;
             text-align: center;
         }
         .marketing h2 {
             font-weight: normal;
         }
-        .marketing .col-lg-4 p {
+        .marketing .col-lg-5 p {
             margin-right: 10px;
             margin-left: 10px;
+            text-align: justify;
         }
 
         .img-circle {
@@ -76,117 +82,103 @@
             box-sizing: content-box;
         }
 
-        .featurette-heading {
+        .codebender-heading {
             font-weight: 300;
             line-height: 1;
             letter-spacing: -1px;
         }
 
         @media (min-width: 768px) {
-            .featurette-heading {
+            .codebender-heading {
                 font-size: 50px;
             }
         }
 
         @media (min-width: 992px) {
-            .featurette-heading {
+            .codebender-heading {
                 margin-top: 120px;
             }
+        }
+
+        .signup-container {
+            text-align: center;
+        }
+        .signup-container .codebender-heading {
+            margin-top: 0;
+            font-weight: bold;
+        }
+
+        .signup-price {
+            font-weight: bold;
+        }
+
+        #signup {
+            width: 260px;
+            height: 50px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-<h1>codebender : <span class="yellow">blocks</span></h1>
+<div class="header">
+    <h1>codebender : <span class="red">blocks</span></h1>
+    <h2>Arduino programming made fun</h2>
+</div>
 
 <iframe class="embed" src="{{ path('blockly_app') }}"></iframe>
 
 <div class="main-container">
     <div class="container marketing">
-        <div class="row first-row">
-            <div class="col-lg-4">
+        <div class="row">
+            <div class="col-lg-5">
                 <img class="img-circle"
-                     src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
-                     alt="Generic placeholder image" width="140" height="140">
-                <h2>Heading</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
-                    vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo
-                    cursus magna.</p>
-                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                     src="{{ image('scratch.png') }}"
+                     alt="Scratch" width="140" height="140">
+                <h2>Scratch-like Language</h2>
+                <p><span class="bold">codebender:<span class="red">blocks</span></span> uses Blockly, a Scratch-like language by Google, made to work with Arduino.</p>
+                <p>Now it's easy to get kids programing without having to teach C++ and it's an easier transition from Scratch.</p>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-5 col-lg-push-2">
                 <img class="img-circle"
-                     src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
-                     alt="Generic placeholder image" width="140" height="140">
-                <h2>Heading</h2>
-                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras
-                    mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                    condimentum nibh.</p>
-                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                     src="{{ image('cloud.png') }}"
+                     alt="Cloud" width="140" height="140">
+                <h2>No installation</h2>
+                <p><span class="bold">codebender:<span class="red">blocks</span></span> compiles your projects on the cloud, and programs your boards straight from your browser.</p>
+                <p>Now you don't have to waste time setting up computers, so you can focus on teaching.</p>
             </div>
-            <div class="col-lg-4">
+        </div>
+        <div class="row">
+            <div class="col-lg-5">
                 <img class="img-circle"
-                     src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
-                     alt="Generic placeholder image" width="140" height="140">
-                <h2>Heading</h2>
-                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
-                    porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-                    ut fermentum massa justo sit amet risus.</p>
-                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                     src="{{ image('classroom.png') }}"
+                     alt="Chrome" width="140" height="140">
+                <h2>Classroom ready</h2>
+                <p>We give you a unique URL that you can share with your class or workshop, so you only need one account per classroom.</p>
+                <p>Simply register, copy your URL, and share it with your class.</p>
+            </div>
+
+            <div class="col-lg-5 col-lg-push-2">
+                <img class="img-circle"
+                     src="{{ image('chrome.png') }}"
+                     alt="Chrome" width="140" height="140">
+                <h2>Works with chromebooks</h2>
+                <p>Just add our browser plugin and you are ready to go. We support Firefox & Chrome, and all the major Operating Systems.</p>
+                <p>It even works with Chromebooks!</p>
             </div>
         </div>
 
-        <hr class="divider">
-
-        <div class="row second-row">
-            <div class="col-md-7">
-                <h2 class="featurette-heading">First featurette heading. <span
-                            class="text-muted">It'll blow your mind.</span></h2>
-                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
-                    euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
-                    tellus ac cursus commodo.</p>
-            </div>
-            <div class="col-md-5">
-                <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto"
-                     alt="500x500"
-                     src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzUwMHg1MDAvYXV0bwpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1NzAzZDNiOTgxIHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTU3MDNkM2I5ODEiPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRUVFRUVFIi8+PGc+PHRleHQgeD0iMTg1LjEzMjgxMjUiIHk9IjI2MS4xIj41MDB4NTAwPC90ZXh0PjwvZz48L2c+PC9zdmc+"
-                     data-holder-rendered="true">
-            </div>
-        </div>
-
-        <hr class="divider">
-
-        <div class="row third-row">
-            <div class="col-md-7 col-md-push-5">
-                <h2 class="featurette-heading">Oh yeah, it's that good. <span
-                            class="text-muted">See for yourself.</span></h2>
-                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
-                    euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
-                    tellus ac cursus commodo.</p>
-            </div>
-            <div class="col-md-5 col-md-pull-7">
-                <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzUwMHg1MDAvYXV0bwpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1NzAzZDNiOTgxIHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTU3MDNkM2I5ODEiPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRUVFRUVFIi8+PGc+PHRleHQgeD0iMTg1LjEzMjgxMjUiIHk9IjI2MS4xIj41MDB4NTAwPC90ZXh0PjwvZz48L2c+PC9zdmc+" data-holder-rendered="true">
-            </div>
-        </div>
-
-        <hr class="divider">
-
-        <div class="row forth-row">
-            <div class="col-md-7">
-                <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
-                    euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
-                    tellus ac cursus commodo.</p>
-            </div>
-            <div class="col-md-5">
-                <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzUwMHg1MDAvYXV0bwpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1NzAzZDNiOTgxIHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTU3MDNkM2I5ODEiPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRUVFRUVFIi8+PGc+PHRleHQgeD0iMTg1LjEzMjgxMjUiIHk9IjI2MS4xIj41MDB4NTAwPC90ZXh0PjwvZz48L2c+PC9zdmc+" data-holder-rendered="true">
+        <div class="row">
+            <div class="col-md-4 col-md-push-4 signup-container">
+                <h1 class="signup-price">$10 / month</h1>
+                <button id="signup" class="btn btn-success" disabled="disabled">Start Now</button>
             </div>
         </div>
 
         <hr class="divider">
 
         <footer>
-            <p class="pull-right"><a id="back-to-top" href="javascriptLvoid(0)">Back to top</a></p>
-            <p>&copy; 2016 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+            <p class="pull-right"><a id="back-to-top" href="javascript:void(0)">Back to top</a></p>
+            <p>&copy; 2016 codebender, Inc.
         </footer>
     </div>
 </div>
