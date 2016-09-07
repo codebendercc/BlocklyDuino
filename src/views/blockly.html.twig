@@ -11,6 +11,7 @@
     {% if demo %}
         <style>
             #more-options a {
+                color: #848482;
                 pointer-events: none;
             }
         </style>
@@ -214,9 +215,17 @@
 
     {% if demo %}
     $(function () {
-        var title = 'Option is disabled on this demo';
+        var title = 'Option is disabled in the demo';
 
-        $('#more-options').find('> li, ul.dropdown-menu li').attr('title', title);
+        var $moreOptions = $('#more-options');
+
+        $moreOptions.find('> li ul').remove();
+
+        $moreOptions.find('> li').attr('title', title).tooltip({
+            title: title,
+            container: 'body',
+            placement: 'left'
+        });
     });
     {% endif %}
 </script>
