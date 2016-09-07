@@ -2,67 +2,208 @@
 <head>
     <meta charset="utf-8">
     <title>Blockly</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link href="{{ image('favicon.ico') }}" rel="shortcut icon"/>
-    <link rel="stylesheet" href="{{ css('bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bootstrap-3.3.7-dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ css('font-awesome.min.css') }}">
 
     <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            padding-bottom: 40px;
+            color: #5a5a5a;
+        }
+
         h1,
-        .embed,
-        .row-fluid {
+        .embed {
             display: block;
             text-align: center;
             margin: 0 auto;
         }
 
         h1 {
-            margin-top: 40px;
+            color: #fff;
+            padding: 40px 0;
+            background: url('public/assets/images/congruent_outline.png');
+        }
+
+        h1 .yellow {
+            color: #ffff00;
         }
 
         .embed {
-            width: 80%;
+            width: 100%;
             height: 600px;
-            margin: 20px auto;
+            margin: 0 auto;
             border: none;
         }
 
-        .container {
-            width: 80%;
-        }
-        
-        .descripton {
-            text-align: left;
+        .main-container {
+            padding-top: 60px;
         }
 
-        .os {
+        .marketing .col-lg-4 {
+            margin-bottom: 20px;
             text-align: center;
-            font-weight: bold;
+        }
+        .marketing h2 {
+            font-weight: normal;
+        }
+        .marketing .col-lg-4 p {
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+
+        .img-circle {
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+
+        .divider {
+            margin: 80px 0;
+            border: 0;
+            border-top: 1px solid #eee;
+            height: 0;
+            box-sizing: content-box;
+        }
+
+        .featurette-heading {
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+
+        @media (min-width: 768px) {
+            .featurette-heading {
+                font-size: 50px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .featurette-heading {
+                margin-top: 120px;
+            }
         }
     </style>
-
-    <script src="{{ script('jquery-1.12.4.min.js') }}"></script>
-    <script src="{{ script('bootstrap.min.js') }}"></script>
 </head>
 <body>
-<div class="container-fluid">
-    <h1>Blockly</h1>
+<h1>codebender : <span class="yellow">blocks</span></h1>
 
-    <iframe class="embed" src="{{ path('blockly_app') }}"></iframe>
+<iframe class="embed" src="{{ path('blockly_app') }}"></iframe>
 
-    <div class="row-fluid container">
-        <p class="descripton">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore
-            magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur
-            sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
+<div class="main-container">
+    <div class="container marketing">
+        <div class="row first-row">
+            <div class="col-lg-4">
+                <img class="img-circle"
+                     src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                     alt="Generic placeholder image" width="140" height="140">
+                <h2>Heading</h2>
+                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
+                    vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo
+                    cursus magna.</p>
+                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div>
+            <div class="col-lg-4">
+                <img class="img-circle"
+                     src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                     alt="Generic placeholder image" width="140" height="140">
+                <h2>Heading</h2>
+                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras
+                    mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+                    condimentum nibh.</p>
+                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div>
+            <div class="col-lg-4">
+                <img class="img-circle"
+                     src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                     alt="Generic placeholder image" width="140" height="140">
+                <h2>Heading</h2>
+                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
+                    porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
+                    ut fermentum massa justo sit amet risus.</p>
+                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div>
+        </div>
 
-        <p class="os">Window, Linux, Mac, Chromebooks</p>
+        <hr class="divider">
+
+        <div class="row second-row">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">First featurette heading. <span
+                            class="text-muted">It'll blow your mind.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
+                    euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
+                    tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto"
+                     alt="500x500"
+                     src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzUwMHg1MDAvYXV0bwpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1NzAzZDNiOTgxIHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTU3MDNkM2I5ODEiPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRUVFRUVFIi8+PGc+PHRleHQgeD0iMTg1LjEzMjgxMjUiIHk9IjI2MS4xIj41MDB4NTAwPC90ZXh0PjwvZz48L2c+PC9zdmc+"
+                     data-holder-rendered="true">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="row third-row">
+            <div class="col-md-7 col-md-push-5">
+                <h2 class="featurette-heading">Oh yeah, it's that good. <span
+                            class="text-muted">See for yourself.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
+                    euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
+                    tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5 col-md-pull-7">
+                <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzUwMHg1MDAvYXV0bwpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1NzAzZDNiOTgxIHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTU3MDNkM2I5ODEiPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRUVFRUVFIi8+PGc+PHRleHQgeD0iMTg1LjEzMjgxMjUiIHk9IjI2MS4xIj41MDB4NTAwPC90ZXh0PjwvZz48L2c+PC9zdmc+" data-holder-rendered="true">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="row forth-row">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
+                    euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
+                    tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzUwMHg1MDAvYXV0bwpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1NzAzZDNiOTgxIHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTU3MDNkM2I5ODEiPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRUVFRUVFIi8+PGc+PHRleHQgeD0iMTg1LjEzMjgxMjUiIHk9IjI2MS4xIj41MDB4NTAwPC90ZXh0PjwvZz48L2c+PC9zdmc+" data-holder-rendered="true">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <footer>
+            <p class="pull-right"><a id="back-to-top" href="javascriptLvoid(0)">Back to top</a></p>
+            <p>&copy; 2016 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        </footer>
     </div>
 </div>
+
+<script src="{{ script('jquery-1.12.4.min.js') }}"></script>
+<script src="{{ asset('bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
+<script>
+    $(function () {
+        var $body = $('body');
+
+        $('#back-to-top').on('click', function (event) {
+            event.preventDefault();
+            $body.stop().animate({
+                scrollTop: 0
+            }, 500);
+        });
+    });
+</script>
 </body>
 </html>
