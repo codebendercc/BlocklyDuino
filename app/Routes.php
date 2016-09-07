@@ -66,7 +66,8 @@ class Routes
         $app->get('/blockly_app', function (Blocklyduino $app) {
             $examples = self::getExamples();
             return $app['twig']->render('blockly.html.twig', [
-                'examples' => $examples
+                'examples' => $examples,
+                'demo' => true
             ]);
         })->bind('blockly_app');
     }

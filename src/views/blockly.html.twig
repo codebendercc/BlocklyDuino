@@ -1,12 +1,21 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Blockly</title>
+    <title>codebender : blocks</title>
 
     <link href="{{ image('favicon.ico') }}" rel="shortcut icon">
     <link rel="stylesheet" href="{{ css('bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ css('font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ css('main.css') }}">
+
+    {% if demo %}
+        <style>
+            #more-options a {
+                pointer-events: none;
+            }
+        </style>
+    {% endif %}
+
     <script src="{{ script('jquery-1.12.4.min.js') }}"></script>
     <script src="{{ script('jquery.color-2.1.2.min.js') }}"></script>
     <script src="{{ script('bootstrap.min.js') }}"></script>
@@ -42,18 +51,14 @@
     </script>
 </head>
 <body>
-{# Prevent js errors from Blockly #}
-<div id="load"></div>
-<div id="fakeload"></div>
-
 <div id="blockly-controls-container">
-    <button id="cb_cf_verify_btn" class="blockly-button btn" data-toggle="tooltip"
+    <button id="cb_cf_verify_btn" class="blockly-button btn btn-success" data-toggle="tooltip"
             title="Verify Code"
             disabled="disabled">
         <i class="icon-ok"></i>
     </button>
 
-    <button id="cb_cf_flash_btn" class="blockly-button btn" data-toggle="tooltip"
+    <button id="cb_cf_flash_btn" class="blockly-button btn btn-success" data-toggle="tooltip"
             title="Run on Arduino" disabled="disabled">
         <i class="icon-long-arrow-right"></i>
     </button>
@@ -205,6 +210,15 @@
         s.src = '//codebender.cc/js/whichbrowser/detect.js?' + p.join('&');
         d.getElementsByTagName('head')[0].appendChild(s);
     })();
+
+
+    {% if demo %}
+    $(function () {
+        var title = 'Option is disabled on this demo';
+
+        $('#more-options').find('> li, ul.dropdown-menu li').attr('title', title);
+    });
+    {% endif %}
 </script>
 <script type="text/javascript" src="//codebender.cc/js/codebender/browser_detect.js"></script>
 <script type="text/javascript" src="//codebender.cc/walkthrough/lawnchair-0.6.4.min.js"></script>
