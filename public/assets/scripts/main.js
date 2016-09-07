@@ -1,9 +1,11 @@
 var blocklyEngine = {
     codebender: window.codebender,
-    compile: window.codebender.compile,
     arduinoCodeOpen: false,
     arduinoCodeWidth: '450px',
     arduinoCodeAnimationDelay: 500,
+    arduinoCodeTextAnimationDelay: 200,
+    arduinoCodeBackgroundColor: '#eee',
+    arduinoCodeTextColor: '#555',
     defaultFilename: 'Blockly',
     initialize: function () {
         this.filename = this.defaultFilename;
@@ -30,6 +32,8 @@ var blocklyEngine = {
         this.$toggleArduinoCode.tooltip(tooltipOptions);
     },
     initializeCompilerflasher: function () {
+        var self = this;
+
         compilerflasher = new compilerflasher(getFiles);
         compilerflasher.embedded = true;
 
@@ -41,7 +45,7 @@ var blocklyEngine = {
             window.operationInProgress = true;
             var payload = this.generate_payload('binary');
             var cb = this;
-            $.post(window.codebender.compilerflasher.utilitiesCompile, payload, function (data) {
+            $.post(self.codebender.compilerflasher.utilitiesCompile, payload, function (data) {
                 try {
                     var obj = jQuery.parseJSON(data);
                     callback(obj);
@@ -59,17 +63,23 @@ var blocklyEngine = {
         };
     },
     toggleArduinoCode: function () {
+        var self = this;
+
         this.$toggleArduinoCode.tooltip('hide');
 
         if (this.arduinoCodeOpen) {
-            this.$textAreaArduino.css({
-                padding: 0
-            });
             this.$textAreaArduino.animate({
-                width: 0
-            }, this.arduinoCodeAnimationDelay);
-            this.$toggleArduinoCode.removeClass('active');
-            this.arduinoCodeOpen = false;
+                color: this.arduinoCodeBackgroundColor
+            }, this.arduinoCodeTextAnimationDelay, function () {
+                self.$textAreaArduino.css({
+                    padding: 0
+                });
+                self.$textAreaArduino.animate({
+                    width: 0
+                }, self.arduinoCodeAnimationDelay);
+                self.$toggleArduinoCode.removeClass('active');
+                self.arduinoCodeOpen = false;
+            });
             return;
         }
 
@@ -79,9 +89,14 @@ var blocklyEngine = {
         });
         this.$textAreaArduino.animate({
             width: this.arduinoCodeWidth
-        }, this.arduinoCodeAnimationDelay);
-        this.$toggleArduinoCode.addClass('active');
-        this.arduinoCodeOpen = true;
+        }, this.arduinoCodeAnimationDelay, function () {
+            self.$textAreaArduino.animate({
+                color: self.arduinoCodeTextColor
+            }, self.arduinoCodeTextAnimationDelay, function () {
+                self.$toggleArduinoCode.addClass('active');
+                self.arduinoCodeOpen = true;
+            });
+        });
     },
     updateArduinoCode: function () {
         this.$textareaArduino.val(Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace));
@@ -90,6 +105,7 @@ var blocklyEngine = {
         var self = this;
 
         this.$serialMonitorToggle.on('click', function () {
+            self.$serialMonitorToggle.tooltip('hide');
             toggle_serial_monitor();
         });
 
@@ -141,6 +157,10 @@ var blocklyEngine = {
                 Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
             }).fail(function () {
             });
+        });
+
+        $('#more-options-container').on('click', function () {
+            $(this).tooltip('hide');
         });
     },
     checkFileApis: function () {
