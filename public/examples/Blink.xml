@@ -1,23 +1,21 @@
 <xml xmlns="http://www.w3.org/1999/xhtml">
-  <block type="inout_digital_write" x="667" y="211">
-    <title name="PIN">13</title>
-    <title name="STAT">HIGH</title>
+  <block type="inout_buildin_led" id="19" x="563" y="213">
+    <field name="STAT">HIGH</field>
     <next>
-      <block type="base_delay" inline="true">
+      <block type="base_delay" id="27">
         <value name="DELAY_TIME">
-          <block type="math_number">
-            <title name="NUM">1000</title>
+          <block type="math_number" id="28">
+            <field name="NUM">1000</field>
           </block>
         </value>
         <next>
-          <block type="inout_digital_write">
-            <title name="PIN">13</title>
-            <title name="STAT">LOW</title>
+          <block type="inout_buildin_led" id="20">
+            <field name="STAT">LOW</field>
             <next>
-              <block type="base_delay" inline="true">
+              <block type="base_delay" id="29">
                 <value name="DELAY_TIME">
-                  <block type="math_number">
-                    <title name="NUM">1000</title>
+                  <block type="math_number" id="30">
+                    <field name="NUM">1000</field>
                   </block>
                 </value>
               </block>
