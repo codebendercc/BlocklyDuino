@@ -142,11 +142,6 @@ var blocklyEngine = {
             }).fail(function () {
             });
         });
-
-        Blockly.mainWorkspace.addChangeListener(function () {
-            var arduinoTextarea = document.getElementById('textarea_arduino');
-            arduinoTextarea.value = Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace);
-        });
     },
     checkFileApis: function () {
         if (window.File && window.FileReader && window.FileList && window.Blob) {

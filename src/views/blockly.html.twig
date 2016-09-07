@@ -22,6 +22,11 @@
          */
         function init(blockly) {
             window.Blockly = blockly;
+
+            Blockly.mainWorkspace.addChangeListener(function () {
+                var arduinoTextarea = document.getElementById('textarea_arduino');
+                arduinoTextarea.value = Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace);
+            });
         }
 
         /**
